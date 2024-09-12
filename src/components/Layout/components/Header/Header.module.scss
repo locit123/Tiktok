@@ -22,9 +22,12 @@
 
 .logo {}
 
+.search,.search-result{
+    width: 361px;
+
+}
 .search {
     position: relative;
-    width: 361px;
     height: var(--search-height);
     display: flex;
     align-items: center;
@@ -70,6 +73,12 @@
         }
     }
 }
+.search-title{
+            color: rgba(22, 24, 35, 0.5);
+            font-size: 1.4rem;
+            padding: 5px 12px;
+            font-weight: 600;
+}
 
 .clear,
 .loading {
@@ -96,3 +105,4 @@
         color: var(--black);
     }
 }
+
