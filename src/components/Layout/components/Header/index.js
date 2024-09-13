@@ -9,8 +9,6 @@ import {
     faCircleQuestion,
     faEarthAsia,
     faKeyboard,
-    faCloudUpload,
-    faPerson,
     faUser,
     faCoins,
     faGear,
@@ -27,6 +25,8 @@ import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
+import { UploadIcon } from '~/components/Icons';
+import Image from '~/components/Image';
 const cx = classNames.bind(styles);
 
 const MENU_ITEM = [
@@ -139,12 +139,9 @@ const Header = () => {
                         <>
                             <Tippy content="Upload video" placement="bottom" delay={[0, 200]}>
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faCloudUpload} />
+                                    <UploadIcon />
                                 </button>
                             </Tippy>
-                            {/* <button className={cx('action-btn')}>
-                                <FontAwesomeIcon icon={faMessage} />
-                            </button> */}
                         </>
                     ) : (
                         <>
@@ -154,10 +151,13 @@ const Header = () => {
                     )}
                     <Menu items={currentUser ? USER_MENU : MENU_ITEM} onChange={handleMenuChange}>
                         {currentUser ? (
-                            <img
-                                src="https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/f441b08992c763eba9ffb372dd193465.jpeg?lk3s=30310797&nonce=74663&refresh_token=e565f8c7eddbc0af305ec7b582716171&x-expires=1726326000&x-signature=xEholOMvkHG3OpEPL4HA%2BD4uzNg%3D&shp=30310797&shcp=-"
+                            <Image
+                                src="://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/f441b08992c763eba9ffb372dd193465.jpeg?lk3s=30310797&nonce=74663&refresh_token=e565f8c7eddbc0af305ec7b582716171&x-expires=1726326000&x-signature=xEholOMvkHG3OpEPL4HA%2BD4uzNg%3D&shp=30310797&shcp=-"
                                 className={cx('user-avatar')}
                                 alt="nguyen van a"
+                                fallback={
+                                    'https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/07b76c3330c0e5a2385e8588aa0eec1b.jpeg?lk3s=a5d48078&nonce=78188&refresh_token=aa610e7876b50a8b68073ba0cce902d3&x-expires=1726416000&x-signature=L0KCqHefr4%2B8Me8Vbneb2ndElrw%3D&shp=a5d48078&shcp=81f88b70'
+                                }
                             />
                         ) : (
                             <button className={cx('more-btn')}>
