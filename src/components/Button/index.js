@@ -20,6 +20,7 @@ const Button = ({
     ...passProps
 }) => {
     let Comp = 'button';
+
     const props = {
         onClick,
         ...passProps,

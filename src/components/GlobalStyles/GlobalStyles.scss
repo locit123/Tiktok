@@ -2,17 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital@0;1&display=swap');
 
 :root {
-    --primary:#fe2c55;
-    --black:#000;
-    --text-color:#333;
-    --white:#fff;
+    --primary: #fe2c55;
+    --black: #000;
+    --text-color: #161823;
+    --white: #fff;
     /* Default layout */
-    --default-layout-header-height:60px;
-    --default-layout-width:1150px;
-    
+    --default-layout-header-height: 60px;
+    --default-layout-width: 1150px;
+    --default-layout-horizontal-spacer: 24px
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -33,12 +33,39 @@ body {
     color: var(--text-color);
 }
 
-button,input,[tabindex]{
+button,
+input,
+[tabindex] {
     outline: none;
     border: none;
 }
 
-a[href]{
+a[href] {
     color: var(--text-color);
     text-decoration: none;
+}
+
+//custom tippy tooltip
+body {
+    .tippy-box {
+        background-color: rgba(84, 84, 84, 0.92);
+        border-radius: 8px;
+        font-size: 1.6rem;
+        font-weight: 600;
+        line-height: 2.2rem;
+
+        .tippy-arrow {
+            color: rgba(84, 84, 84, 0.92);
+
+        }
+
+        .tippy-content{
+            padding: 8px 9px;
+        }
+
+        .tippy-box[data-placement^=bottom] > .tippy-arrow:before {
+            top: -8px;
+
+        }
+    }
 }
