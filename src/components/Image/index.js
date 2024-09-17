@@ -13,10 +13,10 @@ const Image = forwardRef(({ className, src, alt, fallback: customerFallback = im
         <img
             className={classNames(styles.wrapper, className)}
             ref={ref}
-            {...props}
             alt={alt}
             src={fallback || src}
             onError={handleError}
+            {...props}
         />
     );
 });

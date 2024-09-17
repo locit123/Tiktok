@@ -1,4 +1,4 @@
-export const UploadIcon = ({ className, width = '3.2rem', height = '3.2rem' }) => {
+export const InboxIcon = ({ className, width = '3.2rem', height = '3.2rem' }) => {
     return (
         <svg
             className={className}
@@ -16,4 +16,23 @@ export const UploadIcon = ({ className, width = '3.2rem', height = '3.2rem' }) =
             ></path>
         </svg>
     );
+};
+
+export const CheckboxIcon = ({ width = '1em', height = '1em', className }) => {
+    return (
+        <svg
+            className={className}
+            fill="currentColor"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            height={height}
+        >
+            <path d="m19.71 36.03 19.73-30.5a1 1 0 0 1 1.39-.3l2.35 1.53c.46.3.6.92.3 1.38L22.01 41.3a2.4 2.4 0 0 1-3.83.28L4.85 26.33a1 1 0 0 1 .1-1.4l2.1-1.85a1 1 0 0 1 1.42.1L19.7 36.02Z"></path>
+        </svg>
+    );
+};
+
+export const CheckboxNone = ({ width = '16px', height = '20px' }) => {
+    return <svg width={width} height={height}></svg>;
 };

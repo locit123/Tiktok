@@ -12,6 +12,7 @@ const Button = ({
     large = false,
     disable = false,
     rounded = false,
+    outlineHeader = false,
     className,
     leftIcon,
     rightIcon,
@@ -51,6 +52,7 @@ const Button = ({
         text,
         disable,
         rounded,
+        outlineHeader,
         [className]: className,
     });
 
