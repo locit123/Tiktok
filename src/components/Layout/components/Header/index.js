@@ -98,11 +98,13 @@ const Header = () => {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
+                {/* LOGO */}
                 <div className={cx('logo')}>
                     <img src={images.logo} alt="tikTok" />
                 </div>
                 {/* SEARCH */}
                 <Search />
+                {/* ACTIONS */}
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
