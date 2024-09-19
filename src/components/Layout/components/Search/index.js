@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
@@ -6,40 +6,33 @@ import AccountItem from '~/components/AccountItem';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { apiUser } from '~/api/callApi';
-
+import { useDebounce } from '~/hooks';
+import * as searchService from '~/apiService/SearchService';
 const cx = classNames.bind(styles);
 
 const Search = () => {
-    const [searchResult, setSearchResult] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
     const inputRef = useRef();
 
-    const apiSearch = useCallback(async () => {
-        if (!searchValue.trim()) {
+    const debounce = useDebounce(searchValue, 500);
+
+    useEffect(() => {
+        if (!debounce.trim()) {
             setSearchResult([]);
             return;
         }
-        try {
+        const fetchApi = async () => {
             setIsLoading(true);
-            const res = await apiUser.searchAccount(searchValue);
-            if (res && res.data) {
-                setIsLoading(false);
-
-                setSearchResult(res.data);
-            }
-        } catch (error) {
+            const result = await searchService.search(debounce);
+            setSearchResult(result);
             setIsLoading(false);
-            console.log(error);
-        }
-    }, [searchValue]);
-
-    useEffect(() => {
-        apiSearch();
-    }, [apiSearch]);
+        };
+        fetchApi();
+    }, [debounce]);
 
     const handleClear = () => {
         setSearchValue('');
