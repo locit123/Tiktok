@@ -13,7 +13,7 @@ import {
     faAdd,
 } from '@fortawesome/free-solid-svg-icons';
 
-import routesConfig from '~/config/routes';
+import config from '~/config';
 
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -103,7 +103,7 @@ const Header = () => {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 {/* LOGO */}
-                <Link to={routesConfig.home} className={cx('logo')}>
+                <Link to={config.routers.home} className={cx('logo')}>
                     <img src={images.logo} alt="tikTok" />
                 </Link>
                 {/* SEARCH */}

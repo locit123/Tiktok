@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = `https://tiktok.fullstack.edu.vn/api/`;
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 // Tạo một Axios instance
 const axiosInstance = axios.create({
