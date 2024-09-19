@@ -9,6 +9,12 @@
     box-shadow: 0 1px 1px rgba(0 0 0 / 12%);
     display: flex;
     justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: var(--white);
 
 }
 
@@ -21,25 +27,25 @@
     padding: 0 var(--default-layout-horizontal-spacer);
 }
 
-.logo{
+.logo {
     display: flex;
 }
 
 //actions
-.actions{
+.actions {
     display: flex;
     align-items: center;
 }
 
-.more-btn{
+.more-btn {
     font-size: 2rem;
     margin-left: 28px;
     background-color: transparent;
-    padding:4px 8px;
+    padding: 4px 8px;
     cursor: pointer;
 }
 
-.action-btn{
+.action-btn {
     background-color: transparent;
     font-size: 2.2rem;
     color: #161823;
@@ -47,7 +53,7 @@
     cursor: pointer;
 }
 
-.user-avatar{
+.user-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
