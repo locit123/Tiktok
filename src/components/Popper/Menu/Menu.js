@@ -41,32 +41,32 @@ const Menu = ({ children, items = [], onChange = defaultFn, hideOnClick = false 
             );
         });
     };
+
+    const handleBack = () => {
+        setHistory((prev) => prev.slice(0, prev.length - 1));
+        setIsParent2(false);
+    };
+    const renderResult = (attrs) => (
+        <div className={cx('menu-list')} tabIndex={'-1'} {...attrs}>
+            <PopperWrapper className={cx('menu-popper')}>
+                {history.length > 1 && <Header title={isParent2 ? current.title : current.title} onBack={handleBack} />}
+                <div className={cx('menu-body')}>{renderItems()}</div>
+            </PopperWrapper>
+        </div>
+    );
+
+    const handleResetToFirstPage = () => {
+        setHistory((prev) => prev.slice(0, 1));
+        setIsParent2(false);
+    };
     return (
         <Tippy
             interactive
             placement="bottom-end"
             delay={[0, 500]}
             offset={[12, 10]}
-            render={(attrs) => (
-                <div className={cx('menu-list')} tabIndex={'-1'} {...attrs}>
-                    <PopperWrapper className={cx('menu-popper')}>
-                        {history.length > 1 && (
-                            <Header
-                                title={isParent2 ? current.title : current.title}
-                                onBack={() => {
-                                    setHistory((prev) => prev.slice(0, prev.length - 1));
-                                    setIsParent2(false);
-                                }}
-                            />
-                        )}
-                        <div className={cx('menu-body')}>{renderItems()}</div>
-                    </PopperWrapper>
-                </div>
-            )}
-            onHide={() => {
-                setHistory((prev) => prev.slice(0, 1));
-                setIsParent2(false);
-            }}
+            render={renderResult}
+            onHide={handleResetToFirstPage}
             hideOnClick={hideOnClick}
         >
             {children}
