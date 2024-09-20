@@ -4,12 +4,16 @@ import Following from '~/pages/Following';
 import Profile from '~/pages/Profile';
 import Upload from '~/pages/Upload';
 import Search from '~/pages/Search';
+import Live from '~/pages/Live';
+import Explore from '~/pages/Explore';
 //layout
 import { HeaderOnly } from '~/layouts';
 const publicRouters = [
     { path: config.routers.home, component: Home },
     { path: config.routers.following, component: Following },
     { path: config.routers.profile, component: Profile },
+    { path: config.routers.live, component: Live },
+    { path: config.routers.explore, component: Explore },
 
     { path: config.routers.upload, component: Upload, layout: HeaderOnly },
     { path: config.routers.search, component: Search, layout: null },

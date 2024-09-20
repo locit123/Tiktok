@@ -1,0 +1,68 @@
+.wrapper{
+    border-top: 1px solid #e3e3e4;
+    border-bottom: 1px solid #e3e3e4;
+    padding: 16px 0;
+}
+.label{
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding-left: 8px;
+    margin-bottom: 8px;
+    color: rgba(22, 24, 35, 0.75);
+}
+
+.see-more{
+    color: #fe2c55;
+    font-weight: 600;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 7px;
+    margin-top: 8px;
+}
+
+.account-item{
+    display: flex;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 200ms ease-in-out;
+    &:hover{
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+
+}
+
+.avatar{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+
+}
+
+.item-info{
+    flex: 1;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.nickname{
+    font-size: 1.4rem;
+    color: #161823;
+    line-height: 1;
+
+}
+
+.check{
+    font-size: 1.4rem;
+    color: #20D5EC;
+    margin-left: 4px;
+}
+
+.name{
+    font-size: 1.1rem;
+    opacity: #161823bf;
+}
