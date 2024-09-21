@@ -1,0 +1,87 @@
+.wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border: 1px solid rgba(255, 255, 255, 0);
+    background: none rgb(37, 37, 37);
+    outline: none;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 52px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 8px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-family: var(--font-family);
+    cursor: pointer;
+    white-space: nowrap;
+    min-width: 90px;
+    &:hover{
+            border-color: rgba(255, 255, 255, 0);
+                background-color: rgb(46, 46, 46);
+    }
+
+}
+.modal-wrapper{
+    color: var(--white);
+    padding: 24px 24px 0 24px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    .icon{
+        width: 24px;
+        cursor: pointer;
+    }
+
+}
+
+.title{
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+.body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.title-body{
+    margin: 32px 0 24px 0;
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: center;
+}
+.img-qr{
+    width: 174px;
+    height: 174px;
+    margin-bottom: 24px;
+}
+
+.title-download{
+    font-weight: 600;
+        font-size: 1.8rem;
+        line-height: 24px;
+}
+.footer{
+    margin-top: 16px;
+    padding-bottom: 60px;
+
+}
+.items-1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+}
+.items-1 + .items-1{
+    margin-top: 10px;
+}
+.img{
+    width: 138px;
+    height: 40px;
+}

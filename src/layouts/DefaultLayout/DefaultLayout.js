@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './DefaultLayout.module.scss';
 import Header from '~/layouts/components/Header';
 import Sidebar from '~/layouts/components/Sidebar';
+import GetApp from '~/components/GetApp';
 
 const cx = classNames.bind(styles);
 const DefaultLayout = ({ children }) => {
@@ -12,6 +13,7 @@ const DefaultLayout = ({ children }) => {
             <div className={cx('container')}>
                 <Sidebar />
                 <div className={cx('content')}>{children}</div>
+                <GetApp />
             </div>
         </div>
     );

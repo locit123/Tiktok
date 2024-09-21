@@ -6,6 +6,8 @@ const routers = {
     search: '/search',
     live: '/live',
     explore: '/explore',
+    login: '/login',
+    signup: '/signup',
 };
 
 export default routers;

@@ -1,5 +1,87 @@
-.wrapper{
+.wrapper {
     width: 356px;
-    min-height: 1000px;
     padding: 20px 0 26px 8px;
+}
+
+.body-sideBar {}
+
+//body
+.body-sideBar {
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
+    border-bottom: 1px solid rgba(22, 24, 35, 0.12);
+    padding: 25px 0;
+}
+
+.label {
+    color: var(--text-color);
+    font-size: 1.6rem;
+    line-height: 21px;
+}
+
+.login-bt {
+    margin-top: 20px;
+}
+
+//footer
+.footer-sideBar {
+    padding-top: 10px;
+}
+
+.btn-coins {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .img-coins {
+        height: 52px;
+        display: block;
+        user-select: none;
+        margin-bottom: 30px;
+    }
+
+    .box-label {
+
+        position: absolute;
+        left: 50px;
+        width: 141px;
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        top: 10px;
+        .label {
+
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff5c9;
+            text-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 16px;
+            max-height: 40px;
+            overflow: hidden;
+            width: 100%;
+        }
+    }
+
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.title + .title{
+    margin-top: 15px;
+}
+
+.tik-tok {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 5px 6px 0 0px;
 }

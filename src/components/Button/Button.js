@@ -14,6 +14,8 @@ const Button = ({
     disable = false,
     rounded = false,
     outlineHeader = false,
+    modal = false,
+    modalIcon = false,
     className,
     leftIcon,
     rightIcon,
@@ -53,14 +55,15 @@ const Button = ({
         text,
         disable,
         rounded,
+        modal,
         outlineHeader,
         [className]: className,
     });
-
     return (
         <Comp className={classes} {...props}>
-            {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
+            {leftIcon && <span className={cx('icon', { modalIcon })}>{leftIcon}</span>}
             <span className={cx('title')}>{children}</span>
+            {modal && <span className={cx('modal-sp')}></span>}
         </Comp>
     );
 };
@@ -75,6 +78,7 @@ Button.propTypes = {
     large: PropsTypes.bool,
     disable: PropsTypes.bool,
     rounded: PropsTypes.bool,
+    modal: PropsTypes.bool,
     outlineHeader: PropsTypes.bool,
     className: PropsTypes.string,
     leftIcon: PropsTypes.node,

@@ -25,6 +25,9 @@ import { CheckboxIcon, CheckboxNone, InboxIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 import Search from '../Search';
 import { Link } from 'react-router-dom';
+import Modal from '~/components/Modal';
+import { useState } from 'react';
+import ModalItem from './ModalItem';
 const cx = classNames.bind(styles);
 
 const MENU_ITEM = [
@@ -50,7 +53,8 @@ const MENU_ITEM = [
     },
 ];
 const Header = () => {
-    const currentUser = true;
+    const currentUser = false;
+    const [isShow, setIsShow] = useState(false);
 
     //handle logic
     const handleMenuChange = (menuItem) => {
@@ -99,8 +103,15 @@ const Header = () => {
         },
     ];
 
+    const handleClickLogin = () => {
+        setIsShow(true);
+    };
+
     return (
         <header className={cx('wrapper')}>
+            <Modal isShow={isShow} setIsShow={setIsShow}>
+                <ModalItem setIsShow={setIsShow} />
+            </Modal>
             <div className={cx('inner')}>
                 {/* LOGO */}
                 <Link to={config.routers.home} className={cx('logo')}>
@@ -124,7 +135,9 @@ const Header = () => {
                     ) : (
                         <>
                             <Button text>Upload</Button>
-                            <Button primary>Log in</Button>
+                            <Button onClick={handleClickLogin} primary>
+                                Log in
+                            </Button>
                         </>
                     )}
                     <Menu items={currentUser ? USER_MENU : MENU_ITEM} onChange={handleMenuChange}>

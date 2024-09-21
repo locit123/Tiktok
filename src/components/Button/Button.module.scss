@@ -64,6 +64,25 @@
             cursor: pointer;
         }
 }
+.modal{
+    height: 44px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+    border-radius: 8px;
+    width: 100%;
+    transition: background-color .1s ease;
+    &:hover{
+        border-color: rgb(208, 209, 211);
+        background-color: rgb(18, 18, 18);
+        cursor: pointer;
+    }
+}
+
+.modal-sp{
+    flex: 1;
+}
 
 .text {
     &:hover {
@@ -80,7 +99,9 @@
     width: 20px;
     text-align: center;
 }
-
+.modalIcon{
+    flex: 1;
+}
 //button size
 .small {
     min-width: 88px;
@@ -90,4 +111,5 @@
 .large {
     min-width: 140px;
     padding: 14px 16px;
+    width: 100%;
 }
