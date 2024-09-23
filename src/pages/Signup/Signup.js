@@ -3,11 +3,13 @@ import styles from './Signup.module.scss';
 import Button from '~/components/Button';
 import { FacebookIcon, GoogleIcon, KaKaoIcon, LineIcon, PersonIcon } from '~/components/Icons';
 import { Helmet } from 'react-helmet';
+import { useContext } from 'react';
+import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
 
 const DATA_ITEMS_SIGN = [
-    { title: 'Use phone / email / username', icon: <PersonIcon /> },
+    { title: 'Use phone / email / username', icon: <PersonIcon />, isClick: true },
     { title: 'Continue with Facebook', icon: <FacebookIcon /> },
     { title: 'Continue with Google', icon: <GoogleIcon /> },
     { title: 'Continue with Line', icon: <LineIcon /> },
@@ -15,6 +17,15 @@ const DATA_ITEMS_SIGN = [
 ];
 
 const Signup = () => {
+    const { setTypeModal } = useContext(ContextProvider);
+
+    const handleClick = (click) => {
+        if (click === true) {
+            setTypeModal('signup');
+        } else {
+            setTypeModal('');
+        }
+    };
     return (
         <div className={cx('wrapper')}>
             <Helmet>
@@ -23,7 +34,14 @@ const Signup = () => {
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
             {DATA_ITEMS_SIGN.map((item, index) => (
-                <Button key={index} modalIcon className={cx('bt-modal')} modal leftIcon={item.icon}>
+                <Button
+                    key={index}
+                    modalIcon
+                    className={cx('bt-modal')}
+                    modal
+                    leftIcon={item.icon}
+                    onClick={() => handleClick(item.isClick)}
+                >
                     {item.title}
                 </Button>
             ))}

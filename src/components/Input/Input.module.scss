@@ -1,0 +1,48 @@
+.wrapper {
+    height: 44px;
+    margin-bottom: 9px;
+    position: relative;
+    --background-color:rgba(255, 255, 255, 0.12)
+}
+
+
+.input {
+    width: 100%;
+    background-color:var(--background-color) ;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0);
+    padding-inline-start: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 100%;
+    padding-inline-end: unset;
+    height: 44px;
+    font-size: 1.6rem;
+    
+}
+
+.icon-eye {
+    position: absolute;
+    opacity: .5;
+    font-size: 2rem;
+    margin-left: 16px;
+    top: 25%;
+    right: 15px;
+}
+
+.sendCode{
+    display: flex;
+    flex: 2;
+    border-top-right-radius: 0px ;
+    border-bottom-right-radius: 0px ;
+    border-right-color: rgba(169, 169, 169, 0.9);
+    
+}
+
+.btn-sendCode{
+    flex: 1;
+    background-color: var(--background-color);
+    color: rgba(169, 169, 169, 0.9);
+    border-top-left-radius: 0px ;
+    border-bottom-left-radius: 0px ;
+    cursor: not-allowed;
+}

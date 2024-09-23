@@ -1,0 +1,19 @@
+.wrapper{
+    height: var(--height-select);
+    overflow-y: auto;
+}
+
+.items {
+    padding: 0 12px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.34);
+    cursor: pointer;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.12);
+        color: var(--white);
+    }
+}

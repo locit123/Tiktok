@@ -28,6 +28,9 @@ import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import { useState } from 'react';
 import ModalItem from './ModalItem';
+import { ContextProvider } from '~/Context';
+import { useContext } from 'react';
+import { LOG_IN_TO_TIK_TOK, LOGIN, SIGN_UP, SIGN_UP_DEFAULT, SIGN_UP_FOR_TIK_TOK } from '~/utils/contantValue';
 const cx = classNames.bind(styles);
 
 const MENU_ITEM = [
@@ -55,6 +58,8 @@ const MENU_ITEM = [
 const Header = () => {
     const currentUser = false;
     const [isShow, setIsShow] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const { typeModal, setTypeModal } = useContext(ContextProvider);
 
     //handle logic
     const handleMenuChange = (menuItem) => {
@@ -103,14 +108,40 @@ const Header = () => {
         },
     ];
 
-    const handleClickLogin = () => {
-        setIsShow(true);
+    const handleChange = () => {
+        setTypeModal('');
+        setIsLoading(false);
     };
 
+    const handleClickLogin = () => {
+        setIsShow(true);
+        handleChange();
+    };
+
+    const handleClickClose = () => {
+        setIsShow(false);
+        handleChange();
+    };
+
+    const handleClickLink = (e) => {
+        setTypeModal('');
+        e.preventDefault();
+        setIsLoading(!isLoading);
+    };
     return (
         <header className={cx('wrapper')}>
-            <Modal isShow={isShow} setIsShow={setIsShow}>
-                <ModalItem setIsShow={setIsShow} />
+            <Modal
+                isShow={isShow}
+                setIsShow={setIsShow}
+                handleClickClose={handleClickClose}
+                handleClickLink={handleClickLink}
+                href={isLoading ? config.routers.login : config.routers.signup}
+                titleTikTok={
+                    typeModal === SIGN_UP ? SIGN_UP_DEFAULT : isLoading ? SIGN_UP_FOR_TIK_TOK : LOG_IN_TO_TIK_TOK
+                }
+                titleFooter={isLoading ? LOGIN : SIGN_UP_DEFAULT}
+            >
+                <ModalItem setIsShow={setIsShow} isLoading={isLoading} />
             </Modal>
             <div className={cx('inner')}>
                 {/* LOGO */}
