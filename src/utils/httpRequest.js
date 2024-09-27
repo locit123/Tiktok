@@ -9,10 +9,25 @@ const axiosInstance = axios.create({
     },
 });
 
-//custom GET
-export const Get = async (path, options = {}) => {
-    const response = await axiosInstance.get(path, options);
-    return response.data;
-};
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('tokenLogin');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error.response.data),
+);
+
+axiosInstance.interceptors.response.use(
+    (res) => res.data,
+    (err) => {
+        if (err && err.response && err.name === 'AxiosError' && err.response.data) {
+            return Promise.reject(err.response.data);
+        }
+        return Promise.reject(err);
+    },
+);
 
 export default axiosInstance;

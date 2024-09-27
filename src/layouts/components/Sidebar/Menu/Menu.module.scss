@@ -3,8 +3,10 @@
     font-size: 1.8rem;
     font-weight: 700;
     align-items: center;
+    justify-content: flex-start;
     padding: 8px;
     border-radius: 4px;
+    height: 48px;
     transition: background-color 200ms ease-in-out;
     color: var(--text-color);
     &.active{
@@ -21,6 +23,7 @@
         background-color: rgba(22, 24, 35, 0.03);;
     }
 }
+
 .title{
     margin-left: 10px;
 }

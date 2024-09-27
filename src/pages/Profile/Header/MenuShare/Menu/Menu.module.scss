@@ -1,0 +1,39 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    width: 280px;
+    padding: 0 4px 0 3px;
+}
+
+.item {
+    width: 100%;
+    margin: 0 !important;
+    margin-right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 48px;
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+}
+
+.more{
+    height: 24px;
+    margin: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.visible{
+    height: 448px;
+    overflow-y: scroll;
+}
+
+.hide{
+    display: none;
+}
+

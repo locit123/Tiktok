@@ -6,6 +6,7 @@ const cx = classNames.bind(styles);
 const Button = ({
     to,
     href,
+    to2,
     text = false,
     primary = false,
     outline = false,
@@ -16,6 +17,9 @@ const Button = ({
     outlineHeader = false,
     modal = false,
     modalIcon = false,
+    noToken = false,
+    sizeIcon = false,
+    shareMenu = false,
     className,
     leftIcon,
     rightIcon,
@@ -57,11 +61,23 @@ const Button = ({
         rounded,
         modal,
         outlineHeader,
+        noToken,
         [className]: className,
+        sizeIcon,
     });
     return (
         <Comp className={classes} {...props}>
-            {leftIcon && <span className={cx('icon', { modalIcon })}>{leftIcon}</span>}
+            {leftIcon && (
+                <span
+                    className={cx('icon', {
+                        modalIcon,
+                        sizeIcon,
+                        shareMenu,
+                    })}
+                >
+                    {leftIcon}
+                </span>
+            )}
             <span className={cx('title')}>{children}</span>
             {modal && <span className={cx('modal-sp')}></span>}
         </Comp>

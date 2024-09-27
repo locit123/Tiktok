@@ -5,6 +5,7 @@ import { FacebookIcon, GoogleIcon, KaKaoIcon, LineIcon, PersonIcon } from '~/com
 import { Helmet } from 'react-helmet';
 import { useContext } from 'react';
 import { ContextProvider } from '~/Context';
+import { SIGN_UP } from '~/utils/contantValue';
 
 const cx = classNames.bind(styles);
 
@@ -17,11 +18,12 @@ const DATA_ITEMS_SIGN = [
 ];
 
 const Signup = () => {
-    const { setTypeModal } = useContext(ContextProvider);
+    const { setTypeModal, setIsCheckCss } = useContext(ContextProvider);
 
     const handleClick = (click) => {
         if (click === true) {
-            setTypeModal('signup');
+            setTypeModal(SIGN_UP);
+            setIsCheckCss(false);
         } else {
             setTypeModal('');
         }

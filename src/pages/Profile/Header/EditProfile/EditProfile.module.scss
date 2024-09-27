@@ -1,0 +1,20 @@
+.wrapper {}
+
+.btn-edit {
+    height: 36px;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 600;
+    background-color: rgb(74, 74, 74) !important;
+    border-color: rgba(255, 255, 255, 0) !important;
+    font-size: 1.6rem;
+    user-select: none;
+    &:hover{
+        border-color: rgb(208, 209, 211);
+        background-color: rgb(18, 18, 18);
+        cursor: pointer;
+    }
+}
+
+.icon {
+    font-size: 2rem;
+}

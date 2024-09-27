@@ -11,14 +11,27 @@ import {
     ActiveUserGroupIcon,
     LiveIcon,
     ActiveLiveIcon,
+    ActiveUserIcon,
+    PersonIcon,
 } from '~/components/Icons';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
 import Button from '~/components/Button';
 import images from '~/assets/images';
+import { useContext } from 'react';
+import { ContextProvider } from '~/Context';
 const cx = classNames.bind(styles);
 
 const Sidebar = () => {
-    const currentUser = false;
+    const token = localStorage.getItem('tokenLogin');
+    const { dataCurrentUser, setIsShow } = useContext(ContextProvider);
+
+    const handleClickProfile = () => {
+        setIsShow(true);
+    };
+
+    const handleLogin = () => {
+        setIsShow(true);
+    };
     return (
         <aside className={cx('wrapper')}>
             <Menu>
@@ -41,14 +54,32 @@ const Sidebar = () => {
                     activeIcon={<ActiveUserGroupIcon />}
                 />
                 <MenuItem title="LIVE" to={config.routers.live} icon={<LiveIcon />} activeIcon={<ActiveLiveIcon />} />
+                {token ? (
+                    <MenuItem
+                        title="Profile"
+                        to={`/@${dataCurrentUser.nickname}`}
+                        icon={<ActiveUserIcon />}
+                        activeIcon={<ActiveUserIcon />}
+                    />
+                ) : (
+                    <Button
+                        sizeIcon
+                        className={cx('bt')}
+                        leftIcon={<PersonIcon className={cx('icon-bt')} width="3.2rem" height="3.2rem" />}
+                        noToken
+                        onClick={handleClickProfile}
+                    >
+                        Profile
+                    </Button>
+                )}
             </Menu>
-            {currentUser ? (
+            {token ? (
                 <SuggestedAccounts label="Suggested Accounts" />
             ) : (
                 <>
                     <div className={cx('body-sideBar')}>
                         <p className={cx('label')}>Log in to follow creators, like videos, and view comments.</p>
-                        <Button outline large className={cx('login-bt')}>
+                        <Button outline large className={cx('login-bt')} onClick={handleLogin}>
                             Log in
                         </Button>
                     </div>

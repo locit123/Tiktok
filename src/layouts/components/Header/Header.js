@@ -26,11 +26,11 @@ import Image from '~/components/Image';
 import Search from '../Search';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
-import { useState } from 'react';
 import ModalItem from './ModalItem';
 import { ContextProvider } from '~/Context';
-import { useContext } from 'react';
-import { LOG_IN_TO_TIK_TOK, LOGIN, SIGN_UP, SIGN_UP_DEFAULT, SIGN_UP_FOR_TIK_TOK } from '~/utils/contantValue';
+import { useCallback, useContext, useEffect } from 'react';
+import { LOG_IN, LOG_IN_TO_TIK_TOK, LOGIN, SIGN_UP, SIGN_UP_DEFAULT, SIGN_UP_FOR_TIK_TOK } from '~/utils/contantValue';
+import * as currentUserService from '~/services/AuthService';
 const cx = classNames.bind(styles);
 
 const MENU_ITEM = [
@@ -55,11 +55,20 @@ const MENU_ITEM = [
         title: 'Keyboard shortcuts',
     },
 ];
+
 const Header = () => {
-    const currentUser = false;
-    const [isShow, setIsShow] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const { typeModal, setTypeModal } = useContext(ContextProvider);
+    const { typeModal, setTypeModal, isLoading, setIsLoading, isShow, setIsShow, setDataCurrentUser, dataCurrentUser } =
+        useContext(ContextProvider);
+    const token = localStorage.getItem('tokenLogin');
+
+    const getCurrentUser = useCallback(async () => {
+        if (token) {
+            await currentUserService.currentUser(setDataCurrentUser);
+        }
+    }, [setDataCurrentUser, token]);
+    useEffect(() => {
+        getCurrentUser();
+    }, [getCurrentUser, token]);
 
     //handle logic
     const handleMenuChange = (menuItem) => {
@@ -75,7 +84,7 @@ const Header = () => {
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             title: 'View Profile',
-            to: '/@hoa',
+            to: `/@${dataCurrentUser.nickname}`,
         },
         {
             icon: <FontAwesomeIcon icon={faCoins} />,
@@ -103,7 +112,6 @@ const Header = () => {
         {
             icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Logout',
-            to: '/logout',
             separate: true,
         },
     ];
@@ -124,10 +132,11 @@ const Header = () => {
     };
 
     const handleClickLink = (e) => {
-        setTypeModal('');
         e.preventDefault();
+        setTypeModal('');
         setIsLoading(!isLoading);
     };
+
     return (
         <header className={cx('wrapper')}>
             <Modal
@@ -137,11 +146,17 @@ const Header = () => {
                 handleClickLink={handleClickLink}
                 href={isLoading ? config.routers.login : config.routers.signup}
                 titleTikTok={
-                    typeModal === SIGN_UP ? SIGN_UP_DEFAULT : isLoading ? SIGN_UP_FOR_TIK_TOK : LOG_IN_TO_TIK_TOK
+                    typeModal === SIGN_UP
+                        ? SIGN_UP_DEFAULT
+                        : typeModal === LOG_IN
+                        ? LOGIN
+                        : isLoading
+                        ? SIGN_UP_FOR_TIK_TOK
+                        : LOG_IN_TO_TIK_TOK
                 }
                 titleFooter={isLoading ? LOGIN : SIGN_UP_DEFAULT}
             >
-                <ModalItem setIsShow={setIsShow} isLoading={isLoading} />
+                <ModalItem />
             </Modal>
             <div className={cx('inner')}>
                 {/* LOGO */}
@@ -152,7 +167,7 @@ const Header = () => {
                 <Search />
                 {/* ACTIONS */}
                 <div className={cx('actions')}>
-                    {currentUser ? (
+                    {token ? (
                         <>
                             <Button small to={'/upload'} outlineHeader leftIcon={<FontAwesomeIcon icon={faAdd} />}>
                                 Upload
@@ -171,12 +186,12 @@ const Header = () => {
                             </Button>
                         </>
                     )}
-                    <Menu items={currentUser ? USER_MENU : MENU_ITEM} onChange={handleMenuChange}>
-                        {currentUser ? (
+                    <Menu items={token ? USER_MENU : MENU_ITEM} onChange={handleMenuChange}>
+                        {token ? (
                             <Image
-                                src="://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/f441b08992c763eba9ffb372dd193465.jpeg?lk3s=30310797&nonce=74663&refresh_token=e565f8c7eddbc0af305ec7b582716171&x-expires=1726326000&x-signature=xEholOMvkHG3OpEPL4HA%2BD4uzNg%3D&shp=30310797&shcp=-"
+                                src={dataCurrentUser.avatar}
                                 className={cx('user-avatar')}
-                                alt="nguyen van a"
+                                alt={dataCurrentUser.nickname}
                             />
                         ) : (
                             <button className={cx('more-btn')}>

@@ -1,15 +1,27 @@
 import classNames from 'classnames/bind';
-import Input from '~/components/Input';
 import styles from './MethodSignup.module.scss';
 import Select from '~/components/Select';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareCheck, faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import Button from '~/components/Button';
+import { FormSignup } from '~/components/FormLoginAndSignup';
+import { ModalBody } from '~/components/Modal';
+import { useContext, useState } from 'react';
+import * as registerService from '~/services/AuthService';
+import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
 
 const MethodSignup = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const { setIsLoading, setTypeModal, setTokenSignup } = useContext(ContextProvider);
+
+    const handleClickRegister = async () => {
+        await registerService.register(email, password, setTokenSignup, setLoading, setIsLoading, setTypeModal);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
@@ -21,28 +33,31 @@ const MethodSignup = () => {
                 </div>
                 <div className={cx('header-footer')}>Your birthday won't be shown publicly.</div>
             </div>
-            <div className={cx('body')}>
-                <div className={cx('body-header')}>
-                    <div className={cx('title-header')}>Email</div>
-                    <Link className={cx('title-link')}>Sign up with phone</Link>
-                </div>
-                <div className={cx('body-input')}>
-                    <Input placeholder={'Email address'} />
-                    <Input icon placeholder={'Password'} />
-                    <Input sendCode placeholder={'Enter 6-digit code'} />
-                </div>
-                <div className={cx('footer-checkbox')}>
-                    <label className={cx('box-icon')}>
-                        <FontAwesomeIcon icon={faSquareCheck} className={cx('icon')} />
-                    </label>
-                    <label className={cx('label')}>
-                        Get trending content, newsletters, promotions, recommendations, and account updates sent to your
-                        email
-                    </label>
-                </div>
+            <ModalBody titleHeader={'Email'} titleLink={'Sign up with phone'}>
+                <FormSignup
+                    valueEmail={email}
+                    valuePassword={password}
+                    onChangeEmail={(e) => setEmail(e.target.value)}
+                    onChangePassword={(e) => setPassword(e.target.value)}
+                />
+            </ModalBody>
+            <div className={cx('footer-checkbox')}>
+                <label className={cx('box-icon')}>
+                    <FontAwesomeIcon icon={faSquareCheck} className={cx('icon')} />
+                </label>
+                <label className={cx('label')}>
+                    Get trending content, newsletters, promotions, recommendations, and account updates sent to your
+                    email
+                </label>
             </div>
             <div className={cx('footer')}>
-                <Button large className={cx('btn-footer')}>
+                <Button
+                    leftIcon={loading && <FontAwesomeIcon icon={faSpinner} className={cx('ic-spinner')} />}
+                    large
+                    className={cx('btn-footer')}
+                    onClick={handleClickRegister}
+                    disable={loading ? true : false}
+                >
                     Next
                 </Button>
             </div>

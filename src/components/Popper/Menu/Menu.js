@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import PropTypes from 'prop-types';
 
@@ -7,38 +7,48 @@ import MenuItem from './MenuItem';
 import Header from './Header';
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
+import { logoutUser } from '~/services/AuthService';
+import { useNavigate } from 'react-router';
+import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
 
-const Menu = ({ children, items = [], onChange = defaultFn, hideOnClick = false }) => {
+const Menu = ({ children, items, onChange = defaultFn, hideOnClick = false }) => {
     const [history, setHistory] = useState([{ data: items }]);
     const [isParent2, setIsParent2] = useState(false);
-
+    const { handleReload } = useContext(ContextProvider);
+    const navigate = useNavigate();
     const current = history[history.length - 1];
 
+    useEffect(() => {
+        setHistory([{ data: items }]);
+    }, [items]);
+
+    const handleClick = async (isParent, isParentTwo, item) => {
+        if (item.title === 'Logout') {
+            await logoutUser();
+            localStorage.removeItem('tokenLogin');
+            navigate('/');
+            handleReload();
+        } else if (isParent) {
+            setIsParent2(false);
+            setHistory((prev) => {
+                return [...prev, item.children];
+            });
+        } else if (isParentTwo) {
+            setIsParent2(isParentTwo);
+            setHistory((prev) => [...prev, item.children2]);
+        } else {
+            onChange(item);
+        }
+    };
     const renderItems = () => {
         return current.data.map((item, index) => {
             const isParent = !!item.children;
             const isParentTwo = !!item.children2;
-            return (
-                <MenuItem
-                    key={index}
-                    data={item}
-                    onClick={() => {
-                        if (isParent) {
-                            setIsParent2(false);
-                            setHistory((prev) => [...prev, item.children]);
-                        } else if (isParentTwo) {
-                            setIsParent2(isParentTwo);
-                            setHistory((prev) => [...prev, item.children2]);
-                        } else {
-                            onChange(item);
-                        }
-                    }}
-                />
-            );
+            return <MenuItem key={index} data={item} onClick={() => handleClick(isParent, isParentTwo, item)} />;
         });
     };
 

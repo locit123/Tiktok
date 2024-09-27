@@ -1,8 +1,7 @@
-import * as httpRequest from '~/utils/httpRequest';
-
+import axiosInstance from '~/utils/httpRequest';
 export const search = async (q, type = 'less') => {
     try {
-        const res = await httpRequest.Get(`users/search`, {
+        const res = await axiosInstance.get(`users/search`, {
             params: {
                 q: q,
                 type: type,

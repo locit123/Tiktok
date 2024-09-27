@@ -1,5 +1,4 @@
 .wrapper{
-    --color:rgba(255, 255, 255, 0.9);
 }
 
 .header{
@@ -33,33 +32,6 @@
     color: #a4a1a1;
 }
 //body
-
-.body{
-
-}
-
-.body-header{
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.title-header{
-        color: var(--color);
-
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-.title-link{
-        color: var(--color);
-
-        font-size: 1.2rem;
-        font-weight: 600;
-        &:hover{
-            text-decoration: underline var(--color);
-        }
-}
-
 .footer-checkbox{
     display: flex;
     align-items: center;
@@ -83,10 +55,26 @@
     font-size: 1.2rem;
     line-height: 16px;
 }
+
+.ic-spinner{
+    animation: spinner 2s linear infinite;
+}
+@keyframes spinner {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+
+    }
+}
+
 .btn-footer{
     margin-top: 21px;
     height: 46px;
     background-color: rgba(255, 255, 255, 0.12);
     color: var(--color);
+    cursor: pointer;
 }
+
 

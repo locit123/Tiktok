@@ -1,0 +1,104 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.box-left {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: rgb(115, 116, 123);
+    cursor: pointer;
+
+}
+
+.title-video {
+    height: 44px;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+
+}
+
+.title {
+    padding: 0 32px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    gap: 7px;
+
+}
+
+.label {
+    line-height: 24px;
+}
+
+.activeLeft {
+    border-bottom: 2px solid #161823;
+    color: #161823;
+}
+
+.hover {
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    color: #333;
+    /* Màu mặc định */
+    border-bottom: 2px solid transparent;
+
+    /* Bắt đầu với border trong suốt */
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #161823;
+        transition: width 0.3s ease-in-out;
+    }
+    &:hover {
+        color: #161823;
+        /* Màu thay đổi khi hover */
+    }
+    &:hover::after {
+        width: 100%;
+        /* Đường viền dưới sẽ mở rộng từ trái sang phải */
+    }
+}
+
+
+
+
+.box-right {
+    margin-bottom: 8px;
+    background-color: #f2f2f2;
+    border-radius: 6px;
+    margin-top: 2px;
+    padding: 2px;
+}
+
+.bt {
+    padding: 6px 10px;
+    border-radius: 6px;
+    height: 32px;
+}
+
+.text {
+    color: var(--text-color);
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 1.3rem;
+
+}
+
+.activeRight {
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.06);
+}

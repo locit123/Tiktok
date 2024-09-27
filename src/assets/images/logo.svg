@@ -4,7 +4,7 @@
                         height="42"
                         fill="currentColor"
                         alt="TikTok"
-                        class=""
+                        className=""
                     >
                         <path
                             fill="#25F4EE"

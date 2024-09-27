@@ -3,6 +3,26 @@
     padding: 20px 8px 26px 8px;
 }
 
+
+.bt{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 48px;
+    padding: 8px;
+    gap: 7px;
+    width: 100%;
+    font-size: 1.8rem;
+    cursor: pointer;
+    &:hover {
+            background-color: rgba(22, 24, 35, 0.03);
+        }
+    
+    .icon-bt{
+        color: var(--text-color);
+    }
+
+}
 .body-sideBar {}
 
 //body
@@ -20,6 +40,7 @@
 
 .login-bt {
     margin-top: 20px;
+    cursor: pointer;
 }
 
 //footer

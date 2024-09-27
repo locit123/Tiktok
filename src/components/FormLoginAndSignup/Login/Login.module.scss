@@ -1,0 +1,32 @@
+.wrapper {
+    width: 100%;
+}
+
+.label-link{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.bt-login {
+    height: 46px;
+    background-color: #3f3f3f;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0);
+    color: var(--white);
+    margin-top: 21px;
+    cursor: pointer;
+}
+
+.icon-spinner{
+    animation: spinner 2s linear infinite;
+}
+
+@keyframes spinner {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
