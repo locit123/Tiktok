@@ -5,13 +5,21 @@ import Image from '~/components/Image';
 import a from '~/assets/images/aFB.jpg';
 import EditProfile from './EditProfile';
 import MenuShare from './MenuShare';
+import ModalProfile from '../ModalProfile';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 const Header = () => {
+    const [show, setShow] = useState(false);
     let css = true;
+
+    const handleClickModal = () => {
+        setShow(true);
+    };
     return (
         <div className={cx('wrapper')}>
+            <ModalProfile modalIsOpen={show} setIsOpen={setShow} />
             <div className={cx('wrapper-header')}>
                 <div className={cx('header')}>
                     <Image src={a} alt="test" className={cx('avatar')} />
@@ -20,7 +28,7 @@ const Header = () => {
                             <h1 className={cx('nickname')}>Phungloc2003</h1>
                             <h2 className={cx('label')}>locsuper</h2>
                         </div>
-                        <div className={cx('edit-profile')}>
+                        <div className={cx('edit-profile')} onClick={handleClickModal}>
                             <EditProfile />
                         </div>
                     </div>
