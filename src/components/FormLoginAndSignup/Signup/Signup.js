@@ -13,7 +13,13 @@ const Signup = ({ valueEmail, valuePassword, onChangeEmail, onChangePassword }) 
     };
     return (
         <div className={cx('wrapper')}>
-            <Input type={'email'} placeholder={'Email address'} value={valueEmail} onChange={onChangeEmail} />
+            <Input
+                className={cx('input')}
+                type={'email'}
+                placeholder={'Email address'}
+                value={valueEmail}
+                onChange={onChangeEmail}
+            />
             <Input
                 handleClickIcon={handleClickIcon}
                 checkEye={checkEye}
@@ -22,8 +28,9 @@ const Signup = ({ valueEmail, valuePassword, onChangeEmail, onChangePassword }) 
                 placeholder={'Password'}
                 value={valuePassword}
                 onChange={onChangePassword}
+                className={cx('input')}
             />
-            <Input sendCode placeholder={'Enter 6-digit code'} />
+            <Input sendCode placeholder={'Enter 6-digit code'} className={cx('input')} />
         </div>
     );
 };

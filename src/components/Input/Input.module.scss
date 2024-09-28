@@ -5,7 +5,6 @@
 
 
 .input {
-    height: 44px;
     margin-bottom: 9px;
     width: 100%;
     background-color:var(--background-color) ;
@@ -15,7 +14,6 @@
     color: rgba(255, 255, 255, 0.9);
     line-height: 100%;
     padding-inline-end: unset;
-    height: 44px;
     font-size: 1.6rem;
     caret-color: rgb(254, 44, 85);
     
@@ -47,4 +45,5 @@
     border-top-left-radius: 0px ;
     border-bottom-left-radius: 0px ;
     cursor: not-allowed;
+    height: 44px;
 }

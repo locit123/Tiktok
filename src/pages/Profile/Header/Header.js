@@ -6,12 +6,16 @@ import a from '~/assets/images/aFB.jpg';
 import EditProfile from './EditProfile';
 import MenuShare from './MenuShare';
 import ModalProfile from '../ModalProfile';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
 
 const Header = () => {
     const [show, setShow] = useState(false);
+    const { dataCurrentUser } = useContext(ContextProvider);
+    console.log(dataCurrentUser, 'dataCurrentUser');
+
     let css = true;
 
     const handleClickModal = () => {
@@ -25,7 +29,7 @@ const Header = () => {
                     <Image src={a} alt="test" className={cx('avatar')} />
                     <div className={cx('footer')}>
                         <div>
-                            <h1 className={cx('nickname')}>Phungloc2003</h1>
+                            <h1 className={cx('nickname')}>{dataCurrentUser.nickname}</h1>
                             <h2 className={cx('label')}>locsuper</h2>
                         </div>
                         <div className={cx('edit-profile')} onClick={handleClickModal}>
@@ -35,15 +39,15 @@ const Header = () => {
                 </div>
                 <div className={cx('body')}>
                     <div className={cx('box-items')}>
-                        <strong className={cx('number')}>2</strong>
+                        <strong className={cx('number')}>{dataCurrentUser.followings_count || 0}</strong>
                         <span className={cx('label-body', { css })}>Following</span>
                     </div>
                     <div className={cx('box-items')}>
-                        <strong className={cx('number')}>2</strong>
+                        <strong className={cx('number')}>{dataCurrentUser.followers_count || 0}</strong>
                         <span className={cx('label-body', { css })}>Followers</span>
                     </div>
                     <div className={cx('box-items')}>
-                        <strong className={cx('number')}>0</strong>
+                        <strong className={cx('number')}>{dataCurrentUser.likes_count}</strong>
                         <span className={cx('label-body')}>Likes</span>
                     </div>
                 </div>

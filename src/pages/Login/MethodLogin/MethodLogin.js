@@ -36,12 +36,14 @@ const MethodLogin = () => {
                 loading={loading}
             >
                 <Input
+                    className={cx('input')}
                     type={'email'}
                     placeholder={'Email or username'}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
+                    className={cx('input')}
                     type={checkEye ? 'text' : 'password'}
                     handleClickIcon={handleClickIcon}
                     placeholder={'Password'}
