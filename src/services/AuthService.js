@@ -61,4 +61,29 @@ const logoutUser = async () => {
     }
 };
 
-export { register, login, currentUser, logoutUser };
+const updateCurrentUser = async (
+    firstName,
+    lastName,
+    name,
+    bio,
+    setIsShowModalProfileSave,
+    setIsLoading,
+    setDataCurrentUser,
+) => {
+    try {
+        setIsLoading(true);
+        const data = { first_name: firstName, last_name: lastName, nickname: name, bio };
+        const res = await axiosInstance.post(`auth/me?_method=PATCH`, data);
+        if (res) {
+            setIsLoading(false);
+            setIsShowModalProfileSave(false);
+            currentUser(setDataCurrentUser);
+        }
+        console.log(res);
+    } catch (error) {
+        toast.error(error.message);
+        setIsLoading(false);
+    }
+};
+
+export { register, login, currentUser, logoutUser, updateCurrentUser };

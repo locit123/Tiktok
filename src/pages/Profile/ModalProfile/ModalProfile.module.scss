@@ -136,10 +136,8 @@
     margin-bottom: 0;
     display: flex;
 }
-
-.box-height {
-    height: 134px;
-
+.ip-bottom{
+    margin-bottom: 10px;
 }
 
 .title-text {
@@ -173,6 +171,10 @@
     resize: none;
     font-size: 1.6rem;
     line-height: 24px;
+}
+
+.checkLength{
+    border: 1px solid red;
 }
 
 .length-text {

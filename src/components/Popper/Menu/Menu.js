@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import PropTypes from 'prop-types';
 
@@ -7,9 +7,7 @@ import MenuItem from './MenuItem';
 import Header from './Header';
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
-import { logoutUser } from '~/services/AuthService';
-import { useNavigate } from 'react-router';
-import { ContextProvider } from '~/Context';
+import ModalLogout from './ModalLogout';
 
 const cx = classNames.bind(styles);
 
@@ -18,8 +16,7 @@ const defaultFn = () => {};
 const Menu = ({ children, items, onChange = defaultFn, hideOnClick = false }) => {
     const [history, setHistory] = useState([{ data: items }]);
     const [isParent2, setIsParent2] = useState(false);
-    const { handleReload } = useContext(ContextProvider);
-    const navigate = useNavigate();
+    const [isOpenLogout, setIsOpenLogout] = useState(false);
     const current = history[history.length - 1];
 
     useEffect(() => {
@@ -28,10 +25,7 @@ const Menu = ({ children, items, onChange = defaultFn, hideOnClick = false }) =>
 
     const handleClick = async (isParent, isParentTwo, item) => {
         if (item.title === 'Logout') {
-            await logoutUser();
-            localStorage.removeItem('tokenLogin');
-            navigate('/');
-            handleReload();
+            setIsOpenLogout(true);
         } else if (isParent) {
             setIsParent2(false);
             setHistory((prev) => {
@@ -70,17 +64,20 @@ const Menu = ({ children, items, onChange = defaultFn, hideOnClick = false }) =>
         setIsParent2(false);
     };
     return (
-        <Tippy
-            interactive
-            placement="bottom-end"
-            delay={[0, 500]}
-            offset={[12, 10]}
-            render={renderResult}
-            onHide={handleResetToFirstPage}
-            hideOnClick={hideOnClick}
-        >
-            {children}
-        </Tippy>
+        <>
+            <ModalLogout isOpenLogout={isOpenLogout} setIsOpenLogout={setIsOpenLogout} />
+            <Tippy
+                interactive
+                placement="bottom-end"
+                delay={[0, 500]}
+                offset={[12, 10]}
+                render={renderResult}
+                onHide={handleResetToFirstPage}
+                hideOnClick={hideOnClick}
+            >
+                {children}
+            </Tippy>
+        </>
     );
 };
 

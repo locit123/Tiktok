@@ -1,0 +1,35 @@
+.wrapper{
+    object-fit: cover;
+    display: block;
+    border-radius: 15px;
+    width: 363.600px;
+    height: 646.400px;
+    
+}
+
+.progress-bar {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    height: 5px; 
+    background-color: rgba(255, 255, 255, 0.5); 
+    cursor: pointer;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    &:hover{
+        height: 8px;
+    }    
+}
+
+.progress {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    height: 100%;
+    background-color:var(--primary); // Progress color
+    transition: width 0.1s ease; // Smooth transition
+        
+    
+}
+
+

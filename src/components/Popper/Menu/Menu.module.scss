@@ -7,7 +7,7 @@
         margin-left: 0;
     }
 
-    
+
 }
 
 .menu-popper {
@@ -24,10 +24,12 @@
     border-radius: 0;
     padding: 11.2px 16px;
     line-height: 1.8rem;
+
     &.separate {
         border-top: 1px solid rgba(22, 24, 35, 0.12);
         cursor: pointer;
     }
+
     &:hover {
         background-color: rgba(22, 24, 35, 0.03);
     }
@@ -54,6 +56,57 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
 
+
+//LOG OUT
+.modal-logout {
+    text-align: center;
+    color: var(--white);
+}
+
+.title {
+    font-size: 2.4rem;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 36px;
+    padding: 0 32px;
+}
+
+
+.box-bt {
+    display: flex;
+
+}
+
+.bt {
+    height: 48px;
+    font-size: 1.6rem;
+    min-width: 164px;
+
+    &:hover {
+        opacity: .8;
+    }
+}
+
+.bt-cancel {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    cursor: pointer;
+
+    &:hover {
+        border-color: rgb(208, 209, 211);
+        background-color: rgb(18, 18, 18);
+    }
+
+}
+
+.btn-out {
+    background-color: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+}
+
+.isLoading {
+    cursor: not-allowed;
+}

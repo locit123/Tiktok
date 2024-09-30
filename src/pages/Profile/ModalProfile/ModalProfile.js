@@ -5,14 +5,59 @@ import { CloseModal, EditIcon } from '~/components/Icons';
 import a from '~/assets/images/aFB.jpg';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
+import { useEffect, useState } from 'react';
 const cx = classNames.bind(styles);
 
 Modal.setAppElement('#root');
 
-const ModalProfile = ({ modalIsOpen, setIsOpen }) => {
+const ModalProfile = ({
+    modalIsOpen,
+    setIsOpen,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    name,
+    setName,
+    bio,
+    setBio,
+    initState,
+    setIsShowModalProfileSave,
+}) => {
+    const [checkLength, setCheckLength] = useState(false);
+    const [isChangeSave, setIsChangeSave] = useState(false);
+
+    useEffect(() => {
+        if (
+            firstName !== initState.firstName ||
+            lastName !== initState.lastName ||
+            name !== initState.name ||
+            bio !== initState.bio
+        ) {
+            setIsChangeSave(false);
+        } else {
+            setIsChangeSave(true);
+        }
+    }, [initState.firstName, initState.lastName, firstName, lastName, name, bio, initState.name, initState.bio]);
+
     function closeModal() {
         setIsOpen(false);
     }
+
+    const handleChangeBio = (e) => {
+        if (e.target.value.length > 80) {
+            setCheckLength(true);
+        } else {
+            setCheckLength(false);
+        }
+
+        setBio(e.target.value);
+    };
+
+    const handleClickSave = async () => {
+        setIsOpen(false);
+        setIsShowModalProfileSave(true);
+    };
     return (
         <Modal
             className={cx('wrapper')}
@@ -41,8 +86,21 @@ const ModalProfile = ({ modalIsOpen, setIsOpen }) => {
                 <div className={cx('box-1')}>
                     <div className={cx('label')}>Username</div>
                     <div className={cx('box-right', 'box-height')}>
-                        <Input className={cx('input')} />
-                        <p className={cx('title-text', 'text')}>www.tiktok.com/@phnglc10</p>
+                        <Input
+                            placeholder={'first name'}
+                            type={'text'}
+                            className={cx('input', 'ip-bottom')}
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        <Input
+                            placeholder={'last name'}
+                            type={'text'}
+                            className={cx('input')}
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                        <p className={cx('title-text', 'text')}>www.tiktok.com/@{`${firstName}${lastName}`}</p>
                         <p className={cx('title-text', 'text2')}>
                             Usernames can only contain letters, numbers, underscores, and periods. Changing your
                             username will also change your profile link.
@@ -52,7 +110,13 @@ const ModalProfile = ({ modalIsOpen, setIsOpen }) => {
                 <div className={cx('box-1')}>
                     <div className={cx('label')}>Name</div>
                     <div className={cx('box-right')}>
-                        <Input className={cx('input')} />
+                        <Input
+                            type={'text'}
+                            placeholder={'nickname'}
+                            className={cx('input')}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
                         <p className={cx('title-text', 'text2')}>
                             Your nickname can only be changed once every 7 days.
                         </p>
@@ -61,15 +125,24 @@ const ModalProfile = ({ modalIsOpen, setIsOpen }) => {
                 <div className={cx('box-1', 'box-2')}>
                     <div className={cx('label')}>Bio</div>
                     <div className={cx('box-right', 'box-area')}>
-                        <textarea className={cx('text-area')} placeholder="Bio"></textarea>
-                        <span className={cx('length-text')}>0/80</span>
+                        <textarea
+                            className={cx('text-area', { checkLength })}
+                            placeholder="Bio"
+                            value={bio}
+                            onChange={handleChangeBio}
+                        ></textarea>
+                        <span className={cx('length-text')}>{bio.length}/80</span>
                     </div>
                 </div>
             </div>
             <div className={cx('footer')}>
                 <div className={cx('box-bt')}>
-                    <Button className={cx('bt', 'bt-hover')}>Cancel</Button>
-                    <Button className={cx('bt')}>Save</Button>
+                    <Button className={cx('bt', 'bt-hover')} onClick={() => setIsOpen(false)}>
+                        Cancel
+                    </Button>
+                    <Button className={cx('bt')} disable={isChangeSave} onClick={handleClickSave}>
+                        Save
+                    </Button>
                 </div>
             </div>
         </Modal>

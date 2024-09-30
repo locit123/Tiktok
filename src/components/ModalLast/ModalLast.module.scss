@@ -1,0 +1,55 @@
+.wrapper {
+    --border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
+    --background-color: rgba(255, 255, 255, 0.08);
+    z-index: 1000;
+    background-color: white;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #252525;
+    animation: slideIn 0.5s forwards;
+}
+
+
+.overlay {
+    background-color: rgba(0, 0, 0, .5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    animation: fadeIn 0.5s forwards;
+}
+
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.children{
+    padding: 32px;
+}

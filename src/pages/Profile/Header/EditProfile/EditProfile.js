@@ -6,10 +6,11 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { PromoteIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
-const EditProfile = () => {
+const EditProfile = ({ onClick }) => {
     return (
         <div className={cx('wrapper')}>
             <Button
+                onClick={onClick}
                 outline
                 small
                 className={cx('btn-edit')}

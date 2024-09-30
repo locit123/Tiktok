@@ -1,0 +1,149 @@
+.wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow-y: scroll;
+}
+.video{
+    position: relative;
+    border-radius: 15px;
+}
+.box-video-top{
+    height: 48px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+}
+
+.ic-hidden{
+    visibility: hidden;
+    cursor: pointer;
+}
+.hidden{
+    visibility: visible;
+}
+.icon-video-top{
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.volume-input{
+    visibility: hidden;
+    
+
+}
+.hiddenVolume{
+    visibility: visible;
+}
+.icon-bottom{
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    position: absolute;
+    bottom:8px;
+    right: 8px;
+}
+.box-video{
+    gap: 15px;
+    display: flex;
+}
+.box-right{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: end;
+}
+.box-icon{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.icon-top{
+    margin-bottom: 5px;
+    
+}
+.box-sound-range{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+.icon-plus{
+    position: absolute;
+    bottom: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
+    background-color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+}
+.icon{
+    width: 48px;height: 48px;
+    margin-top: 8px;
+    margin-bottom: 6px;
+    background-color: rgba(22, 24, 35, 0.06);
+    border-radius: 48px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+.avatar{
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+    object-fit: cover;
+}
+.label{
+    font-size: 1.2rem;
+    color: rgba(22, 24, 35, 0.75);
+    line-height: 16px;
+
+}
+//
+.box-footer{
+    font-size: 1.4rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: var(--white);
+    padding: 0 12px 16px 12px;
+    display: flex;
+    align-items: center;
+}
+
+.box-footer-right{
+    flex: 1;
+}
+
+
+.label-footer{
+    display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 280px;
+}
+
+.box-footer-icon{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.more{
+    width: 45px;
+    line-height: 21px;
+    
+}

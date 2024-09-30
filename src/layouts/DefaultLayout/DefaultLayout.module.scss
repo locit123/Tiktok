@@ -8,9 +8,15 @@
     width: var(--default-layout-width,1150px);
     display: flex;
     max-width: 100%;
-    padding: 0 var(--default-layout-horizontal-spacer-sideBar);
+    // padding: 0 var(--default-layout-horizontal-spacer-sideBar);
     margin-top: var(--default-layout-header-height);
+}
+.sideBar{
+    height: 100vh;
+    overflow-y: auto;
 }
 .content{
     flex: 1;
+    height: 100vh;
+    overflow-y: auto;
 }
