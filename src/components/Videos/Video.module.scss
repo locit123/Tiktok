@@ -2,7 +2,7 @@
     object-fit: cover;
     display: block;
     border-radius: 15px;
-    width: 363.600px;
+    width: 100%;
     height: 646.400px;
     
 }
@@ -17,6 +17,7 @@
     cursor: pointer;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
+    z-index: 100;
     &:hover{
         height: 8px;
     }    

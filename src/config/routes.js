@@ -6,6 +6,8 @@ const routers = {
     search: '/search',
     live: '/live',
     explore: '/explore',
+    friend: '/friend',
+    message: '/message',
     login: '/login',
     signup: '/signup',
 };

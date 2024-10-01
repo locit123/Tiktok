@@ -9,6 +9,7 @@ const Context = ({ children }) => {
     const [tokenSignup, setTokenSignup] = useState('');
     const [dataLogin, setDataLogin] = useState([]);
     const [dataCurrentUser, setDataCurrentUser] = useState({});
+    const [listFollow, setListFollow] = useState([]);
     const handleReload = () => {
         window.location.reload();
     };
@@ -35,6 +36,8 @@ const Context = ({ children }) => {
         dataCurrentUser,
         setDataCurrentUser,
         handleReload,
+        listFollow,
+        setListFollow,
     };
 
     return <ContextProvider.Provider value={values}>{children}</ContextProvider.Provider>;

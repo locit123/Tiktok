@@ -31,14 +31,15 @@ const VideoObService = ({
     nickname,
     description,
     nameMusic,
+    onClick,
 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [hidden, setHidden] = useState(false);
-    const videoContainerRef = useRef(null);
     const [isSound, setIsSound] = useState(false);
     const [volume, setVolume] = useState(0.5);
     const [historyVolume, setHistoryVolume] = useState(0);
     const [isVolume, setIsVolume] = useState(false);
+    const videoContainerRef = useRef(null);
 
     useEffect(() => {
         const observice = new IntersectionObserver(
@@ -80,17 +81,19 @@ const VideoObService = ({
         setHistoryVolume(newVolume);
     };
     return (
-        <div ref={videoContainerRef} className={cx('wrapper')}>
+        <div className={cx('wrapper')}>
             <div className={cx('box-video')}>
                 <div className={cx('video')} onMouseEnter={() => setHidden(true)} onMouseLeave={() => setHidden(false)}>
-                    <Video
-                        muted={isSound}
-                        src={src}
-                        isVisible={isVisible}
-                        className={className}
-                        type={type}
-                        volume={volume}
-                    />
+                    <div ref={videoContainerRef}>
+                        <Video
+                            muted={isSound}
+                            src={src}
+                            isVisible={isVisible}
+                            className={className}
+                            type={type}
+                            volume={volume}
+                        />
+                    </div>
                     <div className={cx('box-video-top')}>
                         <div className={cx('box-sound-range')} onMouseLeave={() => setIsVolume(false)}>
                             <div
@@ -136,7 +139,9 @@ const VideoObService = ({
                         <span className={cx('icon')}>
                             <img src={avatar} alt="a" className={cx('avatar')} />
                         </span>
-                        <span className={cx('icon-plus')}>{isCheckIcon ? <TickIcon /> : <PlusIcon />}</span>
+                        <span onClick={onClick} className={cx('icon-plus')}>
+                            {isCheckIcon ? <TickIcon /> : <PlusIcon />}
+                        </span>
                     </div>
                     <div className={cx('box-icon')}>
                         <span className={cx('icon')}>

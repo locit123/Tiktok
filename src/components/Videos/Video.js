@@ -28,12 +28,10 @@ const Video = ({ src, isVisible, className, type, muted, volume }) => {
 
     useEffect(() => {
         const video = videoRef.current;
-
         const handleTimeUpdate = () => {
             const currentProgress = (video.currentTime / video.duration) * 100 || 0;
             setProgress(currentProgress);
         };
-
         const handleCanPlay = () => {
             if (isVisible) {
                 video.play().catch((error) => {

@@ -40,6 +40,47 @@ export const CheckboxNone = ({ width = '1.6rem', height = '2rem' }) => {
 };
 
 //sideBar
+export const MessageIcon = ({ width = '2.4rem', height = '2.4rem', className }) => {
+    return (
+        <svg
+            className={className}
+            width={width}
+            height={height}
+            fill="currentColor"
+            class="tiktok-kmm27i-StyledMessageIcon en5j2390"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M2.18 7.17A2 2 0 0 1 4 6h40a2 2 0 0 1 1.74 3l-20 35a2 2 0 0 1-3.65-.4L16.22 25 2.49 9.32a2 2 0 0 1-.31-2.15Zm18.2 17.72 4.15 13.15L40.55 10H8.41l9.98 11.41 11.71-7.2a1 1 0 0 1 1.38.32l1.04 1.7a1 1 0 0 1-.32 1.38L20.38 24.9Z"></path>
+        </svg>
+    );
+};
+export const FollowingIcon = ({ width = '2.4rem', height = '2.4rem', className }) => {
+    return (
+        <svg className={className} width={width} height={height} xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="person_arrow_left_fill-a2d06cac">
+                <path d="m17.851 21.44-1.94-1.94H22.5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-6.59l1.94-1.94a.5.5 0 0 0 0-.706l-.707-.708a.5.5 0 0 0-.707 0l-3.649 3.647a1 1 0 0 0 0 1.414l3.648 3.647a.5.5 0 0 0 .708 0l.707-.708a.5.5 0 0 0 0-.707M4.5 7c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5"></path>
+                <path d="M1 20.72c0-3.26 3.03-7.22 8.5-7.22 1.589 0 2.971.334 4.134.888l-2.03 1.952a3 3 0 0 0-.004 4.321l1.906 1.839H5.5c-3.5 0-4.5 0-4.5-1.78"></path>
+            </symbol>
+            <use xlinkHref="#person_arrow_left_fill-a2d06cac"></use>
+        </svg>
+    );
+};
+
+export const FollowingActiveIcon = ({ width = '2.4rem', height = '2.4rem', className }) => {
+    return (
+        <svg
+            className={className}
+            width={width}
+            height={height}
+            fill="currentColor"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M18.99 4a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 4a6 6 0 1 0 0 12.01A6 6 0 0 0 19 8ZM18.99 27c2.96 0 5.6.58 7.87 1.65l-3.07 3.06a15.38 15.38 0 0 0-4.8-.71C10.9 31 6.3 36.16 6 44c-.02.55-.46 1-1.02 1h-2c-.55 0-1-.45-.98-1C2.33 33.99 8.7 27 19 27ZM35.7 42.88 31.82 39H45a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H31.82l3.88-3.88a1 1 0 0 0 0-1.41l-1.41-1.42a1 1 0 0 0-1.42 0l-7.3 7.3a2 2 0 0 0 0 2.82l7.3 7.3a1 1 0 0 0 1.42 0l1.41-1.42a1 1 0 0 0 0-1.41Z"></path>
+        </svg>
+    );
+};
 
 export const HomeIcon = ({ width = '3.2rem', height = '3.2rem', className }) => {
     return (
@@ -49,20 +90,14 @@ export const HomeIcon = ({ width = '3.2rem', height = '3.2rem', className }) => 
             height={height}
             data-e2e=""
             viewBox="0 0 48 48"
-            fill="currentColor"
+            fill="rgba(22, 24, 35, 1)"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="uncollect-7652bb5c">
-                <path
-                    fill="currentColor"
-                    d="M4 4.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v15.13a1 1 0 0 1-1.555.831l-6.167-4.12a.5.5 0 0 0-.556 0l-6.167 4.12A1 1 0 0 1 4 19.63z"
-                ></path>
-                <path
-                    fill="currentColor"
-                    fillOpacity=".03"
-                    d="M4.032 4.144Q4 4.317 4 4.5v15.13a1 1 0 0 0 1.555.831l6.167-4.12a.5.5 0 0 1 .41-.066l-.427-.198a1.49 1.49 0 0 0-1.377.063c-.581.339-1.45.85-2.25 1.339-.59.359-1.427.695-2.187.962-.929.325-1.86-.387-1.86-1.37zm8.251 12.202 6.162 4.115A1 1 0 0 0 20 19.63V4.5a2 2 0 0 0-1.123-1.798c.21.254.334.58.33.936a117 117 0 0 1-.896 13.408c-.124.99-1.17 1.553-2.076 1.133z"
-                ></path>
-            </symbol>
+            <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M23.0484 7.84003C23.6014 7.38666 24.3975 7.38666 24.9504 7.84001L41.051 21.04C41.5411 21.4418 41.7258 22.1082 41.5125 22.705C41.2991 23.3017 40.7338 23.7 40.1 23.7H37.769L36.5769 36.7278C36.4592 38.0149 35.3798 39 34.0873 39H13.9127C12.6202 39 11.5409 38.0149 11.4231 36.7278L10.231 23.7H7.89943C7.2657 23.7 6.70035 23.3017 6.487 22.705C6.27364 22.1083 6.45833 21.4418 6.9484 21.04L23.0484 7.84003ZM23.9995 10.9397L12.0948 20.7H12.969L14.369 36H22.4994V28.3138C22.4994 27.7616 22.9471 27.3138 23.4994 27.3138H24.4994C25.0517 27.3138 25.4994 27.7616 25.4994 28.3138V36H33.631L35.031 20.7H35.9045L23.9995 10.9397Z"
+            ></path>
         </svg>
     );
 };

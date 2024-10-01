@@ -3,7 +3,6 @@ import styles from './Sidebar.module.scss';
 import Menu, { MenuItem } from '~/layouts/components/Sidebar/Menu';
 import config from '~/config';
 import {
-    HomeIcon,
     ActiveHomeIcon,
     ExploreIcon,
     ActiveExploreIcon,
@@ -13,6 +12,10 @@ import {
     ActiveLiveIcon,
     ActiveUserIcon,
     PersonIcon,
+    HomeIcon,
+    FollowingIcon,
+    FollowingActiveIcon,
+    MessageIcon,
 } from '~/components/Icons';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
 import Button from '~/components/Button';
@@ -47,13 +50,27 @@ const Sidebar = () => {
                     icon={<ExploreIcon />}
                     activeIcon={<ActiveExploreIcon />}
                 />
+
                 <MenuItem
                     title="Following"
                     to={config.routers.following}
+                    icon={<FollowingActiveIcon className={cx('mr-icon')} />}
+                    activeIcon={<FollowingIcon className={cx('mr-icon')} />}
+                />
+                <MenuItem
+                    title="Friends"
+                    to={config.routers.friend}
                     icon={<UserGroupIcon />}
                     activeIcon={<ActiveUserGroupIcon />}
                 />
+
                 <MenuItem title="LIVE" to={config.routers.live} icon={<LiveIcon />} activeIcon={<ActiveLiveIcon />} />
+                <MenuItem
+                    title="Messages"
+                    to={config.routers.message}
+                    icon={<MessageIcon className={cx('mr-icon-two')} />}
+                    activeIcon={<MessageIcon className={cx('mr-icon-two')} />}
+                />
                 {token ? (
                     <MenuItem
                         title="Profile"
@@ -73,32 +90,35 @@ const Sidebar = () => {
                     </Button>
                 )}
             </Menu>
-            {token ? (
-                <SuggestedAccounts label="Suggested Accounts" />
-            ) : (
-                <>
+            <>
+                {token ? (
+                    <div className={cx('box-label-footer')}>
+                        <span className={cx('label-top')}>Following accounts</span>
+                        <span className={cx('label-bottom')}>Accounts you follow will appear here</span>
+                    </div>
+                ) : (
                     <div className={cx('body-sideBar')}>
                         <p className={cx('label')}>Log in to follow creators, like videos, and view comments.</p>
                         <Button outline large className={cx('login-bt')} onClick={handleLogin}>
                             Log in
                         </Button>
                     </div>
-                    <div className={cx('footer-sideBar')}>
-                        <div className={cx('btn-coins')}>
-                            <img src={images.aTopTop} alt="a" className={cx('img-coins')} />
-                            <div className={cx('box-label')}>
-                                <div className={cx('label')}>
-                                    <h4>Create TikTok effects, get a reward</h4>
-                                </div>
+                )}
+                <div className={cx('footer-sideBar')}>
+                    <div className={cx('btn-coins')}>
+                        <img src={images.aTopTop} alt="a" className={cx('img-coins')} />
+                        <div className={cx('box-label')}>
+                            <div className={cx('label')}>
+                                <h4>Create TikTok effects, get a reward</h4>
                             </div>
                         </div>
-                        <h4 className={cx('title')}>Company</h4>
-                        <h4 className={cx('title')}>Program</h4>
-                        <h4 className={cx('title')}>Terms & Policies</h4>
-                        <span className={cx('tik-tok')}>© 2024 TikTok</span>
                     </div>
-                </>
-            )}
+                    <h4 className={cx('title')}>Company</h4>
+                    <h4 className={cx('title')}>Program</h4>
+                    <h4 className={cx('title')}>Terms & Policies</h4>
+                    <span className={cx('tik-tok')}>© 2024 TikTok</span>
+                </div>
+            </>
         </aside>
     );
 };

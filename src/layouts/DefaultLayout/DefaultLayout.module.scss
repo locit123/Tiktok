@@ -12,11 +12,12 @@
     margin-top: var(--default-layout-header-height);
 }
 .sideBar{
-    height: 100vh;
     overflow-y: auto;
+    height: 700px;
 }
 .content{
     flex: 1;
-    height: 100vh;
+    height: 700px;
     overflow-y: auto;
+    bottom: 20px;
 }
