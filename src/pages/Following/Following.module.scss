@@ -2,7 +2,18 @@
     padding: 16px;
 }
 
+.wrapper-item {
+    width: 736px;
+    max-width: 736px;
+    flex-wrap: wrap;
+    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    justify-content: center;
+    gap: 19px;
 
+}
 .icon-spinner {
     animation: spinner 2s linear infinite;
 }

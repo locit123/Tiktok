@@ -3,21 +3,40 @@ import { Helmet } from 'react-helmet';
 import * as VideoService from '~/services/VideoService';
 import classNames from 'classnames/bind';
 import styles from './Following.module.scss';
-import VideoObService from '~/components/Videos/ObService';
+import { ObService } from '~/components/Videos';
+import BoxItem from '~/components/Box';
+import * as UsersService from '~/services/UsersService';
+
 import * as FollowService from '~/services/FollowService';
 
 const cx = classNames.bind(styles);
 const Following = () => {
     const [listVideoFollowings, setListVideoFollowings] = useState([]);
     const [linkPage, setLinkPage] = useState('');
-    console.log(listVideoFollowings, linkPage);
+    const [listUsersSuggested, setListUsersSuggested] = useState([]);
+    const [visibleVideoId, setVisibleVideoId] = useState(null);
 
+    console.log(linkPage);
+    //get api follow
     useEffect(() => {
         getApiVideoFollowing();
     }, []);
 
     const getApiVideoFollowing = async () => {
         await VideoService.getVideoList('following', 1, setListVideoFollowings, setLinkPage);
+    };
+
+    //get api suggest
+    useEffect(() => {
+        getApiUsers();
+    }, []);
+
+    const getApiUsers = async () => {
+        await UsersService.getSuggestedUsersList(setListUsersSuggested);
+    };
+
+    const handleMouseEnter = (id) => {
+        setVisibleVideoId(id);
     };
 
     const handleClickFollow = async (id, follow) => {
@@ -38,7 +57,7 @@ const Following = () => {
                 {listVideoFollowings && listVideoFollowings.length > 0 ? (
                     listVideoFollowings.map((follow, index) => {
                         return (
-                            <VideoObService
+                            <ObService
                                 src={follow.file_url}
                                 key={index}
                                 data={follow}
@@ -57,7 +76,30 @@ const Following = () => {
                         );
                     })
                 ) : (
-                    <VideoObService />
+                    <div className={cx('wrapper-item')}>
+                        {listUsersSuggested && listUsersSuggested.length > 0 ? (
+                            listUsersSuggested.map((item, index) => {
+                                return (
+                                    <div
+                                        className={cx('items')}
+                                        key={index}
+                                        onMouseEnter={() => handleMouseEnter(item.id)}
+                                    >
+                                        <BoxItem
+                                            src={item.popular_video.file_url}
+                                            avatar={item.avatar}
+                                            labelUsername={`${item.first_name}${item.last_name}`}
+                                            labelNickname={item.nickname}
+                                            isCheck={item.tick}
+                                            visible={visibleVideoId === item.id}
+                                        />
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <BoxItem hiddenAvatar />
+                        )}
+                    </div>
                 )}
             </div>
         </div>

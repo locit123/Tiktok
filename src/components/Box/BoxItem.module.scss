@@ -10,15 +10,13 @@
 .wrapper-item {
     width: 736px;
     max-width: 736px;
-
     flex-wrap: wrap;
     display: flex;
+    justify-content: start;
     padding-top: 20px;
     padding-bottom: 20px;
     margin: 0 auto;
-    justify-content: center;
     gap: 19px;
-
 }
 
 .video {
@@ -92,4 +90,12 @@
 //NONE
 .hiddenAvatar {
     visibility: hidden;
+}
+
+.loading-ne{
+    color: red;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }

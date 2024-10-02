@@ -17,7 +17,6 @@ import {
     FollowingActiveIcon,
     MessageIcon,
 } from '~/components/Icons';
-import SuggestedAccounts from '~/components/SuggestedAccounts';
 import Button from '~/components/Button';
 import images from '~/assets/images';
 import { useContext } from 'react';

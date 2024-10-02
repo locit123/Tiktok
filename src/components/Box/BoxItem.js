@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './BoxItem.module.scss';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { TickIcon } from '../Icons';
 import Button from '../Button';
 const cx = classNames.bind(styles);
@@ -10,13 +10,13 @@ const BoxItem = ({ type, visible, src, avatar, labelUsername, labelNickname, isC
     useEffect(() => {
         let currentRef = videoRef.current;
         if (currentRef && visible) {
-            currentRef.play();
-        } else {
+            currentRef.play().catch((e) => console.log('error', e));
+        } else if (currentRef.paused) {
             currentRef.currentTime = 0;
             currentRef.pause();
         }
         return () => {
-            if (currentRef && visible) {
+            if (currentRef) {
                 currentRef.pause();
             }
         };
@@ -42,4 +42,4 @@ const BoxItem = ({ type, visible, src, avatar, labelUsername, labelNickname, isC
     );
 };
 
-export default BoxItem;
+export default React.memo(BoxItem);

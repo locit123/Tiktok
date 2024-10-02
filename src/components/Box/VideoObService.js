@@ -1,26 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import BoxItem from './BoxItem';
 import classNames from 'classnames/bind';
 import styles from './BoxItem.module.scss';
 import * as UsersService from '~/services/UsersService';
 const cx = classNames.bind(styles);
-const VideoObService = () => {
-    const [listUsersSuggested, setListUsersSuggested] = useState([]);
+const VideoObService = ({ indexPage, listUsersSuggested, setListUsersSuggested }) => {
     const [visibleVideoId, setVisibleVideoId] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const divRef = useRef();
+    const getApiUsers = useCallback(async () => {
+        await UsersService.getSuggestedUsersList(indexPage, setListUsersSuggested, setLoading);
+    }, [setListUsersSuggested, indexPage]);
 
     useEffect(() => {
         getApiUsers();
-    }, []);
-
-    const getApiUsers = async () => {
-        await UsersService.getSuggestedUsersList(setListUsersSuggested);
-    };
+    }, [getApiUsers]);
 
     const handleMouseEnter = (id) => {
         setVisibleVideoId(id);
     };
     return (
-        <div className={cx('wrapper-item')}>
+        <div className={cx('wrapper-item')} ref={divRef}>
             {listUsersSuggested && listUsersSuggested.length > 0 ? (
                 listUsersSuggested.map((item, index) => {
                     return (
@@ -39,8 +39,9 @@ const VideoObService = () => {
             ) : (
                 <BoxItem hiddenAvatar />
             )}
+            {loading && <div className={cx('loading-ne')}>Loading...</div>}
         </div>
     );
 };
 
-export default VideoObService;
+export default React.memo(VideoObService);
