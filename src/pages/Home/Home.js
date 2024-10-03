@@ -9,29 +9,13 @@ import * as FollowService from '~/services/FollowService';
 const cx = classNames.bind(styles);
 const Home = () => {
     const [listVideos, setListVideos] = useState([]);
-    const [linkPage, setLinkPage] = useState('');
-    console.log(linkPage);
-
     useEffect(() => {
         getApiVideo();
     }, []);
 
     const getApiVideo = async () => {
-        await getVideoList('for-you', '1', setListVideos, setLinkPage);
+        await getVideoList('for-you', '1', setListVideos);
     };
-
-    useEffect(() => {
-        const handleScrollVideo = () => {
-            if (window.innerHeight && window.scrollY >= document.body.offsetHeight) {
-                getApiVideo();
-            }
-        };
-        window.addEventListener('scroll', handleScrollVideo);
-
-        return () => {
-            window.removeEventListener('scroll', handleScrollVideo);
-        };
-    }, []);
 
     const handleClickFollow = async (id, follow) => {
         console.log(follow);
@@ -41,6 +25,7 @@ const Home = () => {
             await FollowService.UnFollow(id, getApiVideo);
         }
     };
+
     return (
         <div>
             <Helmet>
@@ -54,25 +39,15 @@ const Home = () => {
                     listVideos.map((video, index) => {
                         return (
                             <VideoObService
-                                src={video.file_url}
+                                className={cx('video-item')}
                                 key={index}
                                 data={video}
-                                avatar={video.user.avatar}
-                                labelFavorite={video.likes_count}
-                                labelComment={video.comments_count}
-                                labelShare={video.shares_count}
-                                labelBookMark={video.views_count}
-                                isCheckIcon={video.user.is_followed}
-                                type={video.meta.mime_type}
-                                nickname={video.user.nickname}
-                                description={video.description}
-                                nameMusic={video.music}
                                 onClick={() => handleClickFollow(video.user_id, video.user.is_followed)}
                             />
                         );
                     })
                 ) : (
-                    <VideoObService />
+                    <div>No videos</div>
                 )}
             </div>
         </div>

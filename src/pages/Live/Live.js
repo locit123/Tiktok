@@ -1,12 +1,7 @@
 import React from 'react';
-import VideoObService from '~/components/Videos/ObService';
 
 const Live = () => {
-    return (
-        <div>
-            <VideoObService />
-        </div>
-    );
+    return <div>live</div>;
 };
 
 export default Live;

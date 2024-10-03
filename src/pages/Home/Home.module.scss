@@ -1,7 +1,12 @@
 .wrapper{
-    padding: 16px;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    height: 700px;
 }
 
+.video-item {
+    scroll-snap-align: start;
+}
 
 .icon-spinner {
     animation: spinner 2s linear infinite;

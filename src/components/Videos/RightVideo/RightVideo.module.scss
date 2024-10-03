@@ -1,0 +1,103 @@
+.box-video {
+    gap: 15px;
+    display: flex;
+    margin-left: 10px;
+}
+
+.box-right {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: end;
+}
+
+.box-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.icon-top {
+    margin-bottom: 5px;
+
+}
+
+.icon-plus {
+    position: absolute;
+    bottom: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
+    background-color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    cursor: pointer;
+}
+
+.icon {
+    width: 48px;
+    height: 48px;
+    margin-top: 8px;
+    margin-bottom: 6px;
+    background-color: rgba(22, 24, 35, 0.06);
+    border-radius: 48px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+    object-fit: cover;
+}
+
+.label {
+    font-size: 1.2rem;
+    color: rgba(22, 24, 35, 0.75);
+    line-height: 16px;
+
+}
+
+//
+.box-footer {
+    font-size: 1.4rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: var(--white);
+    padding: 0 12px 16px 12px;
+    display: flex;
+    align-items: center;
+}
+
+.box-footer-right {
+    flex: 1;
+}
+
+
+.label-footer {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 280px;
+}
+
+.box-footer-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.more {
+    width: 45px;
+    line-height: 21px;
+
+}
