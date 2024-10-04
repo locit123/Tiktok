@@ -9,6 +9,9 @@ import * as FollowService from '~/services/FollowService';
 const cx = classNames.bind(styles);
 const Home = () => {
     const [listVideos, setListVideos] = useState([]);
+    const [isMuted, setIsMuted] = useState(true);
+    const [volume, setVolume] = useState(0);
+
     useEffect(() => {
         getApiVideo();
     }, []);
@@ -43,6 +46,10 @@ const Home = () => {
                                 key={index}
                                 data={video}
                                 onClick={() => handleClickFollow(video.user_id, video.user.is_followed)}
+                                isMuted={isMuted}
+                                setIsMuted={setIsMuted}
+                                volume={volume}
+                                setVolume={setVolume}
                             />
                         );
                     })

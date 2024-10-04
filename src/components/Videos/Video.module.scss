@@ -4,6 +4,7 @@
     border-radius: 15px;
     width: 100%;
     height: 646.400px;
+    position: relative;
     
 }
 
@@ -33,4 +34,100 @@
     
 }
 
+//custom btn
+.wrapper-custom{
+}
+.btn-play{
+    position: absolute;
+    background-color: transparent;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+}
+.box-icon{
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 50px;
+    background-color: black;
+    visibility: hidden;
+}
 
+.timeOutPlay{
+    visibility: visible;
+    animation: visible .9s ease-in-out;
+}
+
+@keyframes visible {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.icon{
+    width: 40px;
+    height: 40px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.volume{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: transparent;
+    padding-left: 15px;
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.btn-mute{
+    background-color: transparent;
+    display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+.ip-volume{}
+
+
+.box-muted{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right:  0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+.icon-sound{
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 50px;
+    background-color: black;
+    font-weight: 900;
+}
+
+.mutedVisible{
+    visibility: visible;
+}

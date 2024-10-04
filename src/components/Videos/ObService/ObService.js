@@ -5,7 +5,7 @@ import RightVideo from '../RightVideo';
 import Video from '../Video';
 
 const cx = classNames.bind(styles);
-const VideoObService = ({ data, onClick, className }) => {
+const VideoObService = ({ data, onClick, className, isMuted, setIsMuted, volume, setVolume }) => {
     const [visible, setVisible] = useState(false);
     let divRef = useRef(null);
 
@@ -33,7 +33,15 @@ const VideoObService = ({ data, onClick, className }) => {
     return (
         <div className={classes}>
             <div className={cx('video')} ref={divRef}>
-                <Video src={data.file_url} type={data.type} visible={visible} />
+                <Video
+                    src={data.file_url}
+                    type={data.type}
+                    visible={visible}
+                    isMuted={isMuted}
+                    setIsMuted={setIsMuted}
+                    volume={volume}
+                    setVolume={setVolume}
+                />
             </div>
             <RightVideo
                 avatar={data.user.avatar}
