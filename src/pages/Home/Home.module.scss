@@ -1,7 +1,10 @@
+.wrapper-children{
+    display: flex;
+}
 .wrapper{
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
-    height: 700px;
+    height: calc(100vh - 60px);
 }
 
 .video-item {

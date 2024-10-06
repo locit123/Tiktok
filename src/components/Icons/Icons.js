@@ -1086,7 +1086,7 @@ export const TridentHorizontal = ({ className, width = '2.4rem', height = '2.4re
     );
 };
 
-export const FloatingPlayer = forwardRef(({ className, width = '2.1rem', height = '2.1rem' }, ref) => {
+export const FloatingPlayerIcon = forwardRef(({ className, width = '2.1rem', height = '2.1rem' }, ref) => {
     return (
         <svg
             ref={ref}
@@ -1105,6 +1105,23 @@ export const FloatingPlayer = forwardRef(({ className, width = '2.1rem', height 
     );
 });
 
+export const FloatingPlayerIconSoil = forwardRef((className, width = '3.6rem', height = '3.6rem') => {
+    return (
+        <svg
+            width={width}
+            className={className}
+            height={height}
+            fill="currentColor"
+            class="css-1o86hdz-IconPIPReturn e1m0najn2"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M8.76 6.82C8 8.32 8 10.28 8 14.2v19.6c0 3.92 0 5.88.76 7.38a7 7 0 0 0 3.06 3.06c1.5.76 3.46.76 7.38.76h6.09a7 7 0 0 1-.29-2V29a7 7 0 0 1 7-7h7v-7.8c0-3.92 0-5.88-.76-7.38a7 7 0 0 0-3.06-3.06C33.68 3 31.72 3 27.8 3h-8.6c-3.92 0-5.88 0-7.38.76a7 7 0 0 0-3.06 3.06Zm5.29 2.45.03-.04c.4-.41.6-.62.83-.7a1 1 0 0 1 .63 0c.24.08.44.29.84.7l4.16 4.3 2.22-2.3a.58.58 0 0 1 1 .34L25 19.53a.81.81 0 0 1-.9.94l-7.72-1.3c-.47-.07-.66-.66-.32-1.02l2.22-2.29-4.23-4.37c-.38-.39-.57-.58-.64-.8a1 1 0 0 1 0-.61c.07-.23.26-.42.64-.81Z"></path>
+            <path d="M29 43a2.99 2.99 0 0 0 1.64 2.67c.64.33 1.48.33 3.16.33h5.4c1.68 0 2.52 0 3.16-.33a3 3 0 0 0 1.31-1.3c.33-.65.33-1.49.33-3.17V30.8c0-1.68 0-2.52-.33-3.16a3 3 0 0 0-1.3-1.31C41.71 26 40.87 26 39.2 26H32a3 3 0 0 0-3 3v14Z"></path>
+        </svg>
+    );
+});
+
 export const MusicIcon = ({ className, width = '1.4rem', height = '1.4rem' }) => {
     return (
         <svg
@@ -1118,6 +1135,40 @@ export const MusicIcon = ({ className, width = '1.4rem', height = '1.4rem' }) =>
                 <path d="M35 10.76a1 1 0 0 0-1.22-.98l-15.99 3.64a1 1 0 0 0-.78.97V38c.03 2.17-2.2 4.43-5.4 5.28-3.56.96-6.96-.2-7.6-2.57-.63-2.37 1.74-5.07 5.3-6.02a9.2 9.2 0 0 1 3.7-.25V14.39a5 5 0 0 1 3.9-4.87l15.98-3.64A5 5 0 0 1 39 10.76v22.36c.08 2.2-2.17 4.5-5.4 5.36-3.56.95-6.96-.2-7.6-2.57-.63-2.38 1.74-5.08 5.3-6.03a9.2 9.2 0 0 1 3.7-.25z"></path>
             </symbol>
             <use xlinkHref="#Music_Note-6c3c6885"></use>
+        </svg>
+    );
+};
+//Comment
+export const ExistIcon = ({ className, width = '2.8rem', height = '2.8rem' }) => {
+    return (
+        <svg
+            width={width}
+            className={className}
+            height={height}
+            fill="currentColor"
+            color="inherit"
+            font-size="inherit"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M33.2 36.02a1 1 0 0 0 1.4 0l1.42-1.42a1 1 0 0 0 0-1.4l-9.2-9.2 9.2-9.2a1 1 0 0 0 0-1.4l-1.41-1.42a1 1 0 0 0-1.42 0L24 21.17l-9.2-9.2a1 1 0 0 0-1.4 0l-1.42 1.42a1 1 0 0 0 0 1.42l9.2 9.19-9.2 9.2a1 1 0 0 0 0 1.4l1.41 1.42a1 1 0 0 0 1.42 0l9.19-9.2 9.2 9.2Z"></path>
+        </svg>
+    );
+};
+
+export const FavoriteNoneSoilIcon = ({ className, width = '2.4rem', height = '2.4rem' }) => {
+    return (
+        <svg
+            fill="currentColor"
+            color="var(--ui-text-3)"
+            font-size="24"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            className={className}
+            height={height}
+        >
+            <path d="M24 12.62c3.91-4.08 9.84-4.1 13.6-.42a9.48 9.48 0 0 1 0 13.63L25.06 38.07a1.5 1.5 0 0 1-2.1 0L10.4 25.83a9.48 9.48 0 0 1 0-13.63c3.77-3.68 9.7-3.66 13.61.42Zm-1.9 2.36c-2.8-3.2-6.99-3.2-9.61-.63a6.48 6.48 0 0 0 0 9.33L24 34.91l11.51-11.23a6.48 6.48 0 0 0 0-9.33c-2.62-2.56-6.8-2.56-9.6.63l-.05.05-.81.8a1.5 1.5 0 0 1-2.1 0l-.81-.8-.04-.05Z"></path>
         </svg>
     );
 };

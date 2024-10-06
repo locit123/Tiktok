@@ -1,0 +1,52 @@
+.wrapper{
+    width: 500px;
+    height: calc(100vh - 60px);
+    margin-left: 6px;
+    position: relative;
+    right: -100vw;
+    transition: right 0.2s ease;
+    max-width: 50rem;
+    min-width: 18rem;
+    padding: 0.75rem;
+    box-shadow: rgba(0, 0, 0, 0.12) -1px 0px 1px;
+}
+
+.isShowComment{
+    right: 0;
+}
+
+
+.box-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.box-header-left{
+    display: flex;
+    line-height: 24px;
+    gap: .25rem;
+}
+.label{
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+.label2{
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+.exist{
+    &:hover{
+        color: var(--primary);
+        cursor: pointer;
+    }
+}
+
+//scroll
+.wrapper-scroll{
+
+    padding-top: 24px;
+    height: 548px;
+    overflow-y: scroll;
+
+}

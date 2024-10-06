@@ -1,0 +1,71 @@
+.box-footer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.box-footer-right {
+    color: var(--text-color);
+}
+
+.name {
+    font-size: 1.4rem;
+    font-weight: 500;
+    list-style: 16px;
+}
+
+.comment {
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 24px;
+
+}
+
+.box-footer-in {
+    font-size: 1.4rem;
+    color: rgba(0, 0, 0, 0.48);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.time {}
+
+.box-footer-favorite {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.total-favorite {}
+
+.text-reply {}
+
+.box-footer-bottom {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    line-height: 21px;
+    color: rgba(0, 0, 0, 0.48);
+    margin-top: 20px;
+}
+
+.line {
+    width: 32px;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.48);
+
+}
+
+.view {
+    font-size: 1.4rem;
+    font-weight: 500;
+}

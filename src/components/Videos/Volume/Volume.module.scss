@@ -1,0 +1,75 @@
+.wrapper{
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+    
+}
+
+.volume {
+    --width-height-btn-range: 12px;
+    --border-radius-range: 50%;
+    --color-range: #ddd;
+    z-index: 10;
+    display: flex;
+    
+}
+
+.btn-mute {
+    background-color: transparent;
+    cursor: pointer;
+    padding-right: 8px;
+
+   
+}
+.box-ip {
+    width: 70px;
+    height: 28px;
+    border-radius: 25px;
+    padding: 0 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ip-volume {
+    max-width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px;
+    background-color: var(--color-range);
+    border-radius: 4px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: var(--width-height-btn-range);
+    height: var(--width-height-btn-range);
+    border-radius: var(--border-radius-range);
+    background: var(--color-range);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: var(--width-height-btn-range);
+    height: var(--width-height-btn-range);
+    border-radius: var(--border-radius-range);
+    background: var(--color-range);
+    cursor: pointer;
+}
+

@@ -5,8 +5,9 @@ import RightVideo from '../RightVideo';
 import Video from '../Video';
 
 const cx = classNames.bind(styles);
-const VideoObService = ({ data, onClick, className, isMuted, setIsMuted, volume, setVolume }) => {
+const VideoObService = ({ data, onClick, className, isMuted, setIsMuted, volume, setVolume, handleClickComment }) => {
     const [visible, setVisible] = useState(false);
+
     let divRef = useRef(null);
 
     useEffect(() => {
@@ -22,36 +23,43 @@ const VideoObService = ({ data, onClick, className, isMuted, setIsMuted, volume,
         );
 
         let currentRef = divRef.current;
-        observer.observe(currentRef);
-        return () => {
-            if (currentRef) {
-                observer.unobserve(currentRef);
-            }
-        };
-    }, [data]);
+        if (currentRef) observer.observe(currentRef);
+        return () => currentRef && observer.unobserve(currentRef);
+    }, [data, setVisible]);
+
     const classes = cx('wrapper', { [className]: className });
     return (
         <div className={classes}>
-            <div className={cx('video')} ref={divRef}>
-                <Video
-                    src={data.file_url}
-                    type={data.type}
-                    visible={visible}
-                    isMuted={isMuted}
-                    setIsMuted={setIsMuted}
-                    volume={volume}
-                    setVolume={setVolume}
-                />
-            </div>
-            <RightVideo
-                avatar={data.user.avatar}
-                isCheckIcon={data.user.is_followed}
-                labelBookMark={data.views_count}
-                labelComment={data.comments_count}
-                labelFavorite={data.likes_count}
-                labelShare={data.shares_count}
-                onClick={onClick}
-            />
+            {data && (
+                <>
+                    <div className={cx('video')} ref={divRef}>
+                        <Video
+                            src={data.file_url}
+                            type={data.type}
+                            file_img={data.thumb_url}
+                            visible={visible}
+                            isMuted={isMuted}
+                            setIsMuted={setIsMuted}
+                            volume={volume}
+                            setVolume={setVolume}
+                            setVisible={setVisible}
+                            nickName={data.user.nickname}
+                            description={data.description}
+                            music={data.music}
+                        />
+                    </div>
+                    <RightVideo
+                        avatar={data.user.avatar}
+                        isCheckIcon={data.user.is_followed}
+                        labelBookMark={data.views_count}
+                        labelComment={data.comments_count}
+                        labelFavorite={data.likes_count}
+                        labelShare={data.shares_count}
+                        onClick={onClick}
+                        handleClickComment={handleClickComment}
+                    />
+                </>
+            )}
         </div>
     );
 };

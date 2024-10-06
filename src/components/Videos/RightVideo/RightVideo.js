@@ -2,7 +2,16 @@ import classNames from 'classnames/bind';
 import styles from './RightVideo.module.scss';
 import { BookMarkIcon, CommentIcon, FavoriteIcon, PlusIcon, ShareIconSoil, TickIcon } from '~/components/Icons';
 const cx = classNames.bind(styles);
-const RightVideo = ({ avatar, onClick, isCheckIcon, labelFavorite, labelComment, labelBookMark, labelShare }) => {
+const RightVideo = ({
+    avatar,
+    onClick,
+    isCheckIcon,
+    labelFavorite,
+    labelComment,
+    labelBookMark,
+    labelShare,
+    handleClickComment,
+}) => {
     return (
         <div className={cx('box-video')}>
             <div className={cx('box-right')}>
@@ -20,7 +29,7 @@ const RightVideo = ({ avatar, onClick, isCheckIcon, labelFavorite, labelComment,
                     </span>
                     <strong className={cx('label')}>{labelFavorite}</strong>
                 </div>
-                <div className={cx('box-icon')}>
+                <div className={cx('box-icon')} onClick={handleClickComment}>
                     <span className={cx('icon')}>
                         <CommentIcon />
                     </span>

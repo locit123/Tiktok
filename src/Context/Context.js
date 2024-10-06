@@ -10,6 +10,7 @@ const Context = ({ children }) => {
     const [dataLogin, setDataLogin] = useState([]);
     const [dataCurrentUser, setDataCurrentUser] = useState({});
     const [listFollow, setListFollow] = useState([]);
+    const [isTurnVideo, setIsTurnVideo] = useState(false);
     const handleReload = () => {
         window.location.reload();
     };
@@ -38,6 +39,8 @@ const Context = ({ children }) => {
         handleReload,
         listFollow,
         setListFollow,
+        isTurnVideo,
+        setIsTurnVideo,
     };
 
     return <ContextProvider.Provider value={values}>{children}</ContextProvider.Provider>;

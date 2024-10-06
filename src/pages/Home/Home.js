@@ -6,12 +6,14 @@ import { getVideoList } from '~/services/VideoService';
 import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
 import * as FollowService from '~/services/FollowService';
+import Comment from '~/components/Videos/RightVideo/Comment';
 const cx = classNames.bind(styles);
 const Home = () => {
     const [listVideos, setListVideos] = useState([]);
     const [isMuted, setIsMuted] = useState(true);
     const [volume, setVolume] = useState(0);
-
+    const [isShowComment, setIsShowComment] = useState(false);
+    const [idVideo, setIdVideo] = useState('');
     useEffect(() => {
         getApiVideo();
     }, []);
@@ -21,16 +23,24 @@ const Home = () => {
     };
 
     const handleClickFollow = async (id, follow) => {
-        console.log(follow);
         if (follow === false) {
             await FollowService.FollowAUser(id, getApiVideo);
         } else {
             await FollowService.UnFollow(id, getApiVideo);
         }
     };
-
+    const handleClickComment = (id) => {
+        setIsShowComment((prev) => {
+            if (prev) {
+                setIdVideo('');
+                return false;
+            }
+            setIdVideo(id);
+            return true;
+        });
+    };
     return (
-        <div>
+        <div className={cx('wrapper-children')}>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>Watch trending videos for you | TikTok</title>
@@ -50,6 +60,7 @@ const Home = () => {
                                 setIsMuted={setIsMuted}
                                 volume={volume}
                                 setVolume={setVolume}
+                                handleClickComment={() => handleClickComment(video.id)}
                             />
                         );
                     })
@@ -57,6 +68,9 @@ const Home = () => {
                     <div>No videos</div>
                 )}
             </div>
+            {isShowComment && (
+                <Comment isShowComment={isShowComment} setIsShowComment={setIsShowComment} idVideo={idVideo} />
+            )}
         </div>
     );
 };
