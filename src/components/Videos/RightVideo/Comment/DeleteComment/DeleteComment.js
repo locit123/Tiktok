@@ -5,7 +5,7 @@ import styles from './DeleteComment.module.scss';
 
 const cx = classNames.bind(styles);
 
-const DeleteComment = ({ visible, handleClickOutSide, idUser, handleClickToggle, handleClickDelete }) => {
+const DeleteComment = ({ visible, handleClickOutSide, idUser, handleClickToggle, handleClickDelete, setVisible }) => {
     return (
         <div className={cx('box-hover')}>
             <Tippy
@@ -18,22 +18,23 @@ const DeleteComment = ({ visible, handleClickOutSide, idUser, handleClickToggle,
                 animation="fade"
                 hideOnClick
                 onClickOutside={handleClickOutSide}
-                render={() =>
-                    visible && (
-                        <div className={cx('box-content-tippy')}>
-                            {idUser === 6947 ? (
-                                <div className={cx('box-delete')} onClick={handleClickDelete}>
-                                    <DeleteIcon />
-                                    <span>Delete</span>
-                                </div>
-                            ) : (
-                                <>
-                                    <ReportIcon /> <span>Report</span>
-                                </>
-                            )}
-                        </div>
-                    )
-                }
+                onHide={() => {
+                    setVisible(false);
+                }}
+                render={(attrs) => (
+                    <div className={cx('box-content-tippy')} {...attrs}>
+                        {visible && idUser === 6947 ? (
+                            <div className={cx('box-delete')} onClick={handleClickDelete}>
+                                <DeleteIcon />
+                                <span>Delete</span>
+                            </div>
+                        ) : (
+                            <>
+                                <ReportIcon /> <span>Report</span>
+                            </>
+                        )}
+                    </div>
+                )}
             >
                 <div onClick={handleClickToggle}>
                     <TridentHorizontal className={cx('icon')} />

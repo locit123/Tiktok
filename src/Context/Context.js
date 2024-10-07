@@ -11,6 +11,7 @@ const Context = ({ children }) => {
     const [dataCurrentUser, setDataCurrentUser] = useState({});
     const [listFollow, setListFollow] = useState([]);
     const [isTurnVideo, setIsTurnVideo] = useState(false);
+
     const handleReload = () => {
         window.location.reload();
     };

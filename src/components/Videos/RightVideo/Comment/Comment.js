@@ -19,7 +19,9 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
     const [visible, setVisible] = useState(false);
 
     const getApiComment = useCallback(async () => {
-        await CommentService.getListComments(idVideo, setListComments);
+        if (idVideo) {
+            await CommentService.getListComments(idVideo, setListComments);
+        }
     }, [idVideo]);
     useEffect(() => {
         getApiComment();
@@ -87,6 +89,7 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
                               handleClickToggle={handleClickToggle}
                               handleClickOutSide={handleClickOutSide}
                               visible={visible}
+                              setVisible={setVisible}
                           />
                       ))
                     : 'No Comment'}

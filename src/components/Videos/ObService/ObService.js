@@ -5,18 +5,26 @@ import RightVideo from '../RightVideo';
 import Video from '../Video';
 
 const cx = classNames.bind(styles);
-const VideoObService = ({ data, onClick, className, isMuted, setIsMuted, volume, setVolume, handleClickComment }) => {
-    const [visible, setVisible] = useState(false);
-
+const VideoObService = ({
+    data,
+    onClick,
+    className,
+    isMuted,
+    setIsMuted,
+    volume,
+    setVolume,
+    handleClickComment,
+    setIdVideo,
+}) => {
+    const [visibleVideo, setVisibleVideo] = useState(false);
     let divRef = useRef(null);
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (data) {
-                    setVisible(entry.isIntersecting);
-                } else {
-                    setVisible(false);
+                let isVisible = entry.isIntersecting;
+                setVisibleVideo(isVisible);
+                if (isVisible && data) {
+                    setIdVideo(data.id);
                 }
             },
             { threshold: 0.5 },
@@ -25,7 +33,7 @@ const VideoObService = ({ data, onClick, className, isMuted, setIsMuted, volume,
         let currentRef = divRef.current;
         if (currentRef) observer.observe(currentRef);
         return () => currentRef && observer.unobserve(currentRef);
-    }, [data, setVisible]);
+    }, [data, setVisibleVideo, setIdVideo]);
 
     const classes = cx('wrapper', { [className]: className });
     return (
@@ -37,15 +45,14 @@ const VideoObService = ({ data, onClick, className, isMuted, setIsMuted, volume,
                             src={data.file_url}
                             type={data.type}
                             file_img={data.thumb_url}
-                            visible={visible}
                             isMuted={isMuted}
                             setIsMuted={setIsMuted}
                             volume={volume}
                             setVolume={setVolume}
-                            setVisible={setVisible}
                             nickName={data.user.nickname}
                             description={data.description}
                             music={data.music}
+                            visibleVideo={visibleVideo}
                         />
                     </div>
                     <RightVideo

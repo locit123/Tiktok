@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import Image from '~/components/Image';
 import classNames from 'classnames/bind';
 import styles from './LoadComment.module.scss';
 import { ArrowIcon, FavoriteNoneSoilIcon } from '~/components/Icons';
 import DeleteComment from '../DeleteComment';
+import React from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +23,7 @@ const LoadComment = ({
     handleClickToggle,
     handleClickOutSide,
     visible,
+    setVisible,
 }) => {
     return (
         <div className={cx('box-footer')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -38,6 +39,7 @@ const LoadComment = ({
                         visible={visible}
                         idComment={idComment}
                         handleClickDelete={handleClickDelete}
+                        setVisible={setVisible}
                     />
                 )}
                 <span className={cx('comment')}>{comment}</span>

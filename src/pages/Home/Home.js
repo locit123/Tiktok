@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import VideoObService from '~/components/Videos/ObService';
@@ -15,6 +15,8 @@ const Home = () => {
     const [isShowComment, setIsShowComment] = useState(false);
     const [idVideo, setIdVideo] = useState('');
     const [uuidComment, setUuidComment] = useState('');
+    const wrapperRef = useRef(null);
+
     useEffect(() => {
         getApiVideo();
     }, []);
@@ -43,6 +45,8 @@ const Home = () => {
             return true;
         });
     };
+    console.log(idVideo, 'idVideo');
+
     return (
         <div className={cx('wrapper-children')}>
             <Helmet>
@@ -51,7 +55,7 @@ const Home = () => {
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
 
-            <div className={cx('wrapper')}>
+            <div className={cx('wrapper')} ref={wrapperRef}>
                 {listVideos && listVideos.length > 0 ? (
                     listVideos.map((video, index) => {
                         return (
@@ -65,6 +69,7 @@ const Home = () => {
                                 volume={volume}
                                 setVolume={setVolume}
                                 handleClickComment={() => handleClickComment(video.id, video.uuid)}
+                                setIdVideo={setIdVideo}
                             />
                         );
                     })

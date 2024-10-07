@@ -10,7 +10,7 @@ import TextVideo from './TextVideo';
 
 const cx = classNames.bind(styles);
 
-const Video = ({ src, type, visible, isMuted, setIsMuted, volume, setVolume, nickName, description, music }) => {
+const Video = ({ src, type, isMuted, visibleVideo, setIsMuted, volume, setVolume, nickName, description, music }) => {
     const [isRunVideo, setIsRunVideo] = useState(false);
     const [timeOutPlay, setTimeOutPlay] = useState(false);
     const [historyVolume, setHistoryVolume] = useState();
@@ -24,7 +24,7 @@ const Video = ({ src, type, visible, isMuted, setIsMuted, volume, setVolume, nic
 
     const videoRef = useRef(null);
     useEffect(() => {
-        if (visible && videoRef.current) {
+        if (visibleVideo && videoRef.current) {
             const playVideo = async () => {
                 try {
                     await videoRef.current.play();
@@ -43,13 +43,13 @@ const Video = ({ src, type, visible, isMuted, setIsMuted, volume, setVolume, nic
         }
         let currentVideo = videoRef.current;
         return () => {
-            if (!visible) {
+            if (!visibleVideo) {
                 if (currentVideo) {
                     currentVideo.pause();
                 }
             }
         };
-    }, [visible, setIsMuted]);
+    }, [visibleVideo, setIsMuted]);
 
     const handleClickPlay = useCallback(() => {
         if (videoRef.current.paused) {
