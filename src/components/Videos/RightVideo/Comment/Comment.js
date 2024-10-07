@@ -1,14 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Comment.module.scss';
 import { ExistIcon } from '~/components/Icons';
 import LoadComment from './LoadComment';
 import * as CommentService from '~/services/CommentService';
+import { TimeDay } from '~/utils/TimeMoment';
+import PostComment from './PostComment';
+import ModalLast from '~/components/ModalLast';
+import { ContextProvider } from '~/Context';
+import Button from '~/components/Button';
 const cx = classNames.bind(styles);
-const Comment = ({ isShowComment, setIsShowComment, idVideo }) => {
+const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
     const [listComments, setListComments] = useState(false);
-    const [listAvatar, setListAvatar] = useState([]);
-    console.log(listComments, 'listComments');
+    const [idComment, setIdComment] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const { setIsShow } = useContext(ContextProvider);
+    const [id, setId] = useState('');
+    const [visible, setVisible] = useState(false);
 
     const getApiComment = useCallback(async () => {
         await CommentService.getListComments(idVideo, setListComments);
@@ -19,15 +27,34 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo }) => {
     const handleClickExist = () => {
         setIsShowComment(false);
     };
-    const getAvatar = useCallback(async () => {
-        if (listComments && listComments.data.length > 0) {
-            
-        }
-    }, [listComments]);
+    const handleOnMouseEnter = useCallback((id) => {
+        setIdComment(id);
+    }, []);
 
-    useEffect(() => {
-        getAvatar();
-    }, [getAvatar]);
+    const handleOnMouseLeave = useCallback(() => {
+        setIdComment('');
+    }, []);
+
+    const handleClickCancel = () => {
+        setIsOpen(false);
+        setId('');
+    };
+
+    const handleClickDelete = (id) => {
+        setIsOpen(true);
+        setId(id);
+    };
+
+    const handleClickToggle = () => {
+        setVisible(true);
+    };
+
+    const handleClickOutSide = () => {
+        setVisible(false);
+    };
+    const handleClickSubmit = async () => {
+        await CommentService.deleteComment(id, getApiComment, setIsOpen);
+    };
     return (
         <div className={cx('wrapper', { isShowComment })}>
             <div className={cx('box-header')}>
@@ -49,11 +76,33 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo }) => {
                               username={`${comment.user.first_name} ${comment.user.last_name}`}
                               totalFavorite={comment.likes_count}
                               view={10}
-                              time={comment.created_at}
+                              time={TimeDay(comment.created_at)}
+                              src={comment.user.avatar}
+                              onMouseEnter={() => handleOnMouseEnter(comment.id)}
+                              hoverComment={idComment === comment.id}
+                              onMouseLeave={handleOnMouseLeave}
+                              idUser={comment.user.id}
+                              idComment={comment.id}
+                              handleClickDelete={() => handleClickDelete(comment.id)}
+                              handleClickToggle={handleClickToggle}
+                              handleClickOutSide={handleClickOutSide}
+                              visible={visible}
                           />
                       ))
                     : 'No Comment'}
             </div>
+            <PostComment uuidComment={uuidComment} getApiComment={getApiComment} />
+            <ModalLast isOpen={isOpen} closeModal={setIsShow} className={cx('modal-delete')}>
+                <span className={cx('text-modal')}>Are you sure you want to delete this comment?</span>
+                <div className={cx('bt')}>
+                    <Button primary className={cx('de-bt')} onClick={handleClickSubmit}>
+                        Delete
+                    </Button>
+                    <Button className={cx('ca-bt')} outline onClick={handleClickCancel}>
+                        Cancel
+                    </Button>
+                </div>
+            </ModalLast>
         </div>
     );
 };

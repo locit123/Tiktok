@@ -1,0 +1,51 @@
+//Comment
+.box-footer {
+    height: 65.600px;
+    padding-right: 8px;
+    display: flex;
+    align-items: end;
+    gap: 16px;
+}
+
+.box-input {
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+    padding: 0 8px;
+    background-color: rgba(22, 24, 35, 0.06);
+    display: flex;
+    border: 1px solid transparent;
+    align-items: center;
+    gap: 9px;
+    cursor: text;
+
+    &:focus-within  {
+        border: 1px solid rgba(22, 24, 35, 0.2);
+    }
+    
+}
+.box-input:focus-within + .title{
+    color: var(--primary);
+}
+
+
+.input-add {
+    background-color: rgba(22, 24, 35, 0.01);
+    height: 100%;
+    font-size: 1.6rem;
+    line-height: 24px;
+    color: rgba(22, 24, 35, 0.75);
+    max-height: 100%;
+    flex: 1;
+    caret-color: var(--primary);
+    
+    
+}
+
+.title {
+    font-size: 1.4rem;
+    line-height: 39px;
+    color: rgba(22, 24, 35, 0.34);
+    cursor: pointer;
+}
+

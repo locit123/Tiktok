@@ -12,4 +12,25 @@ const getListComments = async (id, setListComments) => {
     }
 };
 
-export { getListComments };
+const postComment = async (idComment, comment, getApiComment) => {
+    try {
+        const res = await axiosInstance.post(`videos/${idComment}/comments`, { comment });
+        if (res && res.data) {
+            getApiComment();
+        }
+    } catch (error) {
+        toast.error(error.message);
+    }
+};
+
+const deleteComment = async (id, getApiComment, setIsOpen) => {
+    try {
+        await axiosInstance.delete(`comments/${id}`);
+        setIsOpen(false);
+        getApiComment();
+    } catch (error) {
+        toast.error(error.message);
+    }
+};
+
+export { getListComments, postComment, deleteComment };

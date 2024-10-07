@@ -14,6 +14,7 @@ const Home = () => {
     const [volume, setVolume] = useState(0);
     const [isShowComment, setIsShowComment] = useState(false);
     const [idVideo, setIdVideo] = useState('');
+    const [uuidComment, setUuidComment] = useState('');
     useEffect(() => {
         getApiVideo();
     }, []);
@@ -29,13 +30,16 @@ const Home = () => {
             await FollowService.UnFollow(id, getApiVideo);
         }
     };
-    const handleClickComment = (id) => {
+
+    const handleClickComment = (id, uuid) => {
         setIsShowComment((prev) => {
             if (prev) {
                 setIdVideo('');
+                setUuidComment('');
                 return false;
             }
             setIdVideo(id);
+            setUuidComment(uuid);
             return true;
         });
     };
@@ -60,7 +64,7 @@ const Home = () => {
                                 setIsMuted={setIsMuted}
                                 volume={volume}
                                 setVolume={setVolume}
-                                handleClickComment={() => handleClickComment(video.id)}
+                                handleClickComment={() => handleClickComment(video.id, video.uuid)}
                             />
                         );
                     })
@@ -69,7 +73,12 @@ const Home = () => {
                 )}
             </div>
             {isShowComment && (
-                <Comment isShowComment={isShowComment} setIsShowComment={setIsShowComment} idVideo={idVideo} />
+                <Comment
+                    isShowComment={isShowComment}
+                    setIsShowComment={setIsShowComment}
+                    idVideo={idVideo}
+                    uuidComment={uuidComment}
+                />
             )}
         </div>
     );

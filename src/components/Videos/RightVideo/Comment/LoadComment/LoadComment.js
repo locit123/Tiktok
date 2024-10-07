@@ -1,16 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from '~/components/Image';
 import classNames from 'classnames/bind';
 import styles from './LoadComment.module.scss';
 import { ArrowIcon, FavoriteNoneSoilIcon } from '~/components/Icons';
+import DeleteComment from '../DeleteComment';
 
 const cx = classNames.bind(styles);
-const LoadComment = ({ src, username, comment, time, totalFavorite, view }) => {
+
+const LoadComment = ({
+    src,
+    username,
+    comment,
+    time,
+    totalFavorite,
+    view,
+    onMouseEnter,
+    hoverComment,
+    onMouseLeave,
+    idUser,
+    idComment,
+    handleClickDelete,
+    handleClickToggle,
+    handleClickOutSide,
+    visible,
+}) => {
     return (
-        <div className={cx('box-footer')}>
+        <div className={cx('box-footer')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
             <Image src={src} alt="a" className={cx('avatar')} />
             <div className={cx('box-footer-right')}>
                 <div className={cx('name')}>{username}</div>
+                {hoverComment && (
+                    <DeleteComment
+                        handleClickOutSide={handleClickOutSide}
+                        handleClickToggle={handleClickToggle}
+                        idUser={idUser}
+                        username={username}
+                        visible={visible}
+                        idComment={idComment}
+                        handleClickDelete={handleClickDelete}
+                    />
+                )}
                 <span className={cx('comment')}>{comment}</span>
                 <div className={cx('box-footer-in')}>
                     <span className={cx('time')}>{time}</span>
@@ -30,4 +59,4 @@ const LoadComment = ({ src, username, comment, time, totalFavorite, view }) => {
     );
 };
 
-export default LoadComment;
+export default React.memo(LoadComment);

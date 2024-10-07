@@ -24,18 +24,22 @@ const Video = ({ src, type, visible, isMuted, setIsMuted, volume, setVolume, nic
 
     const videoRef = useRef(null);
     useEffect(() => {
-        if (visible) {
-            if (videoRef.current) {
-                videoRef.current.currentTime = 0;
-                videoRef.current.play();
-                setIsRunVideo(true);
-                setIsMuted(videoRef.current.muted);
-                setWidthVideo(videoRef.current.videoWidth);
-            }
-        } else {
-            if (videoRef.current) {
-                videoRef.current.pause();
-            }
+        if (visible && videoRef.current) {
+            const playVideo = async () => {
+                try {
+                    await videoRef.current.play();
+                    videoRef.current.currentTime = 0;
+                    setIsRunVideo(true);
+                    setIsMuted(videoRef.current.muted);
+                    setWidthVideo(videoRef.current.videoWidth);
+                } catch (error) {
+                    console.log('loi khi phat video', error);
+                }
+            };
+
+            playVideo();
+        } else if (videoRef.current) {
+            videoRef.current.pause();
         }
         let currentVideo = videoRef.current;
         return () => {

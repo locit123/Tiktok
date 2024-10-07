@@ -4,10 +4,10 @@ import styles from './ModalLast.module.scss';
 
 const cx = classNames.bind(styles);
 
-const ModalLast = ({ children, isOpen, closeModal }) => {
+const ModalLast = ({ children, isOpen, closeModal, className }) => {
     return (
         <Modal
-            className={cx('wrapper')}
+            className={cx('wrapper', { [className]: className })}
             overlayClassName={cx('overlay')}
             isOpen={isOpen}
             onRequestClose={closeModal}

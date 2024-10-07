@@ -19,19 +19,27 @@ const Profile = () => {
             <header className={cx('header')}>
                 <Header />
             </header>
-            <div className={cx('footer')}>
-                <Footer
-                    typeTab={typeTab}
-                    setTypeTab={setTypeTab}
-                    typeButton={typeButton}
-                    setTypeButton={setTypeButton}
-                    typeTabHover={typeTabHover}
-                    setTypeTabHover={setTypeTabHover}
-                    historyTab={historyTab}
-                    setHistoryTab={setHistoryTab}
-                />
-                {historyTab === VID ? <Videos /> : historyTab === FAV ? <Favorites /> : historyTab === LIK && <Likes />}
-            </div>
+            <footer className={cx('scroll-footer')}>
+                <div className={cx('footer')}>
+                    <Footer
+                        typeTab={typeTab}
+                        setTypeTab={setTypeTab}
+                        typeButton={typeButton}
+                        setTypeButton={setTypeButton}
+                        typeTabHover={typeTabHover}
+                        setTypeTabHover={setTypeTabHover}
+                        historyTab={historyTab}
+                        setHistoryTab={setHistoryTab}
+                    />
+                    {historyTab === VID ? (
+                        <Videos />
+                    ) : historyTab === FAV ? (
+                        <Favorites />
+                    ) : (
+                        historyTab === LIK && <Likes />
+                    )}
+                </div>
+            </footer>
         </div>
     );
 };
