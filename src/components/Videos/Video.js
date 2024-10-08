@@ -16,7 +16,7 @@ const Video = ({ src, type, isMuted, visibleVideo, setIsMuted, volume, setVolume
     const [historyVolume, setHistoryVolume] = useState();
     const [mutedVisible, setMutedVisible] = useState(true);
     const [noneMuted, setNoneMuted] = useState(false);
-    const [isMound, setIsMound] = useState(true);
+    const [isMound, setIsMound] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
     const [widthVideo, setWidthVideo] = useState(0);
@@ -24,29 +24,37 @@ const Video = ({ src, type, isMuted, visibleVideo, setIsMuted, volume, setVolume
 
     const videoRef = useRef(null);
     useEffect(() => {
-        if (visibleVideo && videoRef.current) {
-            const playVideo = async () => {
+        const fetchVideo = async () => {
+            if (visibleVideo && videoRef.current) {
                 try {
-                    await videoRef.current.play();
+                    // Tạm dừng bất kỳ phát lại nào đang diễn ra trước khi phát tiếp
+                    if (!videoRef.current.paused) {
+                        await videoRef.current.pause();
+                    }
+                    // Đặt lại thời gian video và phát tiếp
                     videoRef.current.currentTime = 0;
+                    await videoRef.current.play();
                     setIsRunVideo(true);
                     setIsMuted(videoRef.current.muted);
                     setWidthVideo(videoRef.current.videoWidth);
                 } catch (error) {
-                    console.log('loi khi phat video', error);
+                    console.log('Lỗi khi phát video:', error);
                 }
-            };
+            } else if (videoRef.current) {
+                try {
+                    await videoRef.current.pause();
+                    setIsRunVideo(false);
+                } catch (error) {
+                    console.log('Lỗi khi tạm dừng video:', error);
+                }
+            }
+        };
 
-            playVideo();
-        } else if (videoRef.current) {
-            videoRef.current.pause();
-        }
+        fetchVideo();
         let currentVideo = videoRef.current;
         return () => {
-            if (!visibleVideo) {
-                if (currentVideo) {
-                    currentVideo.pause();
-                }
+            if (currentVideo) {
+                currentVideo.pause();
             }
         };
     }, [visibleVideo, setIsMuted]);
@@ -139,12 +147,12 @@ const Video = ({ src, type, isMuted, visibleVideo, setIsMuted, volume, setVolume
     };
     const handleTimeUpdate = () => {
         if (videoRef.current) {
-            setCurrentTime(videoRef.current.currentTime); // Cập nhật thời gian hiện tại
+            setCurrentTime(videoRef.current.currentTime);
         }
     };
     const handleLoadMetaData = () => {
         if (videoRef.current) {
-            setTotalTime(videoRef.current.duration); // Cập nhật thời gian hiện tại
+            setTotalTime(videoRef.current.duration);
         }
     };
 

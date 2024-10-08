@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import VideoObService from '~/components/Videos/ObService';
@@ -7,31 +7,67 @@ import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
 import * as FollowService from '~/services/FollowService';
 import Comment from '~/components/Videos/RightVideo/Comment';
+import { debounce } from 'lodash';
 const cx = classNames.bind(styles);
 const Home = () => {
+    //home
     const [listVideos, setListVideos] = useState([]);
     const [isMuted, setIsMuted] = useState(true);
     const [volume, setVolume] = useState(0);
     const [isShowComment, setIsShowComment] = useState(false);
     const [idVideo, setIdVideo] = useState('');
     const [uuidComment, setUuidComment] = useState('');
+    const [countPage, setCountPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    console.log(totalPage, countPage);
+
     const wrapperRef = useRef(null);
+    const getApiVideo = useCallback(async () => {
+        if (countPage) {
+            await getVideoList('for-you', countPage, setListVideos, setTotalPage);
+        }
+    }, [countPage]);
 
     useEffect(() => {
         getApiVideo();
-    }, []);
+    }, [getApiVideo]);
 
-    const getApiVideo = async () => {
-        await getVideoList('for-you', '1', setListVideos);
-    };
+    const processedVideos = useMemo(() => {
+        return listVideos.map((video) => ({
+            ...video,
+            formattedDate: new Date(video.createdAt).toLocaleDateString(),
+        }));
+    }, [listVideos]);
+    useEffect(() => {
+        let currentWrapperRef = wrapperRef.current;
 
-    const handleClickFollow = async (id, follow) => {
-        if (follow === false) {
-            await FollowService.FollowAUser(id, getApiVideo);
-        } else {
-            await FollowService.UnFollow(id, getApiVideo);
-        }
-    };
+        const handleScroll = debounce(() => {
+            let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
+            let scrollHeight = currentWrapperRef.scrollHeight - 2;
+
+            if (scrollTop >= scrollHeight) {
+                if (countPage < totalPage) {
+                    setCountPage((prev) => prev + 1);
+                }
+            }
+        }, 300);
+        currentWrapperRef.addEventListener('scroll', handleScroll);
+
+        return () => {
+            currentWrapperRef.removeEventListener('scroll', handleScroll);
+        };
+    }, [processedVideos.length, countPage, totalPage]);
+
+    const handleClickFollow = useCallback(
+        async (id, follow) => {
+            if (follow === false) {
+                await FollowService.FollowAUser(id, getApiVideo);
+            } else {
+                await FollowService.UnFollow(id, getApiVideo);
+            }
+        },
+        [getApiVideo],
+    );
 
     const handleClickComment = (id, uuid) => {
         setIsShowComment((prev) => {
@@ -45,8 +81,6 @@ const Home = () => {
             return true;
         });
     };
-    console.log(idVideo, 'idVideo');
-
     return (
         <div className={cx('wrapper-children')}>
             <Helmet>
@@ -56,8 +90,8 @@ const Home = () => {
             </Helmet>
 
             <div className={cx('wrapper')} ref={wrapperRef}>
-                {listVideos && listVideos.length > 0 ? (
-                    listVideos.map((video, index) => {
+                {processedVideos && processedVideos.length > 0 ? (
+                    processedVideos.map((video, index) => {
                         return (
                             <VideoObService
                                 className={cx('video-item')}
@@ -70,6 +104,7 @@ const Home = () => {
                                 setVolume={setVolume}
                                 handleClickComment={() => handleClickComment(video.id, video.uuid)}
                                 setIdVideo={setIdVideo}
+                                setIsShowComment={setIsShowComment}
                             />
                         );
                     })

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Comment.module.scss';
 import { ExistIcon } from '~/components/Icons';
@@ -9,23 +9,53 @@ import PostComment from './PostComment';
 import ModalLast from '~/components/ModalLast';
 import { ContextProvider } from '~/Context';
 import Button from '~/components/Button';
+import { debounce } from 'lodash';
 const cx = classNames.bind(styles);
 const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
-    const [listComments, setListComments] = useState(false);
+    const [listComments, setListComments] = useState([]);
     const [idComment, setIdComment] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const { setIsShow } = useContext(ContextProvider);
     const [id, setId] = useState('');
     const [visible, setVisible] = useState(false);
+    const [indexPage, setIndexPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const wrapperScrollRef = useRef(null);
 
     const getApiComment = useCallback(async () => {
         if (idVideo) {
-            await CommentService.getListComments(idVideo, setListComments);
+            await CommentService.getListComments(idVideo, setListComments, indexPage, setTotalPage, setIsLoading);
         }
-    }, [idVideo]);
+    }, [idVideo, indexPage]);
     useEffect(() => {
         getApiComment();
     }, [getApiComment]);
+
+    const dataStorageComment = useMemo(() => {
+        if (listComments && listComments?.length > 0) {
+            return listComments.map((comment) => ({ ...comment }));
+        }
+    }, [listComments]);
+
+    useEffect(() => {
+        let currentWrapperRef = wrapperScrollRef.current;
+        const handleScroll = debounce(() => {
+            let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
+            let scrollHeight = currentWrapperRef.scrollHeight;
+            if (scrollTop >= scrollHeight) {
+                if (dataStorageComment.length < totalPage) {
+                    setIndexPage((prev) => prev + 1);
+                }
+            }
+        }, 500);
+        currentWrapperRef.addEventListener('scroll', handleScroll);
+        return () => {
+            currentWrapperRef.removeEventListener('scroll', handleScroll);
+        };
+    }, [totalPage, dataStorageComment?.length]);
+
     const handleClickExist = () => {
         setIsShowComment(false);
     };
@@ -62,16 +92,18 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
             <div className={cx('box-header')}>
                 <div className={cx('box-header-left')}>
                     <p className={cx('label')}>Comments</p>
-                    <span className={cx('label2')}>({listComments?.meta?.pagination?.total ?? 0})</span>
+                    <span className={cx('label2')}>({totalPage ?? 0})</span>
                 </div>
 
                 <div className={cx('exist')} onClick={handleClickExist}>
                     <ExistIcon />
                 </div>
             </div>
-            <div className={cx('wrapper-scroll')}>
-                {listComments.data && listComments.data.length > 0
-                    ? listComments.data.map((comment, index) => (
+            <div className={cx('wrapper-scroll')} ref={wrapperScrollRef}>
+                {isLoading
+                    ? 'Loading...'
+                    : dataStorageComment && dataStorageComment.length > 0
+                    ? dataStorageComment.map((comment, index) => (
                           <LoadComment
                               key={index}
                               comment={comment.comment}

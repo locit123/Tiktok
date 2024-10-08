@@ -15,6 +15,7 @@ const VideoObService = ({
     setVolume,
     handleClickComment,
     setIdVideo,
+    setIsShowComment,
 }) => {
     const [visibleVideo, setVisibleVideo] = useState(false);
     let divRef = useRef(null);
@@ -25,6 +26,7 @@ const VideoObService = ({
                 setVisibleVideo(isVisible);
                 if (isVisible && data) {
                     setIdVideo(data.id);
+                    setIsShowComment(false);
                 }
             },
             { threshold: 0.5 },
@@ -33,7 +35,7 @@ const VideoObService = ({
         let currentRef = divRef.current;
         if (currentRef) observer.observe(currentRef);
         return () => currentRef && observer.unobserve(currentRef);
-    }, [data, setVisibleVideo, setIdVideo]);
+    }, [data, setVisibleVideo, setIdVideo, setIsShowComment]);
 
     const classes = cx('wrapper', { [className]: className });
     return (
