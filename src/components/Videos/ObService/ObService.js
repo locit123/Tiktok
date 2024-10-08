@@ -16,6 +16,8 @@ const VideoObService = ({
     handleClickComment,
     setIdVideo,
     setIsShowComment,
+    handleClickFavorite,
+    isLike,
 }) => {
     const [visibleVideo, setVisibleVideo] = useState(false);
     let divRef = useRef(null);
@@ -66,6 +68,8 @@ const VideoObService = ({
                         labelShare={data.shares_count}
                         onClick={onClick}
                         handleClickComment={handleClickComment}
+                        handleClickFavorite={handleClickFavorite}
+                        isLike={isLike}
                     />
                 </>
             )}

@@ -1174,6 +1174,23 @@ export const FavoriteNoneSoilIcon = ({ className, width = '2.4rem', height = '2.
     );
 };
 
+export const FavoriteSoilIcon = ({ className, width = '2.4rem', height = '2.4rem' }) => {
+    return (
+        <svg
+            fill="currentColor"
+            color="var(--ui-text-primary-display)"
+            font-size="24"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            className={className}
+            height={height}
+        >
+            <path d="M10.4 12.2c3.76-3.68 9.69-3.66 13.6.42 3.91-4.08 9.84-4.1 13.6-.42a9.48 9.48 0 0 1 0 13.63L25.06 38.07a1.5 1.5 0 0 1-2.1 0L10.4 25.83a9.48 9.48 0 0 1 0-13.63Z"></path>
+        </svg>
+    );
+};
+
 export const AConIcon = ({ className, width = '2.4rem', height = '2.4rem' }) => {
     return (
         <svg

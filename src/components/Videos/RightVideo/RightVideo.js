@@ -11,7 +11,12 @@ const RightVideo = ({
     labelBookMark,
     labelShare,
     handleClickComment,
+    handleClickFavorite,
+    isLike,
 }) => {
+    console.log(isLike, 'isLike');
+    console.log(isCheckIcon, 'isCheckIcon');
+
     return (
         <div className={cx('box-video')}>
             <div className={cx('box-right')}>
@@ -24,7 +29,7 @@ const RightVideo = ({
                     </span>
                 </div>
                 <div className={cx('box-icon')}>
-                    <span className={cx('icon')}>
+                    <span className={cx('icon', { isLike })} onClick={handleClickFavorite}>
                         <FavoriteIcon />
                     </span>
                     <strong className={cx('label')}>{labelFavorite}</strong>

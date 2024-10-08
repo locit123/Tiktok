@@ -10,6 +10,7 @@ import ModalLast from '~/components/ModalLast';
 import { ContextProvider } from '~/Context';
 import Button from '~/components/Button';
 import { debounce } from 'lodash';
+import * as LikeCommentService from '~/services/LikeService';
 const cx = classNames.bind(styles);
 const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
     const [listComments, setListComments] = useState([]);
@@ -20,13 +21,12 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
     const [visible, setVisible] = useState(false);
     const [indexPage, setIndexPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
 
     const wrapperScrollRef = useRef(null);
 
     const getApiComment = useCallback(async () => {
         if (idVideo) {
-            await CommentService.getListComments(idVideo, setListComments, indexPage, setTotalPage, setIsLoading);
+            await CommentService.getListComments(idVideo, setListComments, indexPage, setTotalPage);
         }
     }, [idVideo, indexPage]);
     useEffect(() => {
@@ -39,22 +39,22 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
         }
     }, [listComments]);
 
-    useEffect(() => {
-        let currentWrapperRef = wrapperScrollRef.current;
-        const handleScroll = debounce(() => {
-            let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
-            let scrollHeight = currentWrapperRef.scrollHeight;
-            if (scrollTop >= scrollHeight) {
-                if (dataStorageComment.length < totalPage) {
-                    setIndexPage((prev) => prev + 1);
-                }
-            }
-        }, 500);
-        currentWrapperRef.addEventListener('scroll', handleScroll);
-        return () => {
-            currentWrapperRef.removeEventListener('scroll', handleScroll);
-        };
-    }, [totalPage, dataStorageComment?.length]);
+    // useEffect(() => {
+    //     let currentWrapperRef = wrapperScrollRef.current;
+    //     const handleScroll = debounce(() => {
+    //         let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
+    //         let scrollHeight = currentWrapperRef.scrollHeight;
+    //         if (scrollTop >= scrollHeight) {
+    //             if (dataStorageComment.length < totalPage) {
+    //                 setIndexPage((prev) => prev + 1);
+    //             }
+    //         }
+    //     }, 500);
+    //     currentWrapperRef.addEventListener('scroll', handleScroll);
+    //     return () => {
+    //         currentWrapperRef.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, [totalPage, dataStorageComment?.length]);
 
     const handleClickExist = () => {
         setIsShowComment(false);
@@ -87,6 +87,17 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
     const handleClickSubmit = async () => {
         await CommentService.deleteComment(id, getApiComment, setIsOpen);
     };
+
+    const handleClickFavoriteComment = useCallback(
+        async (idComment, likeComment) => {
+            if (!likeComment) {
+                await LikeCommentService.likeAComment(idComment, getApiComment);
+            } else {
+                await LikeCommentService.unLikeAComment(idComment, getApiComment);
+            }
+        },
+        [getApiComment],
+    );
     return (
         <div className={cx('wrapper', { isShowComment })}>
             <div className={cx('box-header')}>
@@ -100,9 +111,7 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
                 </div>
             </div>
             <div className={cx('wrapper-scroll')} ref={wrapperScrollRef}>
-                {isLoading
-                    ? 'Loading...'
-                    : dataStorageComment && dataStorageComment.length > 0
+                {dataStorageComment && dataStorageComment.length > 0
                     ? dataStorageComment.map((comment, index) => (
                           <LoadComment
                               key={index}
@@ -122,6 +131,10 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
                               handleClickOutSide={handleClickOutSide}
                               visible={visible}
                               setVisible={setVisible}
+                              isLiked={comment.is_liked}
+                              handleClickFavoriteComment={() =>
+                                  handleClickFavoriteComment(comment.id, comment.is_liked)
+                              }
                           />
                       ))
                     : 'No Comment'}

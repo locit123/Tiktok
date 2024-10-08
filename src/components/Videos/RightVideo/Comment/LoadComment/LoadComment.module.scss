@@ -45,7 +45,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
 
+}
+.isLiked{
+    color: var(--primary);
 }
 
 .total-favorite {}

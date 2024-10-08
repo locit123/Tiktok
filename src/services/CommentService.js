@@ -1,29 +1,14 @@
 const { toast } = require('react-toastify');
 const { default: axiosInstance } = require('~/utils/httpRequest');
 
-const getListComments = async (id, setListComments, page, setTotalPage, setIsLoading) => {
+const getListComments = async (id, setListComments, page, setTotalPage) => {
     try {
-        setIsLoading(true);
         const res = await axiosInstance.get(`videos/${id}/comments?page=${page}`);
         if (res && res.data && res.meta) {
-            setIsLoading(false);
             setTotalPage(res.meta.pagination.total);
-
-            setListComments((prev) => {
-                if (!prev || prev.length === 0) {
-                    return res.data;
-                }
-                let dataCopy = [...prev, ...res.data];
-                let uniqueList = Array.from(new Set(dataCopy.map((comment) => comment.id))).map((id) =>
-                    dataCopy.find((idComment) => idComment.id === id),
-                );
-
-                return uniqueList;
-            });
+            setListComments(res.data);
         }
     } catch (error) {
-        setIsLoading(false);
-
         toast.error(error.message);
     }
 };

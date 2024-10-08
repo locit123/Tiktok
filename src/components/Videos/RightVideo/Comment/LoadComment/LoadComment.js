@@ -1,7 +1,7 @@
 import Image from '~/components/Image';
 import classNames from 'classnames/bind';
 import styles from './LoadComment.module.scss';
-import { ArrowIcon, FavoriteNoneSoilIcon } from '~/components/Icons';
+import { ArrowIcon, FavoriteNoneSoilIcon, FavoriteSoilIcon } from '~/components/Icons';
 import DeleteComment from '../DeleteComment';
 import React from 'react';
 
@@ -24,6 +24,8 @@ const LoadComment = ({
     handleClickOutSide,
     visible,
     setVisible,
+    isLiked,
+    handleClickFavoriteComment,
 }) => {
     return (
         <div className={cx('box-footer')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -46,7 +48,15 @@ const LoadComment = ({
                 <div className={cx('box-footer-in')}>
                     <span className={cx('time')}>{time}</span>
                     <div className={cx('box-footer-favorite')}>
-                        <FavoriteNoneSoilIcon />
+                        {isLiked ? (
+                            <div onClick={handleClickFavoriteComment}>
+                                <FavoriteSoilIcon className={cx({ isLiked })} />
+                            </div>
+                        ) : (
+                            <div onClick={handleClickFavoriteComment}>
+                                <FavoriteNoneSoilIcon />
+                            </div>
+                        )}
                         <span className={cx('total-favorite')}>{totalFavorite}</span>
                     </div>
                     <span className={cx('text-reply')}>Reply</span>

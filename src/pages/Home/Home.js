@@ -8,6 +8,7 @@ import classNames from 'classnames/bind';
 import * as FollowService from '~/services/FollowService';
 import Comment from '~/components/Videos/RightVideo/Comment';
 import { debounce } from 'lodash';
+import * as LikeService from '~/services/LikeService';
 const cx = classNames.bind(styles);
 const Home = () => {
     //home
@@ -17,16 +18,13 @@ const Home = () => {
     const [isShowComment, setIsShowComment] = useState(false);
     const [idVideo, setIdVideo] = useState('');
     const [uuidComment, setUuidComment] = useState('');
-    const [countPage, setCountPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
-    console.log(totalPage, countPage);
+    console.log(totalPage);
 
     const wrapperRef = useRef(null);
     const getApiVideo = useCallback(async () => {
-        if (countPage) {
-            await getVideoList('for-you', countPage, setListVideos, setTotalPage);
-        }
-    }, [countPage]);
+        await getVideoList('for-you', 1, setListVideos, setTotalPage);
+    }, []);
 
     useEffect(() => {
         getApiVideo();
@@ -35,28 +33,28 @@ const Home = () => {
     const processedVideos = useMemo(() => {
         return listVideos.map((video) => ({
             ...video,
-            formattedDate: new Date(video.createdAt).toLocaleDateString(),
+            formattedDate: new Date(video.created_at).toLocaleDateString(),
         }));
     }, [listVideos]);
-    useEffect(() => {
-        let currentWrapperRef = wrapperRef.current;
+    // useEffect(() => {
+    //     let currentWrapperRef = wrapperRef.current;
 
-        const handleScroll = debounce(() => {
-            let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
-            let scrollHeight = currentWrapperRef.scrollHeight - 2;
+    //     const handleScroll = debounce(() => {
+    //         let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
+    //         let scrollHeight = currentWrapperRef.scrollHeight - 2;
 
-            if (scrollTop >= scrollHeight) {
-                if (countPage < totalPage) {
-                    setCountPage((prev) => prev + 1);
-                }
-            }
-        }, 300);
-        currentWrapperRef.addEventListener('scroll', handleScroll);
+    //         if (scrollTop >= scrollHeight) {
+    //             if (countPage < totalPage) {
+    //                 setCountPage((prev) => prev + 1);
+    //             }
+    //         }
+    //     }, 300);
+    //     currentWrapperRef.addEventListener('scroll', handleScroll);
 
-        return () => {
-            currentWrapperRef.removeEventListener('scroll', handleScroll);
-        };
-    }, [processedVideos.length, countPage, totalPage]);
+    //     return () => {
+    //         currentWrapperRef.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, [processedVideos.length, countPage, totalPage]);
 
     const handleClickFollow = useCallback(
         async (id, follow) => {
@@ -81,6 +79,16 @@ const Home = () => {
             return true;
         });
     };
+    const handleClickFavorite = useCallback(
+        async (id, like) => {
+            if (!like) {
+                await LikeService.likeAPost(id, getApiVideo);
+            } else {
+                await LikeService.unLikeAPost(id, getApiVideo);
+            }
+        },
+        [getApiVideo],
+    );
     return (
         <div className={cx('wrapper-children')}>
             <Helmet>
@@ -105,6 +113,8 @@ const Home = () => {
                                 handleClickComment={() => handleClickComment(video.id, video.uuid)}
                                 setIdVideo={setIdVideo}
                                 setIsShowComment={setIsShowComment}
+                                handleClickFavorite={() => handleClickFavorite(video.id, video.is_liked)}
+                                isLike={video.is_liked}
                             />
                         );
                     })
