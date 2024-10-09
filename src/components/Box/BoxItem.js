@@ -4,7 +4,19 @@ import React, { useEffect, useRef } from 'react';
 import { TickIcon } from '../Icons';
 import Button from '../Button';
 const cx = classNames.bind(styles);
-const BoxItem = ({ type, visible, src, avatar, labelUsername, labelNickname, isCheck, hiddenAvatar = false }) => {
+const BoxItem = ({
+    type,
+    visible,
+    src,
+    avatar,
+    labelUsername,
+    labelNickname,
+    isCheck,
+    hiddenAvatar = false,
+    handleClickFollow,
+    isFollow,
+    handleClickItem,
+}) => {
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -21,8 +33,9 @@ const BoxItem = ({ type, visible, src, avatar, labelUsername, labelNickname, isC
             }
         };
     }, [visible]);
+
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper')} onClick={handleClickItem}>
             <video ref={videoRef} src={src} muted loop className={cx('video')}>
                 <source src={src} type={type} />
                 Your browser does not support the video tag.
@@ -34,8 +47,8 @@ const BoxItem = ({ type, visible, src, avatar, labelUsername, labelNickname, isC
                     <h4 className={cx('label', 'labe-2')}>{labelNickname}</h4>
                     {isCheck && <TickIcon className={cx('icon')} />}
                 </div>
-                <Button className={cx('bt', { hiddenAvatar })} primary>
-                    Follow
+                <Button className={cx('bt', { hiddenAvatar, isFollow })} primary onClick={handleClickFollow}>
+                    {isFollow ? 'Following' : 'Follow'}
                 </Button>
             </div>
         </div>

@@ -9,7 +9,6 @@ import PostComment from './PostComment';
 import ModalLast from '~/components/ModalLast';
 import { ContextProvider } from '~/Context';
 import Button from '~/components/Button';
-import { debounce } from 'lodash';
 import * as LikeCommentService from '~/services/LikeService';
 const cx = classNames.bind(styles);
 const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
@@ -19,16 +18,15 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
     const { setIsShow } = useContext(ContextProvider);
     const [id, setId] = useState('');
     const [visible, setVisible] = useState(false);
-    const [indexPage, setIndexPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
 
     const wrapperScrollRef = useRef(null);
 
     const getApiComment = useCallback(async () => {
         if (idVideo) {
-            await CommentService.getListComments(idVideo, setListComments, indexPage, setTotalPage);
+            await CommentService.getListComments(idVideo, setListComments, 1, setTotalPage);
         }
-    }, [idVideo, indexPage]);
+    }, [idVideo]);
     useEffect(() => {
         getApiComment();
     }, [getApiComment]);
@@ -38,23 +36,6 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
             return listComments.map((comment) => ({ ...comment }));
         }
     }, [listComments]);
-
-    // useEffect(() => {
-    //     let currentWrapperRef = wrapperScrollRef.current;
-    //     const handleScroll = debounce(() => {
-    //         let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
-    //         let scrollHeight = currentWrapperRef.scrollHeight;
-    //         if (scrollTop >= scrollHeight) {
-    //             if (dataStorageComment.length < totalPage) {
-    //                 setIndexPage((prev) => prev + 1);
-    //             }
-    //         }
-    //     }, 500);
-    //     currentWrapperRef.addEventListener('scroll', handleScroll);
-    //     return () => {
-    //         currentWrapperRef.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, [totalPage, dataStorageComment?.length]);
 
     const handleClickExist = () => {
         setIsShowComment(false);

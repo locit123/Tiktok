@@ -2,23 +2,46 @@ import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import Image from '~/components/Image';
 
-import a from '~/assets/images/aFB.jpg';
 import EditProfile from './EditProfile';
 import MenuShare from './MenuShare';
 import ModalProfile from '../ModalProfile';
-import { useContext, useState } from 'react';
-import { ContextProvider } from '~/Context';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import ModalSave from '../ModalSave';
+import { useLocation } from 'react-router';
+import * as UserService from '~/services/UsersService';
+import { ContextProvider } from '~/Context';
+import Button from '~/components/Button';
+import * as FollowService from '~/services/FollowService';
+import { FollowingTickIcon, TridentHorizontal } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
 const Header = () => {
     const { dataCurrentUser } = useContext(ContextProvider);
+
+    const location = useLocation();
+    const { pathname } = location;
+    const [listDataAnUser, setListDataAnUser] = useState({});
+
+    const getApiAnUser = useCallback(async () => {
+        if (pathname) {
+            await UserService.getAnUser(pathname, setListDataAnUser);
+        }
+    }, [pathname]);
+
+    useEffect(() => {
+        getApiAnUser();
+    }, [getApiAnUser]);
+
+    const dataStorage = useMemo(() => {
+        return { ...listDataAnUser };
+    }, [listDataAnUser]);
+
     const initState = {
-        firstName: dataCurrentUser.first_name,
-        lastName: dataCurrentUser.last_name,
-        name: dataCurrentUser.nickname,
-        bio: dataCurrentUser.bio,
+        firstName: dataStorage.first_name,
+        lastName: dataStorage.last_name,
+        name: dataStorage.nickname,
+        bio: dataStorage.bio,
     };
 
     const [show, setShow] = useState(false);
@@ -32,10 +55,21 @@ const Header = () => {
 
     const handleClickModal = () => {
         setShow(true);
-        setFirstName(dataCurrentUser.first_name);
-        setLastName(dataCurrentUser.last_name);
-        setName(dataCurrentUser.nickname);
-        setBio(dataCurrentUser.bio);
+        setFirstName(dataStorage.first_name);
+        setLastName(dataStorage.last_name);
+        setName(dataStorage.nickname);
+        setBio(dataStorage.bio);
+    };
+
+    const handleClickFollow = async () => {
+        let id = dataStorage.id;
+        let isFollow = dataStorage.is_followed;
+        if (isFollow) {
+            await FollowService.UnFollow(id);
+        } else {
+            await FollowService.FollowAUser(id);
+        }
+        await getApiAnUser();
     };
     return (
         <div className={cx('wrapper')}>
@@ -66,34 +100,57 @@ const Header = () => {
             />
             <div className={cx('wrapper-header')}>
                 <div className={cx('header')}>
-                    <Image src={a} alt="test" className={cx('avatar')} />
+                    <Image src={dataStorage.avatar} alt="test" className={cx('avatar')} />
                     <div className={cx('footer')}>
                         <div>
-                            <h1
-                                className={cx('nickname')}
-                            >{`${dataCurrentUser.first_name}${dataCurrentUser.last_name}`}</h1>
-                            <h2 className={cx('label')}>{dataCurrentUser.nickname}</h2>
+                            <h1 className={cx('nickname')}>{`${dataStorage.first_name}${dataStorage.last_name}`}</h1>
+                            <h2 className={cx('label')}>{dataStorage.nickname}</h2>
                         </div>
                         <div className={cx('edit-profile')}>
-                            <EditProfile onClick={handleClickModal} />
+                            {dataCurrentUser.id === dataStorage.id ? (
+                                <EditProfile onClick={handleClickModal} />
+                            ) : (
+                                <div className={cx('user-other')}>
+                                    <Button
+                                        onClick={handleClickFollow}
+                                        className={cx('bt', { isFollow: dataStorage.is_followed })}
+                                        primary
+                                    >
+                                        {dataStorage.is_followed ? (
+                                            <div className={cx('box-following')}>
+                                                <FollowingTickIcon />
+                                                <span>Following</span>
+                                            </div>
+                                        ) : (
+                                            <div>Follow</div>
+                                        )}
+                                    </Button>
+                                    <Button className={cx('bt2')} outline>
+                                        Message
+                                    </Button>
+                                    <div className={cx('ic-trident')}>
+                                        <TridentHorizontal />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
                 <div className={cx('body')}>
                     <div className={cx('box-items')}>
-                        <strong className={cx('number')}>{dataCurrentUser.followings_count || 0}</strong>
+                        <strong className={cx('number')}>{dataStorage.followings_count || 0}</strong>
                         <span className={cx('label-body', { css })}>Following</span>
                     </div>
                     <div className={cx('box-items')}>
-                        <strong className={cx('number')}>{dataCurrentUser.followers_count || 0}</strong>
+                        <strong className={cx('number')}>{dataStorage.followers_count || 0}</strong>
                         <span className={cx('label-body', { css })}>Followers</span>
                     </div>
                     <div className={cx('box-items')}>
-                        <strong className={cx('number')}>{dataCurrentUser.likes_count}</strong>
+                        <strong className={cx('number')}>{dataStorage.likes_count}</strong>
                         <span className={cx('label-body')}>Likes</span>
                     </div>
                 </div>
-                <h2 className={cx('footer-title')}>{dataCurrentUser.bio}</h2>
+                <h2 className={cx('footer-title')}>{dataStorage.bio}</h2>
             </div>
             <div className={cx('wrapper-footer')}>
                 <MenuShare />

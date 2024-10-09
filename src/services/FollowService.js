@@ -12,23 +12,17 @@ const getFollowList = async (page, setListFollow) => {
     }
 };
 
-const FollowAUser = async (id, getApiVideo) => {
+const FollowAUser = async (id) => {
     try {
-        const res = await axiosInstance.post(`users/${id}/follow`);
-        if (res) {
-            getApiVideo();
-        }
+        await axiosInstance.post(`users/${id}/follow`);
     } catch (error) {
         toast.error(error.message);
     }
 };
 
-const UnFollow = async (id, getApiVideo) => {
+const UnFollow = async (id) => {
     try {
-        const res = await axiosInstance.post(`users/${id}/unfollow`);
-        if (res) {
-            getApiVideo();
-        }
+        await axiosInstance.post(`users/${id}/unfollow`);
     } catch (error) {
         toast.error(error.message);
     }

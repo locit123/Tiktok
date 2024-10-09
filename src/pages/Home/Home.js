@@ -7,7 +7,6 @@ import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
 import * as FollowService from '~/services/FollowService';
 import Comment from '~/components/Videos/RightVideo/Comment';
-import { debounce } from 'lodash';
 import * as LikeService from '~/services/LikeService';
 const cx = classNames.bind(styles);
 const Home = () => {
@@ -18,12 +17,10 @@ const Home = () => {
     const [isShowComment, setIsShowComment] = useState(false);
     const [idVideo, setIdVideo] = useState('');
     const [uuidComment, setUuidComment] = useState('');
-    const [totalPage, setTotalPage] = useState(0);
-    console.log(totalPage);
 
     const wrapperRef = useRef(null);
     const getApiVideo = useCallback(async () => {
-        await getVideoList('for-you', 1, setListVideos, setTotalPage);
+        await getVideoList('for-you', 1, setListVideos);
     }, []);
 
     useEffect(() => {
@@ -36,33 +33,15 @@ const Home = () => {
             formattedDate: new Date(video.created_at).toLocaleDateString(),
         }));
     }, [listVideos]);
-    // useEffect(() => {
-    //     let currentWrapperRef = wrapperRef.current;
-
-    //     const handleScroll = debounce(() => {
-    //         let scrollTop = currentWrapperRef.scrollTop + currentWrapperRef.clientHeight;
-    //         let scrollHeight = currentWrapperRef.scrollHeight - 2;
-
-    //         if (scrollTop >= scrollHeight) {
-    //             if (countPage < totalPage) {
-    //                 setCountPage((prev) => prev + 1);
-    //             }
-    //         }
-    //     }, 300);
-    //     currentWrapperRef.addEventListener('scroll', handleScroll);
-
-    //     return () => {
-    //         currentWrapperRef.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, [processedVideos.length, countPage, totalPage]);
 
     const handleClickFollow = useCallback(
         async (id, follow) => {
             if (follow === false) {
-                await FollowService.FollowAUser(id, getApiVideo);
+                await FollowService.FollowAUser(id);
             } else {
-                await FollowService.UnFollow(id, getApiVideo);
+                await FollowService.UnFollow(id);
             }
+            await getApiVideo();
         },
         [getApiVideo],
     );
@@ -112,7 +91,6 @@ const Home = () => {
                                 setVolume={setVolume}
                                 handleClickComment={() => handleClickComment(video.id, video.uuid)}
                                 setIdVideo={setIdVideo}
-                                setIsShowComment={setIsShowComment}
                                 handleClickFavorite={() => handleClickFavorite(video.id, video.is_liked)}
                                 isLike={video.is_liked}
                             />

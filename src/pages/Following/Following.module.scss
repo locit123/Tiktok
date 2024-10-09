@@ -1,19 +1,16 @@
-.wrapper {
-    padding: 16px;
-}
-
-.wrapper-item {
-    width: 736px;
-    max-width: 736px;
-    flex-wrap: wrap;
+.wrapper-children{
     display: flex;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin: 0 auto;
-    justify-content: center;
-    gap: 19px;
-
 }
+.wrapper {
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    height: calc(100vh - 60px);
+}
+
+.video-item {
+    scroll-snap-align: start;
+}
+
 .icon-spinner {
     animation: spinner 2s linear infinite;
 }

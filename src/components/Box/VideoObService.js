@@ -3,15 +3,18 @@ import BoxItem from './BoxItem';
 import classNames from 'classnames/bind';
 import styles from './BoxItem.module.scss';
 import * as UsersService from '~/services/UsersService';
+import * as FollowService from '~/services/FollowService';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
-const VideoObService = ({ indexPage, listUsersSuggested, setListUsersSuggested, setTotalPage }) => {
+const VideoObService = ({ listUsersSuggested, setListUsersSuggested }) => {
     const [visibleVideoId, setVisibleVideoId] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const divRef = useRef();
     const getApiUsers = useCallback(async () => {
-        await UsersService.getSuggestedUsersList(indexPage, setListUsersSuggested, setLoading, setTotalPage);
-    }, [setListUsersSuggested, indexPage, setTotalPage]);
+        await UsersService.getSuggestedUsersList(1, setListUsersSuggested, setLoading);
+    }, [setListUsersSuggested]);
 
     useEffect(() => {
         getApiUsers();
@@ -20,10 +23,26 @@ const VideoObService = ({ indexPage, listUsersSuggested, setListUsersSuggested, 
     const dataStorage = useMemo(() => {
         return listUsersSuggested.map((User) => ({ ...User }));
     }, [listUsersSuggested]);
-    console.log(dataStorage, 'dataStorage');
 
     const handleMouseEnter = (id) => {
         setVisibleVideoId(id);
+    };
+
+    const handleClickFollow = useCallback(
+        async (e, id, follow) => {
+            e.stopPropagation();
+            if (!follow) {
+                await FollowService.FollowAUser(id);
+            } else {
+                await FollowService.UnFollow(id);
+            }
+            await getApiUsers();
+        },
+        [getApiUsers],
+    );
+
+    const handleClickItem = (nickName) => {
+        navigate(`/@${nickName}`);
     };
     return (
         <div className={cx('wrapper-item')} ref={divRef}>
@@ -38,6 +57,9 @@ const VideoObService = ({ indexPage, listUsersSuggested, setListUsersSuggested, 
                                 labelNickname={item.nickname}
                                 isCheck={item.tick}
                                 visible={visibleVideoId === item.id}
+                                handleClickFollow={(e) => handleClickFollow(e, item.id, item.is_followed)}
+                                isFollow={item.is_followed}
+                                handleClickItem={() => handleClickItem(item.nickname)}
                             />
                         </div>
                     );

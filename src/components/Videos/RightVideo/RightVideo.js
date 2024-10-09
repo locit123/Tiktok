@@ -14,9 +14,6 @@ const RightVideo = ({
     handleClickFavorite,
     isLike,
 }) => {
-    console.log(isLike, 'isLike');
-    console.log(isCheckIcon, 'isCheckIcon');
-
     return (
         <div className={cx('box-video')}>
             <div className={cx('box-right')}>
