@@ -8,6 +8,7 @@ import Live from '~/pages/Live';
 import Explore from '~/pages/Explore';
 import Friend from '~/pages/Friend';
 import Message from '~/pages/Message';
+import Video from '~/pages/Video';
 //layout
 import { HeaderOnly } from '~/layouts';
 const publicRouters = [
@@ -20,6 +21,7 @@ const publicRouters = [
     { path: config.routers.message, component: Message },
     { path: config.routers.upload, component: Upload, layout: HeaderOnly },
     { path: config.routers.search, component: Search, layout: null },
+    { path: config.routers.video, component: Video, layout: null },
 ];
 
 const privateRouters = [];

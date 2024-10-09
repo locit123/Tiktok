@@ -10,6 +10,7 @@ const routers = {
     message: '/message',
     login: '/login',
     signup: '/signup',
+    video: '/:nickname/video/:uuid',
 };
 
 export default routers;

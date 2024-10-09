@@ -5,10 +5,9 @@ import Image from '~/components/Image';
 import EditProfile from './EditProfile';
 import MenuShare from './MenuShare';
 import ModalProfile from '../ModalProfile';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import ModalSave from '../ModalSave';
-import { useLocation } from 'react-router';
-import * as UserService from '~/services/UsersService';
+
 import { ContextProvider } from '~/Context';
 import Button from '~/components/Button';
 import * as FollowService from '~/services/FollowService';
@@ -16,26 +15,19 @@ import { FollowingTickIcon, TridentHorizontal } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
-const Header = () => {
+const Header = ({ listDataAnUser, getApiAnUser }) => {
     const { dataCurrentUser } = useContext(ContextProvider);
-
-    const location = useLocation();
-    const { pathname } = location;
-    const [listDataAnUser, setListDataAnUser] = useState({});
-
-    const getApiAnUser = useCallback(async () => {
-        if (pathname) {
-            await UserService.getAnUser(pathname, setListDataAnUser);
-        }
-    }, [pathname]);
-
-    useEffect(() => {
-        getApiAnUser();
-    }, [getApiAnUser]);
+    const [show, setShow] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [name, setName] = useState('');
+    const [bio, setBio] = useState('');
+    const [isShowModalProfileSave, setIsShowModalProfileSave] = useState(false);
 
     const dataStorage = useMemo(() => {
         return { ...listDataAnUser };
     }, [listDataAnUser]);
+    console.log(dataStorage, 'dataStorage');
 
     const initState = {
         firstName: dataStorage.first_name,
@@ -43,13 +35,6 @@ const Header = () => {
         name: dataStorage.nickname,
         bio: dataStorage.bio,
     };
-
-    const [show, setShow] = useState(false);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [name, setName] = useState('');
-    const [bio, setBio] = useState('');
-    const [isShowModalProfileSave, setIsShowModalProfileSave] = useState(false);
 
     let css = true;
 
@@ -71,6 +56,7 @@ const Header = () => {
         }
         await getApiAnUser();
     };
+
     return (
         <div className={cx('wrapper')}>
             <ModalProfile
@@ -98,6 +84,7 @@ const Header = () => {
                 firstName={firstName}
                 lastName={lastName}
             />
+
             <div className={cx('wrapper-header')}>
                 <div className={cx('header')}>
                     <Image src={dataStorage.avatar} alt="test" className={cx('avatar')} />

@@ -65,7 +65,7 @@ const VideoObService = ({ listUsersSuggested, setListUsersSuggested }) => {
                     );
                 })
             ) : (
-                <BoxItem hiddenAvatar />
+                <div>No Friends</div>
             )}
             {loading && <div className={cx('loading-ne')}>Loading...</div>}
         </div>

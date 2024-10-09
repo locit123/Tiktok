@@ -592,7 +592,7 @@ export const FollowingTickIcon = ({ className, width = '1.9rem', height = '1.9re
         <svg
             fill="currentColor"
             color="inherit"
-            font-size="inherit"
+            fontSize="inherit"
             viewBox="0 0 48 48"
             xmlns="http://www.w3.org/2000/svg"
             width={width}
@@ -601,7 +601,7 @@ export const FollowingTickIcon = ({ className, width = '1.9rem', height = '1.9re
         >
             <path
                 fill-rule="evenodd"
-                clip-rule="evenodd"
+                clipRule="evenodd"
                 d="M19 4a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-6 10a6 6 0 1 1 12 0 6 6 0 0 1-12 0Z"
             ></path>
             <path d="M5 45c.55 0 1-.45 1.02-1 .18-4.33 1.56-7.46 3.6-9.53C11.82 32.24 15.02 31 19 31c2.54 0 4.76.5 6.6 1.45l.85-.74a4.47 4.47 0 0 1 3.68-1.06C27.14 28.2 23.27 27 19 27c-4.82 0-9.12 1.51-12.22 4.66C3.86 34.62 2.2 38.82 2.02 44c-.02.55.43 1 .98 1h2ZM45.85 27.53l-1.69-1.06a1 1 0 0 0-1.38.32l-8.04 12.87-4.57-5.22a1 1 0 0 0-1.41-.1l-1.51 1.32a1 1 0 0 0-.09 1.41l6.34 7.25a1.99 1.99 0 0 0 3.2-.26l9.47-15.15a1 1 0 0 0-.32-1.38Z"></path>
@@ -1201,7 +1201,7 @@ export const FavoriteSoilIcon = ({ className, width = '2.4rem', height = '2.4rem
         <svg
             fill="currentColor"
             color="var(--ui-text-primary-display)"
-            font-size="24"
+            fontSize="24"
             viewBox="0 0 48 48"
             xmlns="http://www.w3.org/2000/svg"
             width={width}
@@ -1283,6 +1283,27 @@ export const DeleteIcon = ({ className, width = '1.9rem', height = '1.9rem' }) =
         >
             <path d="M18 20a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V20ZM27 19a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V20a1 1 0 0 0-1-1h-2Z"></path>
             <path d="M32 8V6a5 5 0 0 0-5-5h-6a5 5 0 0 0-5 5v2H5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2.74l1.49 24.97c.19 3.18.28 4.77.96 5.98a6 6 0 0 0 2.6 2.44c1.25.61 2.84.61 6.02.61H29.2c3.18 0 4.77 0 6.02-.6a6 6 0 0 0 2.6-2.45c.68-1.21.77-2.8.96-5.98L40.27 12H43a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H32Zm-5-3a1 1 0 0 1 1 1v2h-8V6a1 1 0 0 1 1-1h6Zm-15.25 7h24.5l-1.47 24.73c-.1 1.66-.16 2.66-.27 3.41a5 5 0 0 1-.18.83v.01a2 2 0 0 1-.9.83l-.13.04c-.13.02-.34.06-.7.09-.75.06-1.76.06-3.41.06H18.8c-1.65 0-2.66 0-3.42-.06a4.99 4.99 0 0 1-.84-.14 2 2 0 0 1-.87-.82l-.02-.03-.04-.12a5 5 0 0 1-.13-.69c-.1-.75-.17-1.75-.27-3.4L11.75 12Z"></path>
+        </svg>
+    );
+};
+
+//Video Profile
+export const PlayIcon = ({ className, width = '1.8rem', height = '1.8rem' }) => {
+    return (
+        <svg
+            data-e2e=""
+            viewBox="0 0 48 48"
+            fill="#fff"
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            className={className}
+            height={height}
+        >
+            <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M16 10.554V37.4459L38.1463 24L16 10.554ZM12 8.77702C12 6.43812 14.5577 4.99881 16.5569 6.21266L41.6301 21.4356C43.5542 22.6038 43.5542 25.3962 41.6301 26.5644L16.5569 41.7873C14.5577 43.0012 12 41.5619 12 39.223V8.77702Z"
+            ></path>
         </svg>
     );
 };

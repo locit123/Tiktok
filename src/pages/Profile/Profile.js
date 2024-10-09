@@ -2,9 +2,11 @@ import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 import Header from './Header';
 import Footer from './Footer';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FAV, LAT, LIK, VID } from '~/utils/contantValue';
 import { Favorites, Likes, Videos } from './Tab';
+import { useLocation } from 'react-router';
+import * as UserService from '~/services/UsersService';
 
 const cx = classNames.bind(styles);
 
@@ -13,11 +15,24 @@ const Profile = () => {
     const [typeTabHover, setTypeTabHover] = useState();
     const [typeButton, setTypeButton] = useState(LAT);
     const [historyTab, setHistoryTab] = useState(VID);
+    const [listDataAnUser, setListDataAnUser] = useState({});
+    const location = useLocation();
+    const { pathname } = location;
+
+    const getApiAnUser = useCallback(async () => {
+        if (pathname) {
+            await UserService.getAnUser(pathname, setListDataAnUser);
+        }
+    }, [pathname]);
+
+    useEffect(() => {
+        getApiAnUser();
+    }, [getApiAnUser]);
 
     return (
         <div className={cx('wrapper')}>
             <header className={cx('header')}>
-                <Header />
+                <Header getApiAnUser={getApiAnUser} listDataAnUser={listDataAnUser} />
             </header>
             <footer className={cx('scroll-footer')}>
                 <div className={cx('footer')}>
@@ -32,7 +47,7 @@ const Profile = () => {
                         setHistoryTab={setHistoryTab}
                     />
                     {historyTab === VID ? (
-                        <Videos />
+                        <Videos listDataAnUser={listDataAnUser} />
                     ) : historyTab === FAV ? (
                         <Favorites />
                     ) : (
