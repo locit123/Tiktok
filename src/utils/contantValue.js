@@ -14,3 +14,9 @@ export const LIK = 'liked';
 export const LAT = 'latest';
 export const POP = 'popular';
 export const OLD = 'oldest';
+//OFFSET video
+export const FIRST_VIDEO = 'first_video';
+export const BODY_VIDEO = 'body_video';
+export const LAST_VIDEO = 'last_video';
+export const ARROW_UP = 'arrow_up';
+export const ARROW_DOWN = 'arrow_down';

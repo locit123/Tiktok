@@ -1,23 +1,17 @@
 const { toast } = require('react-toastify');
 const { default: axiosInstance } = require('~/utils/httpRequest');
 
-const likeAPost = async (idVideo, getApiVideo) => {
+const likeAPost = async (idVideo) => {
     try {
-        const res = await axiosInstance.post(`videos/${idVideo}/like`);
-        if (res && res.data) {
-            getApiVideo();
-        }
+        await axiosInstance.post(`videos/${idVideo}/like`);
     } catch (error) {
         toast.error(error.message);
     }
 };
 
-const unLikeAPost = async (idVideo, getApiVideo) => {
+const unLikeAPost = async (idVideo) => {
     try {
-        const res = await axiosInstance.post(`videos/${idVideo}/unlike`);
-        if (res && res.data) {
-            getApiVideo();
-        }
+        await axiosInstance.post(`videos/${idVideo}/unlike`);
     } catch (error) {
         toast.error(error.message);
     }

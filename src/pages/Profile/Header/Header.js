@@ -27,7 +27,6 @@ const Header = ({ listDataAnUser, getApiAnUser }) => {
     const dataStorage = useMemo(() => {
         return { ...listDataAnUser };
     }, [listDataAnUser]);
-    console.log(dataStorage, 'dataStorage');
 
     const initState = {
         firstName: dataStorage.first_name,

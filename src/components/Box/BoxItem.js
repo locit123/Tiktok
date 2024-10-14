@@ -23,9 +23,6 @@ const BoxItem = ({
         let currentRef = videoRef.current;
         if (currentRef && visible) {
             currentRef.play().catch((e) => console.log('error', e));
-        } else if (currentRef.paused) {
-            currentRef.currentTime = 0;
-            currentRef.pause();
         }
         return () => {
             if (currentRef) {

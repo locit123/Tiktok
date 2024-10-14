@@ -40,13 +40,6 @@ const Video = ({ src, type, isMuted, visibleVideo, setIsMuted, volume, setVolume
                 } catch (error) {
                     console.log('Lỗi khi phát video:', error);
                 }
-            } else if (videoRef.current) {
-                try {
-                    await videoRef.current.pause();
-                    setIsRunVideo(false);
-                } catch (error) {
-                    console.log('Lỗi khi tạm dừng video:', error);
-                }
             }
         };
 
@@ -150,6 +143,7 @@ const Video = ({ src, type, isMuted, visibleVideo, setIsMuted, volume, setVolume
             setCurrentTime(videoRef.current.currentTime);
         }
     };
+
     const handleLoadMetaData = () => {
         if (videoRef.current) {
             setTotalTime(videoRef.current.duration);

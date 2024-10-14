@@ -1,7 +1,6 @@
 const routers = {
     home: '/',
     following: '/following',
-    profile: '/:nickname',
     upload: '/upload',
     search: '/search',
     live: '/live',
@@ -10,6 +9,7 @@ const routers = {
     message: '/message',
     login: '/login',
     signup: '/signup',
+    profile: '/:nickname',
     video: '/:nickname/video/:uuid',
 };
 

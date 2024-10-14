@@ -18,6 +18,10 @@
     --background-color-select:rgb(18, 18, 18);
 
     --color: rgba(255, 255, 255, 0.9);
+    //input range
+    --width-height-btn-range: 12px;
+        --border-radius-range: 50%;
+        --color-range: #ddd;
 
 }
 
@@ -61,6 +65,10 @@ html *::-webkit-scrollbar {
 html ::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.08);
+}
+
+html{
+    scroll-behavior: smooth;
 }
 
 html *::-webkit-scrollbar-thumb {
@@ -142,3 +150,5 @@ body {
         }
     }
 }
+//input range
+

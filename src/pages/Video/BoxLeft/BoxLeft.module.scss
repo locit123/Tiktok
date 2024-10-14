@@ -1,8 +1,8 @@
 .wrapper-left {
-    border: 1px solid pink;
     flex-basis: 60%;
-    height: 100vh;
     position: relative;
+    height: 100vh;
+    cursor: pointer;
 }
 
 .background {
@@ -22,6 +22,34 @@
     height: 100%;
     object-fit: contain;
 }
+.box-continue-video{
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 0 auto;
+    background-color: rgba(0,0,0,0.7);
+    display: none;
+}
+.ic-pause{
+    width: 3.2rem;
+    height: 3.2rem;
+    color: white;
+}
+.visible{
+    display: block;
+    display: flex;
+        align-items: center;
+        justify-content: center;
+}
 
 .box-position-top {
     position: absolute;
@@ -34,6 +62,7 @@
     justify-content: space-between;
     padding: 10px 20px;
 }
+
 
 .icon-arr {
     transform: rotate(180deg);
@@ -49,7 +78,21 @@
     justify-content: center;
     border-radius: 50%;
     background-color: rgba(84, 84, 84, 0.5);
+
+    &:hover {
+        background-color: rgba(37, 37, 37, 0.6);
+    }
 }
+
+.floating-icon{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: end;
+    height: 90px;
+}
+
+
 
 .box-position-bottom {
     position: absolute;
@@ -75,4 +118,126 @@
     justify-content: center;
     padding: 20px 20px;
     gap: 20px;
+}
+
+//input muted
+.box-muted {
+    position: absolute;
+    bottom: 145px;
+    z-index: 666;
+    transform: rotate(270deg);
+    width: 200px;
+    right: -60px;
+    opacity: 0;
+    visibility: hidden;
+}
+.mouseMuted{
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding-left: 15px;
+}
+.b-muted {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 32px;
+    background-color: rgba(84, 84, 84, 0.5);
+    height: 28px;
+    width: 96px;
+}
+.icon-muted{
+}
+
+.ip-muted {
+    max-width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.34);
+}
+
+
+.ip-muted::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+//input launcher
+.box-launcher {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 40%;
+
+}
+
+.seek-launcher {
+    flex: 1;
+    height: 4px;
+
+    &:hover {
+        height: 6px;
+        cursor: pointer;
+    }
+}
+
+.launcher {
+    background-color: rgba(255, 255, 255, 0.34);
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    &:hover {
+        height: 6px;
+        cursor: pointer;
+    }
+
+
+}
+
+/* Ẩn thumb mặc định */
+.launcher::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Khi hover vào thanh slider, hiện thumb */
+.launcher:hover::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+}
+
+.time-video {
+    font-size: 1.4rem;
+    color: var(--primary);
+    line-height: 21px;
+    margin-left: 8px;
 }

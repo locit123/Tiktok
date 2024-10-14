@@ -60,10 +60,11 @@ const Following = () => {
     const handleClickFavorite = useCallback(
         async (id, like) => {
             if (!like) {
-                await LikeService.likeAPost(id, getApiVideo);
+                await LikeService.likeAPost(id);
             } else {
-                await LikeService.unLikeAPost(id, getApiVideo);
+                await LikeService.unLikeAPost(id);
             }
+            await getApiVideo();
         },
         [getApiVideo],
     );

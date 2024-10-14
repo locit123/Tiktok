@@ -1,11 +1,10 @@
 const { toast } = require('react-toastify');
 const { default: axiosInstance } = require('~/utils/httpRequest');
 
-const getListComments = async (id, setListComments, page, setTotalPage) => {
+const getListComments = async (id, setListComments, page) => {
     try {
         const res = await axiosInstance.get(`videos/${id}/comments?page=${page}`);
         if (res && res.data && res.meta) {
-            setTotalPage(res.meta.pagination.total);
             setListComments(res.data);
         }
     } catch (error) {

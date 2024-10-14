@@ -1,19 +1,5 @@
 .wrapper{
     display: flex;
+    min-height: 100vh;
 }
 
-
-.wrapper-right{
-    flex-basis: 40%;
-    height: 100vh;
-}
-.box-top{
-    height: 656px;
-    overflow-y: scroll;
-}
-.box-bottom{
-    border-top: 1px solid #ddd;
-    padding: 0 30px;
-    
-    height: 100%;
-}

@@ -13,10 +13,10 @@ const TabVideo = ({ listDataAnUser }) => {
     const listVideo = useMemo(() => {
         return listDataAnUser?.videos?.map((video) => ({ ...video }));
     }, [listDataAnUser]);
-    console.log(listVideo, 'listVideo');
-
     const handleMouseEnter = (id) => {
-        setVisible(id);
+        if (listVideo && listVideo.length > 0) {
+            setVisible(id);
+        }
     };
 
     const handleClickVideo = (uuid) => {

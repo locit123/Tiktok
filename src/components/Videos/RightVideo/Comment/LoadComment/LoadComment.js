@@ -4,6 +4,7 @@ import styles from './LoadComment.module.scss';
 import { ArrowIcon, FavoriteNoneSoilIcon, FavoriteSoilIcon } from '~/components/Icons';
 import DeleteComment from '../DeleteComment';
 import React from 'react';
+import { MonthDay } from '~/utils/ConvertDay';
 
 const cx = classNames.bind(styles);
 
@@ -46,7 +47,7 @@ const LoadComment = ({
                 )}
                 <span className={cx('comment')}>{comment}</span>
                 <div className={cx('box-footer-in')}>
-                    <span className={cx('time')}>{time}</span>
+                    <span className={cx('time')}>{MonthDay(time)}</span>
                     <div className={cx('box-footer-favorite')}>
                         {isLiked ? (
                             <div onClick={handleClickFavoriteComment}>

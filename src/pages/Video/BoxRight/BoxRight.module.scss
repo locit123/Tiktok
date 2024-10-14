@@ -1,0 +1,211 @@
+//
+.wrapper-right {
+    flex-basis: 40%;
+}
+
+.box-top {
+    height: 656px;
+    overflow-y: scroll;
+}
+.box-1{
+    padding: 24px 32px;
+}
+
+.box-border-top {
+    background: rgba(22, 24, 35, 0.03);
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.text-span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.text-username {
+    font-size: 1.8rem;
+    line-height: 19px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.text-nickname {
+    font-size: 1.4rem;
+    line-height: 18px;
+}
+
+.bt {
+    width: 96px;
+    height: 36px;
+}
+.isFollow{
+    background-color: rgba(255, 255, 255, 1);;
+        border:1px solid rgba(22, 24, 35, 0.12);
+        color: var(--text-color);
+        &:hover{
+            background-color: rgba(245, 245, 245, 1);
+            border: 1px solid rgba(22, 24, 35, 0.2);;
+        }
+}
+
+.box-bottom {
+    border-top: 1px solid #ddd;
+    padding: 0 30px;
+
+    height: 100%;
+}
+
+.item-top-footer {
+    width: 500px;
+}
+
+.text-description {
+    height: 44px;
+    word-wrap: break-word;
+    white-space: normal;
+    font-size: 1.6rem;
+    line-height: 21px;
+}
+
+.box-music {
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 21px;
+    align-items: center;
+    display: flex;
+    margin-top: 8px;
+    gap: 10px;
+    color: var(--text-color);
+}
+
+.box-body {
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.box-body-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.box-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(22, 24, 35, 0.06);
+    cursor: pointer;
+}
+.isLike{
+    color: var(--primary);
+}
+.text-views {
+    font-size: 1.2rem;
+    line-height: 16px;
+    font-weight: 700;
+}
+
+.box-icon-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.box-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 32px;
+    background-color: rgba(22, 24, 35, 0.06);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.link {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 400px;
+}
+
+.bt-copy {
+    width: 100px;
+    color: rgb(22, 24, 35);
+    font-weight: 700;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-tab {
+    padding-top: 18px;
+    display: flex;
+    align-items: center;
+    padding:16px 32px 0 32px;
+    width: 100%;
+    position: sticky;
+    z-index: 1;
+    top: 0px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+}
+
+
+
+.tab {
+    border-bottom: 2px solid transparent;
+    flex: 1;
+}
+
+.text-tab {
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 24px;
+    color: rgb(22, 24, 35);
+}
+.active{
+    border-bottom: 2px solid black;
+}
+
+.box-comment{
+    padding: 16px 32px;
+}
