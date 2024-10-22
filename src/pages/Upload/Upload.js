@@ -1,62 +1,70 @@
 import classNames from 'classnames/bind';
 import styles from './Upload.module.scss';
-import { IconBase64, UploadIcon } from '~/components/Icons';
+import SelectFile from './SelectFile';
+import { useState } from 'react';
+import ContentFile from './ContentFile';
 
 const cx = classNames.bind(styles);
 
-const DATA = [
-    {
-        icon: IconBase64.CameraIcon,
-        title: 'Size and duration',
-        label: 'Maximum size: 10 GB, video duration: 60 minutes.',
-    },
-    {
-        icon: IconBase64.FileYoutubeIcon,
-        title: 'File formats',
-        label: 'Recommended: “.mp4”. Other major formats are supported.',
-    },
-    {
-        icon: IconBase64.QualityIcon,
-        title: 'Video resolutions',
-        label: 'Minimum resolution: 720p. 2K and 4K are supported.',
-    },
-    {
-        icon: IconBase64.CutIcon,
-        title: 'Aspect ratios',
-        label: 'Recommended: 16:9 for landscape, 9:16 for vertical.',
-    },
-];
 const Upload = () => {
+    const [videoFile, setVideoFile] = useState(null);
+    const [progressBar, setProgressBar] = useState(0);
+    const [fileInfo, setFileInfo] = useState(null);
+    const [uploadStatus, setUploadStatus] = useState('');
+    const [isUpLoading, setIsUpLoading] = useState(false);
+    const [uploadDuration, setUploadDuration] = useState(null);
+    const [uploadFile, setUploadFile] = useState('');
+    const handleChangeFile = (e) => {
+        let file = e.target.files[0];
+        if (file) {
+            setUploadFile(file);
+            setFileInfo({
+                name: file.name,
+                size: (file.size / (1024 * 1024)).toFixed(1), //convert MB
+            });
+
+            let urlVideo = URL.createObjectURL(file);
+
+            //start loading
+            setIsUpLoading(true);
+            setProgressBar(0);
+            setUploadDuration(null);
+            const startTime = Date.now(); //time start
+
+            let fakeProgressBar = setInterval(() => {
+                setProgressBar((prev) => {
+                    if (prev >= 100) {
+                        clearInterval(fakeProgressBar);
+                        setUploadStatus('Uploaded');
+                        setIsUpLoading(false);
+                        const endTime = Date.now(); //time end
+                        const duration = ((endTime - startTime) / 1000).toFixed(1); //tinh toan time
+                        setUploadDuration(duration);
+                        setVideoFile(urlVideo);
+                        return 100;
+                    }
+                    return prev + 15;
+                });
+            }, 200);
+        }
+    };
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('box-upload')}>
-                <div className={cx('box-header')}>
-                    <input type="file" hidden id="id-input" />
-                    <label htmlFor="id-input" className={cx('upload')}>
-                        <div className={cx('content-upload')}>
-                            <UploadIcon />
-                            <div className={cx('title')}>Select video to upload</div>
-                            <div className={cx('description')}>Or drag and drop it here</div>
-                            <label htmlFor="id-input" className={cx('bt')} primary>
-                                Select video
-                            </label>
-                        </div>
-                    </label>
+            {fileInfo ? (
+                <div className={cx('box-content')}>
+                    <ContentFile
+                        fileInfo={fileInfo}
+                        progressBar={progressBar}
+                        uploadDuration={uploadDuration}
+                        uploadStatus={uploadStatus}
+                        src={videoFile}
+                        uploadFile={uploadFile}
+                        isUpLoading={isUpLoading}
+                    />
                 </div>
-                <div className={cx('box-footer')}>
-                    {DATA.map((item, index) => {
-                        return (
-                            <div key={index} className={cx('box-content')}>
-                                <img src={item.icon} alt={index} />
-                                <div className={cx('box-title')}>
-                                    <div className={cx('title-footer')}>{item.title}</div>
-                                    <div className={cx('label-footer')}>{item.label}</div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+            ) : (
+                <SelectFile onChange={handleChangeFile} />
+            )}
         </div>
     );
 };

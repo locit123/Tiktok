@@ -1,90 +1,146 @@
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Comment.module.scss';
 import { ExistIcon } from '~/components/Icons';
 import LoadComment from './LoadComment';
 import * as CommentService from '~/services/CommentService';
-import { TimeDay } from '~/utils/TimeMoment';
 import PostComment from './PostComment';
 import ModalLast from '~/components/ModalLast';
-import { ContextProvider } from '~/Context';
 import Button from '~/components/Button';
 import * as LikeCommentService from '~/services/LikeService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { COMMENT_HOME } from '~/utils/contantValue';
 const cx = classNames.bind(styles);
-const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
-    const [listComments, setListComments] = useState([]);
-    const [idComment, setIdComment] = useState('');
-    const [isOpen, setIsOpen] = useState(false);
-    const { setIsShow } = useContext(ContextProvider);
-    const [id, setId] = useState('');
-    const [visible, setVisible] = useState(false);
-    const [totalPage, setTotalPage] = useState(0);
-
+const Comment = ({
+    isShowComment,
+    setIsShowComment,
+    idVideo,
+    typeAction,
+    scrollTopHome,
+    setTotalComment,
+    totalComment,
+}) => {
     const wrapperScrollRef = useRef(null);
+    const [dataComment, setDataComment] = useState([]);
+    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(null);
+    const [totalPages, setTotalPages] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [loadingPage, setLoadingPage] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [idComment, setIdComment] = useState(null);
+    console.log(dataComment, 'dataComment');
 
-    const getApiComment = useCallback(async () => {
-        if (idVideo) {
-            await CommentService.getListComments(idVideo, setListComments, 1, setTotalPage);
-        }
-    }, [idVideo]);
     useEffect(() => {
-        getApiComment();
-    }, [getApiComment]);
-
-    const dataStorageComment = useMemo(() => {
-        if (listComments && listComments?.length > 0) {
-            return listComments.map((comment) => ({ ...comment }));
+        if (scrollTopHome > 0) {
+            wrapperScrollRef.current.scrollTop = 0;
+            setPage(1);
         }
-    }, [listComments]);
+    }, [scrollTopHome]);
 
+    useEffect(() => {
+        const fetchApiComment = async () => {
+            if (typeAction === COMMENT_HOME && idVideo) {
+                try {
+                    setLoading(true);
+                    const result = await CommentService.getListComments(idVideo, page);
+                    if (result && result.data) {
+                        setLoading(false);
+                        setCurrentPage(result.meta.pagination.current_page);
+                        setTotalPages(result.meta.pagination.total_pages);
+                        setTotalComment(result.meta.pagination.total);
+                        if (page > 1) {
+                            setDataComment((prev) => {
+                                const newData = result.data.filter(
+                                    (newComment) => !prev.some((prevComment) => prevComment.id === newComment.id),
+                                );
+                                return [...prev, ...newData];
+                            });
+                        } else {
+                            setDataComment(result.data);
+                        }
+                    }
+                } catch (error) {
+                    setLoading(false);
+                    console.log('failed get api Comment ', error);
+                } finally {
+                    setLoadingPage(false);
+                }
+            }
+        };
+        fetchApiComment();
+    }, [idVideo, page, typeAction, setTotalComment, totalComment]);
+    //Data Store Memo
+    const dataListCommentsMemo = useMemo(() => {
+        return dataComment && dataComment.length > 0 && dataComment.map((data) => ({ ...data }));
+    }, [dataComment]);
+    //Scroll
+    useEffect(() => {
+        let currentRef = wrapperScrollRef.current;
+        const handleScroll = () => {
+            let scrollTop = Math.round(currentRef.scrollTop + currentRef.clientHeight);
+            let scrollHeight = currentRef.scrollHeight;
+            if (scrollTop >= scrollHeight) {
+                if (currentPage < totalPages && !loadingPage) {
+                    setLoadingPage(true);
+                    setPage((prev) => prev + 1);
+                }
+            }
+        };
+        currentRef.addEventListener('scroll', handleScroll);
+        return () => {
+            currentRef.removeEventListener('scroll', handleScroll);
+        };
+    }, [currentPage, loadingPage, totalPages]);
+    //LIKE COMMENT
+    const handleClickFavoriteComment = async (id, like, likeCount) => {
+        if (like) {
+            await LikeCommentService.unLikeAComment(id);
+            setDataComment((prevComment) =>
+                prevComment.map((comment) =>
+                    comment.id === id ? { ...comment, is_liked: !like, likes_count: likeCount - 1 } : comment,
+                ),
+            );
+        } else {
+            await LikeCommentService.likeAComment(id);
+            setDataComment((prevComment) =>
+                prevComment.map((comment) =>
+                    comment.id === id ? { ...comment, is_liked: !like, likes_count: likeCount + 1 } : comment,
+                ),
+            );
+        }
+    };
+
+    //SubMit delete comment
+    const handleClickSubmit = async () => {
+        try {
+            await CommentService.deleteComment(idComment);
+            setDataComment((prevComment) => prevComment.filter((comment) => comment.id !== idComment));
+
+            setTotalComment((prevTotal) => (prevTotal > 0 ? prevTotal - 1 : 0));
+
+            setShowModal(false);
+        } catch (error) {
+            console.error('Lỗi khi xóa bình luận:', error);
+        }
+    };
+
+    const handleClickCancel = () => {
+        setShowModal(false);
+        setIdComment(null);
+    };
+
+    //EXIST COMMENT
     const handleClickExist = () => {
         setIsShowComment(false);
     };
-    const handleOnMouseEnter = useCallback((id) => {
-        setIdComment(id);
-    }, []);
-
-    const handleOnMouseLeave = useCallback(() => {
-        setIdComment('');
-    }, []);
-
-    const handleClickCancel = () => {
-        setIsOpen(false);
-        setId('');
-    };
-
-    const handleClickDelete = (id) => {
-        setIsOpen(true);
-        setId(id);
-    };
-
-    const handleClickToggle = () => {
-        setVisible(true);
-    };
-
-    const handleClickOutSide = () => {
-        setVisible(false);
-    };
-    const handleClickSubmit = async () => {
-        await CommentService.deleteComment(id, getApiComment, setIsOpen);
-    };
-
-    const handleClickFavoriteComment = useCallback(
-        async (idComment, likeComment) => {
-            if (!likeComment) {
-                await LikeCommentService.likeAComment(idComment, getApiComment);
-            } else {
-                await LikeCommentService.unLikeAComment(idComment, getApiComment);
-            }
-        },
-        [getApiComment],
-    );
     return (
         <div className={cx('wrapper', { isShowComment })}>
             <div className={cx('box-header')}>
                 <div className={cx('box-header-left')}>
                     <p className={cx('label')}>Comments</p>
-                    <span className={cx('label2')}>({totalPage ?? 0})</span>
+                    <span className={cx('label2')}>({totalComment ?? 0})</span>
                 </div>
 
                 <div className={cx('exist')} onClick={handleClickExist}>
@@ -92,36 +148,23 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
                 </div>
             </div>
             <div className={cx('wrapper-scroll')} ref={wrapperScrollRef}>
-                {dataStorageComment && dataStorageComment.length > 0
-                    ? dataStorageComment.map((comment, index) => (
+                {dataListCommentsMemo && dataListCommentsMemo.length > 0
+                    ? dataListCommentsMemo.map((comment, index) => (
                           <LoadComment
+                              data={comment}
                               key={index}
-                              comment={comment.comment}
-                              username={`${comment.user.first_name} ${comment.user.last_name}`}
-                              totalFavorite={comment.likes_count}
                               view={10}
-                              time={TimeDay(comment.created_at)}
-                              src={comment.user.avatar}
-                              onMouseEnter={() => handleOnMouseEnter(comment.id)}
-                              hoverComment={idComment === comment.id}
-                              onMouseLeave={handleOnMouseLeave}
-                              idUser={comment.user.id}
-                              idComment={comment.id}
-                              handleClickDelete={() => handleClickDelete(comment.id)}
-                              handleClickToggle={handleClickToggle}
-                              handleClickOutSide={handleClickOutSide}
-                              visible={visible}
-                              setVisible={setVisible}
-                              isLiked={comment.is_liked}
                               handleClickFavoriteComment={() =>
-                                  handleClickFavoriteComment(comment.id, comment.is_liked)
+                                  handleClickFavoriteComment(comment.id, comment.is_liked, comment.likes_count)
                               }
+                              setShowModal={setShowModal}
+                              setIdComment={setIdComment}
                           />
                       ))
                     : 'No Comment'}
             </div>
-            <PostComment uuidComment={uuidComment} getApiComment={getApiComment} />
-            <ModalLast isOpen={isOpen} closeModal={setIsShow} className={cx('modal-delete')}>
+            <PostComment idVideo={idVideo} setDataComment={setDataComment} setTotalComment={setTotalComment} />
+            <ModalLast isOpen={showModal} closeModal={setShowModal} className={cx('modal-delete')}>
                 <span className={cx('text-modal')}>Are you sure you want to delete this comment?</span>
                 <div className={cx('bt')}>
                     <Button primary className={cx('de-bt')} onClick={handleClickSubmit}>
@@ -132,6 +175,11 @@ const Comment = ({ isShowComment, setIsShowComment, idVideo, uuidComment }) => {
                     </Button>
                 </div>
             </ModalLast>
+            {loading && (
+                <div className={cx('box-loading')}>
+                    <FontAwesomeIcon icon={faSpinner} className={cx('loading')} />
+                </div>
+            )}
         </div>
     );
 };

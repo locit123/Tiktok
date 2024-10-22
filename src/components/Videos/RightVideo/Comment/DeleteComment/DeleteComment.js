@@ -2,7 +2,7 @@ import Tippy from '@tippyjs/react/headless';
 import { DeleteIcon, ReportIcon, TridentHorizontal } from '~/components/Icons';
 import classNames from 'classnames/bind';
 import styles from './DeleteComment.module.scss';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
@@ -16,7 +16,7 @@ const DeleteComment = ({ visible, handleClickOutSide, idUser, handleClickToggle,
                 touch={false}
                 visible={visible}
                 placement="bottom"
-                trigger="click"
+                // trigger="click"
                 interactive
                 offset={[1000, 0]}
                 animation="fade"
@@ -48,4 +48,4 @@ const DeleteComment = ({ visible, handleClickOutSide, idUser, handleClickToggle,
     );
 };
 
-export default DeleteComment;
+export default React.memo(DeleteComment);

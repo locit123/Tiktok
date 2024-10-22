@@ -17,22 +17,16 @@ const unLikeAPost = async (idVideo) => {
     }
 };
 
-const likeAComment = async (idComment, getApiComment) => {
+const likeAComment = async (idComment) => {
     try {
-        const res = await axiosInstance.post(`comments/${idComment}/like`);
-        if (res && res.data) {
-            getApiComment();
-        }
+        await axiosInstance.post(`comments/${idComment}/like`);
     } catch (error) {
         toast.error(error.message);
     }
 };
-const unLikeAComment = async (idComment, getApiComment) => {
+const unLikeAComment = async (idComment) => {
     try {
-        const res = await axiosInstance.post(`comments/${idComment}/unlike`);
-        if (res && res.data) {
-            getApiComment();
-        }
+        await axiosInstance.post(`comments/${idComment}/unlike`);
     } catch (error) {
         toast.error(error.message);
     }

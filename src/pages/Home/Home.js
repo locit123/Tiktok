@@ -5,23 +5,49 @@ import VideoObService from '~/components/Videos/ObService';
 import { getVideoList } from '~/services/VideoService';
 import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
-import * as FollowService from '~/services/FollowService';
+import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Comment from '~/components/Videos/RightVideo/Comment';
-import * as LikeService from '~/services/LikeService';
+import { COMMENT_HOME } from '~/utils/contantValue';
 const cx = classNames.bind(styles);
 const Home = () => {
-    //home
+    const wrapperRef = useRef(null);
     const [listVideos, setListVideos] = useState([]);
     const [isMuted, setIsMuted] = useState(true);
     const [volume, setVolume] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(null);
+    const [totalPage, setTotalPage] = useState(null);
+    const [loadingPage, setLoadingPage] = useState(false);
     const [isShowComment, setIsShowComment] = useState(false);
-    const [idVideo, setIdVideo] = useState('');
-    const [uuidComment, setUuidComment] = useState('');
+    const [idVideo, setIdVideo] = useState(null);
+    const [typeAction, setTypeAction] = useState(null);
+    const [scrollTopHome, setScrollTopHome] = useState(0);
+    const [totalComment, setTotalComment] = useState(null);
 
-    const wrapperRef = useRef(null);
     const getApiVideo = useCallback(async () => {
-        await getVideoList('for-you', 1, setListVideos);
-    }, []);
+        try {
+            setLoading(true);
+            const result = await getVideoList('for-you', page);
+            if (result && result.data) {
+                setLoading(false);
+                setCurrentPage(result.meta.pagination.current_page);
+                setTotalPage(result.meta.pagination.total_pages);
+                if (page > 1) {
+                    setListVideos((prev) => [...prev, ...result.data]);
+                } else {
+                    setListVideos(result.data);
+                }
+            }
+        } catch (error) {
+            setLoading(false);
+            toast.error(error.message);
+        } finally {
+            setLoadingPage(false);
+        }
+    }, [page]);
 
     useEffect(() => {
         getApiVideo();
@@ -34,41 +60,31 @@ const Home = () => {
         }));
     }, [listVideos]);
 
-    const handleClickFollow = useCallback(
-        async (id, follow) => {
-            if (follow === false) {
-                await FollowService.FollowAUser(id);
-            } else {
-                await FollowService.UnFollow(id);
+    useEffect(() => {
+        let currentRef = wrapperRef.current;
+        const handleScroll = () => {
+            setScrollTopHome(currentRef.scrollTop);
+            let scrollTop = Math.round(currentRef.scrollTop + currentRef.clientHeight);
+            let scrollHeight = currentRef.scrollHeight;
+            if (scrollTop >= scrollHeight) {
+                if (currentPage < totalPage && !loadingPage) {
+                    setLoadingPage(true);
+                    setPage((prev) => prev + 1);
+                }
             }
-            await getApiVideo();
-        },
-        [getApiVideo],
-    );
+        };
+        currentRef.addEventListener('scroll', handleScroll);
+        return () => {
+            currentRef.removeEventListener('scroll', handleScroll);
+        };
+    }, [totalPage, currentPage, loadingPage]);
 
-    const handleClickComment = (id, uuid) => {
-        setIsShowComment((prev) => {
-            if (prev) {
-                setIdVideo('');
-                setUuidComment('');
-                return false;
-            }
-            setIdVideo(id);
-            setUuidComment(uuid);
-            return true;
-        });
+    //COMMENT
+    const handleClickComment = (id) => {
+        setTypeAction(COMMENT_HOME);
+        setIdVideo(id);
+        setIsShowComment((prev) => !prev);
     };
-    const handleClickFavorite = useCallback(
-        async (id, like) => {
-            if (!like) {
-                await LikeService.likeAPost(id);
-            } else {
-                await LikeService.unLikeAPost(id);
-            }
-            await getApiVideo();
-        },
-        [getApiVideo],
-    );
     return (
         <div className={cx('wrapper-children')}>
             <Helmet>
@@ -85,15 +101,15 @@ const Home = () => {
                                 className={cx('video-item')}
                                 key={index}
                                 data={video}
-                                onClick={() => handleClickFollow(video.user_id, video.user.is_followed)}
                                 isMuted={isMuted}
                                 setIsMuted={setIsMuted}
                                 volume={volume}
                                 setVolume={setVolume}
-                                handleClickComment={() => handleClickComment(video.id, video.uuid)}
+                                setListVideos={setListVideos}
+                                handleClickComment={() => handleClickComment(video.id)}
                                 setIdVideo={setIdVideo}
-                                handleClickFavorite={() => handleClickFavorite(video.id, video.is_liked)}
-                                isLike={video.is_liked}
+                                setTypeAction={setTypeAction}
+                                totalComment={totalComment}
                             />
                         );
                     })
@@ -106,8 +122,16 @@ const Home = () => {
                     isShowComment={isShowComment}
                     setIsShowComment={setIsShowComment}
                     idVideo={idVideo}
-                    uuidComment={uuidComment}
+                    typeAction={typeAction}
+                    scrollTopHome={scrollTopHome}
+                    setTotalComment={setTotalComment}
+                    totalComment={totalComment}
                 />
+            )}
+            {loading && (
+                <div className={cx('box-loading')}>
+                    <FontAwesomeIcon icon={faSpinner} className={cx('loading')} />
+                </div>
             )}
         </div>
     );

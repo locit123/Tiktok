@@ -21,3 +21,12 @@ export const TimeDay = (timeValue) => {
         return `${diffWeeks}w ago`; // Trên 1 tuần, hiển thị số tuần
     }
 };
+
+// Convert giây thành định dạng hh:mm:ss
+export const formatTime = (time) => {
+    const duration = moment.duration(time, 'seconds');
+    const hours = duration.hours().toString().padStart(2, '0');
+    const minutes = duration.minutes().toString().padStart(2, '0');
+    const seconds = duration.seconds().toString().padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+};

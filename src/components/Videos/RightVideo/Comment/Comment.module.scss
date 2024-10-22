@@ -44,7 +44,6 @@
 
 //scroll
 .wrapper-scroll{
-
     padding-top: 24px;
     height: 548px;
     overflow-y: scroll;
@@ -88,3 +87,32 @@
     }
 }
 
+
+
+.box-loading {
+    position: fixed;
+    bottom: 7%;
+    transform: translateY(-7%);
+    right: 10%;
+    transform: translateX(-10%);
+
+
+    z-index: 1000;
+}
+
+.loading {
+    animation: spinner .9s linear infinite;
+    font-size: 3rem;
+    color: var(--primary);
+
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

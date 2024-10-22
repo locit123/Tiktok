@@ -1,0 +1,88 @@
+.box-location {
+    margin-top: 24px;
+}
+//text-cover
+.text-cover {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.location {
+    border-radius: 8px;
+    width: 340px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-inline: 12px 8px;
+    background-color: var(--b-c);
+    gap: 5px;
+}
+
+.text-location {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.box-scroll {
+    position: relative;
+}
+
+.wrapper-scroll {
+    width: 682px;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-top: 8px;
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));
+    scroll-behavior: smooth;
+}
+
+.scroll {
+    display: flex;
+    width: 100%;
+    gap: 5px;
+}
+
+.items-scroll {
+    border: 1px solid #ddd;
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 4px;
+    flex: 1;
+    font-size: 1.3rem;
+    max-width: 240px;
+
+    &:hover {
+        background: var(--UI-Shape-Neutral-4, rgba(0, 0, 0, 0.0509803922));
+    }
+}
+
+.ic-right {
+    position: absolute;
+    top: 3px;
+    right: -30px;
+    padding: 3px 16px;
+    display: flex;
+    cursor: pointer;
+}
+
+.icon-arrow-right {
+    transform: rotate(270deg);
+}
+
+.ic-left {
+    position: absolute;
+    top: 3px;
+    left: -30px;
+    padding: 3px 16px;
+    display: flex;
+    cursor: pointer;
+}
+
+.icon-arrow-left {
+    transform: rotate(90deg);
+}

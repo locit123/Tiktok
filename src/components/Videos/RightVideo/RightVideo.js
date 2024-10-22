@@ -4,14 +4,14 @@ import { BookMarkIcon, CommentIcon, FavoriteIcon, PlusIcon, ShareIconSoil, TickI
 const cx = classNames.bind(styles);
 const RightVideo = ({
     avatar,
-    onClick,
-    isCheckIcon,
+    isFollow,
     labelFavorite,
     labelComment,
     labelBookMark,
     labelShare,
     handleClickComment,
     handleClickFavorite,
+    handleClickFollow,
     isLike,
 }) => {
     return (
@@ -21,8 +21,8 @@ const RightVideo = ({
                     <span className={cx('icon')}>
                         <img src={avatar} alt="a" className={cx('avatar')} />
                     </span>
-                    <span onClick={onClick} className={cx('icon-plus')}>
-                        {isCheckIcon ? <TickIcon /> : <PlusIcon />}
+                    <span onClick={handleClickFollow} className={cx('icon-plus')}>
+                        {isFollow ? <TickIcon /> : <PlusIcon />}
                     </span>
                 </div>
                 <div className={cx('box-icon')}>

@@ -1,33 +1,28 @@
 const { toast } = require('react-toastify');
 const { default: axiosInstance } = require('~/utils/httpRequest');
 
-const getListComments = async (id, setListComments, page) => {
+const getListComments = async (id, page) => {
     try {
         const res = await axiosInstance.get(`videos/${id}/comments?page=${page}`);
-        if (res && res.data && res.meta) {
-            setListComments(res.data);
-        }
+        return res;
     } catch (error) {
         toast.error(error.message);
     }
 };
 
-const postComment = async (idComment, comment, getApiComment) => {
+const postComment = async (idVideo, comment) => {
     try {
-        const res = await axiosInstance.post(`videos/${idComment}/comments`, { comment });
-        if (res && res.data) {
-            getApiComment();
-        }
+        const res = await axiosInstance.post(`videos/${idVideo}/comments`, { comment });
+
+        return res;
     } catch (error) {
         toast.error(error.message);
     }
 };
 
-const deleteComment = async (id, getApiComment, setIsOpen) => {
+const deleteComment = async (id) => {
     try {
         await axiosInstance.delete(`comments/${id}`);
-        setIsOpen(false);
-        getApiComment();
     } catch (error) {
         toast.error(error.message);
     }

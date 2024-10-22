@@ -1,13 +1,10 @@
 import { toast } from 'react-toastify';
 import axiosInstance from '~/utils/httpRequest';
 
-const getVideoList = async (type, page, setListVideos) => {
+const getVideoList = async (type, page) => {
     try {
         const res = await axiosInstance.get(`videos?type=${type}&page=${page}`);
-
-        if (res && res.data) {
-            setListVideos(res.data);
-        }
+        return res;
     } catch (error) {
         toast.error(error.message);
     }
@@ -36,4 +33,12 @@ const getUsersVideo = async (id, setListVideosUser) => {
     }
 };
 
-export { getVideoList, getAVideo, getUsersVideo };
+const postAVideo = async (data) => {
+    try {
+        const res = await axiosInstance.post(`videos`, data);
+        console.log(res, 'ressssssss');
+    } catch (error) {
+        toast.error(error.message);
+    }
+};
+export { getVideoList, getAVideo, getUsersVideo, postAVideo };

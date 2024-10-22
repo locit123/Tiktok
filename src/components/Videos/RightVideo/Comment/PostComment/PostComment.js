@@ -5,13 +5,21 @@ import { AConIcon, Icon } from '~/components/Icons';
 import * as CommentService from '~/services/CommentService';
 
 const cx = classNames.bind(styles);
-const PostComment = ({ uuidComment, getApiComment }) => {
+const PostComment = ({ idVideo, setDataComment, setTotalComment }) => {
     const [comment, setComment] = useState('');
     const ipRef = useRef();
 
     const handleClickPost = async () => {
-        await CommentService.postComment(uuidComment, comment, getApiComment);
-        setComment('');
+        try {
+            const result = await CommentService.postComment(idVideo, comment);
+            if (result && result.data) {
+                setComment('');
+                setDataComment((prev) => [result.data, ...prev]);
+                setTotalComment((prev) => (prev > 0 ? prev + 1 : 0));
+            }
+        } catch (error) {
+            console.log('failed post a comment', error);
+        }
     };
 
     const handleOnKey = (e) => {

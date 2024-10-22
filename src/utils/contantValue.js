@@ -20,3 +20,25 @@ export const BODY_VIDEO = 'body_video';
 export const LAST_VIDEO = 'last_video';
 export const ARROW_UP = 'arrow_up';
 export const ARROW_DOWN = 'arrow_down';
+//TYPE status
+export const LEFT = 'left';
+export const RIGHT = 'right';
+export const BODY = 'body';
+//TYPE Upload
+export const PUBLIC = 'public';
+export const FRIENDS = 'friends';
+export const PRIVATE = 'private';
+//TYPE Upload Tab
+export const FEED = 'feed';
+export const PROFILE = 'profile';
+export const WEB_TV = 'web_tv';
+//TYPE Radio and Checkbox
+export const NOW = 'now';
+export const SCHEDULE = 'schedule';
+export const COMMENT = 'comment';
+export const DUET = 'duet';
+export const STITCH = 'stitch';
+//TYPE Home
+export const COMMENT_HOME = 'comment_home';
+export const FOLLOW_HOME = 'follow_home';
+export const LIKE_HOME = 'like_home';
