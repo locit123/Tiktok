@@ -15,11 +15,14 @@ import {
     WhatsAppIcon,
 } from '~/components/Icons';
 import { ShareIconSoil } from '~/components/Icons/Icons';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as CommentService from '~/services/CommentService';
 import LoadComment from '~/components/Videos/RightVideo/Comment/LoadComment';
 import * as LikeService from '~/services/LikeService';
 import { MonthDay } from '~/utils/ConvertDay';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import ModalLast from '~/components/ModalLast';
 const cx = classNames.bind(styles);
 const BoxRight = ({
     avatar,
@@ -29,33 +32,75 @@ const BoxRight = ({
     description,
     music,
     totalFavorite,
-    totalComment,
     totalBookMark,
     links,
     tick,
     idVideo,
-    handleClickFollow,
     isFollow,
     handleClickFavorite,
     isLike,
+    handleClickFollow,
+    isClick,
+    setIsClick,
 }) => {
+    const divRef = useRef(null);
+    const [dataComment, setDataComment] = useState([]);
     const [isTab, setIsTab] = useState('comments');
-    const [listDataComment, setListComments] = useState([]);
-    const getApiComment = useCallback(async () => {
-        if (idVideo) {
-            await CommentService.getListComments(idVideo, setListComments, 1);
-        }
-    }, [idVideo]);
+    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(null);
+    const [totalPage, setTotalPage] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [loadingPage, setLoadingPage] = useState(false);
+    const [totalComment, setTotalComment] = useState(null);
+    const [idComment, setIdComment] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    console.log(dataComment, 'dataComment');
+
     useEffect(() => {
-        getApiComment();
-    }, [getApiComment]);
+        if (isClick) {
+            setPage(1);
+            divRef.current.scrollTop = 0;
+        }
+        setIsClick(false);
+    }, [isClick, setIsClick]);
+    useEffect(() => {
+        const fetchApiGetComment = async () => {
+            if (idVideo) {
+                try {
+                    setLoading(true);
+                    const res = await CommentService.getListComments(idVideo, page);
+                    if (res && res.data) {
+                        setLoading(false);
+                        setCurrentPage(res.meta.pagination.current_page);
+                        setTotalPage(res.meta.pagination.total_pages);
+                        setTotalComment(res.meta.pagination.total);
+                        if (page > 1) {
+                            setDataComment((prevComment) => {
+                                let newComment = res.data.filter(
+                                    (commentNew) => !prevComment.some((prev) => prev.id === commentNew.id),
+                                );
+
+                                return [...prevComment, ...newComment];
+                            });
+                        } else {
+                            setDataComment(res.data);
+                        }
+                    }
+                } catch (error) {
+                    setLoading(false);
+
+                    console.log('fail api get comment', error);
+                } finally {
+                    setLoadingPage(false);
+                }
+            }
+        };
+        fetchApiGetComment();
+    }, [idVideo, page, totalComment]);
 
     const dataStorage = useMemo(() => {
-        return listDataComment.map((comment) => ({ ...comment }));
-    }, [listDataComment]);
-
-    const divRef = useRef(null);
-    const boxBodyRef = useRef(null);
+        return dataComment.map((comment) => ({ ...comment }));
+    }, [dataComment]);
 
     const handleClickTab = (type) => {
         if (type === 'comments') {
@@ -64,20 +109,63 @@ const BoxRight = ({
             setIsTab('videos');
         }
     };
-
-    const handleClickFavoriteComment = async (id, like) => {
+    //LIKE
+    const handleClickFavoriteComment = async (id, like, likeCounts) => {
         if (like) {
             await LikeService.unLikeAComment(id);
         } else {
             await LikeService.likeAComment(id);
         }
-        await getApiComment();
+
+        setDataComment((prevComments) =>
+            prevComments.map((comment) =>
+                comment.id === id
+                    ? { ...comment, is_liked: !like, likes_count: like ? likeCounts - 1 : likeCounts + 1 }
+                    : comment,
+            ),
+        );
+    };
+
+    //Scroll
+    useEffect(() => {
+        const currentRef = divRef.current;
+        const handleScroll = () => {
+            let scrollTop = Math.round(currentRef.scrollTop + currentRef.clientHeight);
+            let scrollHeight = currentRef.scrollHeight;
+
+            if (scrollTop >= scrollHeight - 1) {
+                if (currentPage < totalPage && !loadingPage) {
+                    setLoadingPage(true);
+                    setPage((prev) => prev + 1);
+                }
+            }
+        };
+        currentRef.addEventListener('scroll', handleScroll);
+        return () => {
+            currentRef.removeEventListener('scroll', handleScroll);
+        };
+    }, [currentPage, totalPage, loadingPage]);
+    //SUBMIT DELETE COMMENT
+    const handleClickSubmit = async () => {
+        try {
+            await CommentService.deleteComment(idComment);
+
+            setDataComment((prevComment) => prevComment.filter((comment) => comment.id !== idComment));
+            setTotalComment((prevTotal) => (prevTotal > 0 ? prevTotal - 1 : 0));
+            setShowModal(false);
+            setIdComment(null);
+        } catch (error) {
+            console.log('failed delete comment handleClickSubmit', error);
+        }
+    };
+    const handleClickCancel = () => {
+        setShowModal(false);
     };
     return (
         <div className={cx('wrapper-right')}>
             <div className={cx('box-top')} ref={divRef}>
                 <div>
-                    <div className={cx('box-1')} ref={boxBodyRef}>
+                    <div className={cx('box-1')}>
                         <div className={cx('box-border-top')}>
                             <div className={cx('item-top')}>
                                 <div className={cx('text-span')}>
@@ -161,16 +249,17 @@ const BoxRight = ({
                                     return (
                                         <LoadComment
                                             key={index}
-                                            comment={comment.comment}
-                                            src={comment?.user?.avatar}
-                                            username={`${comment?.user?.first_name} ${comment?.user?.last_name}`}
-                                            totalFavorite={comment.likes_count}
-                                            isLiked={comment.is_liked}
-                                            time={comment.created_at}
-                                            view={10}
+                                            data={comment}
                                             handleClickFavoriteComment={() =>
-                                                handleClickFavoriteComment(comment.id, comment.is_liked)
+                                                handleClickFavoriteComment(
+                                                    comment.id,
+                                                    comment.is_liked,
+                                                    comment.likes_count,
+                                                )
                                             }
+                                            setIdComment={setIdComment}
+                                            setShowModal={setShowModal}
+                                            view={10}
                                         />
                                     );
                                 })
@@ -184,9 +273,25 @@ const BoxRight = ({
                 </div>
             </div>
 
+            {loading && (
+                <div className={cx('box-loading')}>
+                    <FontAwesomeIcon icon={faSpinner} className={cx('loading')} />
+                </div>
+            )}
             <div className={cx('box-bottom')}>
-                <PostComment />
+                <PostComment idVideo={idVideo} setDataComment={setDataComment} setTotalComment={setTotalComment} />
             </div>
+            <ModalLast isOpen={showModal} closeModal={setShowModal} className={cx('modal-delete')}>
+                <span className={cx('text-modal')}>Are you sure you want to delete this comment?</span>
+                <div className={cx('bt-modal')}>
+                    <Button primary className={cx('de-bt')} onClick={handleClickSubmit}>
+                        Delete
+                    </Button>
+                    <Button className={cx('ca-bt')} outline onClick={handleClickCancel}>
+                        Cancel
+                    </Button>
+                </div>
+            </ModalLast>
         </div>
     );
 };

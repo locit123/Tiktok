@@ -15,7 +15,7 @@ const PostComment = ({ idVideo, setDataComment, setTotalComment }) => {
             if (result && result.data) {
                 setComment('');
                 setDataComment((prev) => [result.data, ...prev]);
-                setTotalComment((prev) => (prev > 0 ? prev + 1 : 0));
+                setTotalComment((prev) => (prev >= 0 ? prev + 1 : 0));
             }
         } catch (error) {
             console.log('failed post a comment', error);

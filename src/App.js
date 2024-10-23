@@ -1,8 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRouters } from '~/routers';
 import DefaultLayout from '~/layouts';
-import { Fragment } from 'react';
+import { Fragment, useCallback, useContext, useEffect } from 'react';
+import * as currentUserService from '~/services/AuthService';
+import { ContextProvider } from './Context';
+
 const App = () => {
+    const { setDataCurrentUser } = useContext(ContextProvider);
+    const token = localStorage.getItem('tokenLogin');
+    const getCurrentUser = useCallback(async () => {
+        if (token) {
+            await currentUserService.currentUser(setDataCurrentUser);
+        }
+    }, [setDataCurrentUser, token]);
+    useEffect(() => {
+        getCurrentUser();
+    }, [getCurrentUser, token]);
     return (
         <Router>
             <div>

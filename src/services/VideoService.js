@@ -10,13 +10,10 @@ const getVideoList = async (type, page) => {
     }
 };
 
-const getAVideo = async (uuid, setDataVideo) => {
+const getAVideo = async (uuid) => {
     try {
         const res = await axiosInstance.get(`videos/${uuid}`);
-
-        if (res && res.data) {
-            setDataVideo(res.data);
-        }
+        return res;
     } catch (error) {
         toast.error(error.message);
     }

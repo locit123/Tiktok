@@ -12,20 +12,28 @@ import { ARROW_UP, BODY_VIDEO, FIRST_VIDEO, LAST_VIDEO } from '~/utils/contantVa
 const cx = classNames.bind(styles);
 const Video = () => {
     const [dataVideo, setDataVideo] = useState({});
+
     const [listVideosUser, setListVideosUser] = useState([]);
     const [index, setIndex] = useState();
     const [typeOffsetVideo, setTypeOffsetVideo] = useState('');
     const [statusVideo, setStatusVideo] = useState(false);
+    const [isClick, setIsClick] = useState(false);
     const { nickname, uuid } = useParams();
     const navigate = useNavigate();
-    console.log(index);
 
     const getLinks = () => {
         return window.location.href;
     };
 
     const getApiAVideo = useCallback(async () => {
-        await VideoService.getAVideo(uuid, setDataVideo);
+        try {
+            const result = await VideoService.getAVideo(uuid);
+            if (result && result.data) {
+                setDataVideo(result.data);
+            }
+        } catch (error) {
+            console.log('fail to getApiAVideo', error);
+        }
     }, [uuid]);
 
     useEffect(() => {
@@ -34,22 +42,6 @@ const Video = () => {
 
     const handleClickExist = () => {
         navigate(`/${nickname}`);
-    };
-    const handleClickFollow = async (id, follow) => {
-        if (follow) {
-            await FollowService.UnFollow(id);
-        } else {
-            await FollowService.FollowAUser(id);
-        }
-        await getApiAVideo();
-    };
-    const handleClickFavorite = async (id, like) => {
-        if (like) {
-            await LikeService.unLikeAPost(id);
-        } else {
-            await LikeService.likeAPost(id);
-        }
-        await getApiAVideo();
     };
 
     const getApiUserVideos = useCallback(async () => {
@@ -89,7 +81,11 @@ const Video = () => {
             }
         }
     }, [dataUserVideos, uuid]);
+
+    console.log(isClick, 'isClick');
+
     const handleClickOffsetVideo = (type) => {
+        setIsClick(true);
         setStatusVideo(true);
         setIndex((prev) => {
             const newIndex = type === ARROW_UP ? prev + 1 : prev - 1;
@@ -100,6 +96,37 @@ const Video = () => {
             }
             return prev;
         });
+    };
+
+    //Follow
+    const handleClickFollow = async (id, follow) => {
+        try {
+            if (follow) {
+                await FollowService.UnFollow(id);
+            } else {
+                await FollowService.FollowAUser(id);
+            }
+            setDataVideo((prevVideo) =>
+                prevVideo.user.id === id
+                    ? { ...prevVideo, user: { ...prevVideo.user, is_followed: !follow } }
+                    : prevVideo,
+            );
+        } catch (error) {
+            console.log('failed to handleClickFollow', error);
+        }
+    };
+    //LIKE
+    const handleClickFavorite = async (id, like, likeCounts) => {
+        if (like) {
+            await LikeService.unLikeAPost(id);
+        } else {
+            await LikeService.likeAPost(id);
+        }
+        setDataVideo((prevVideo) =>
+            prevVideo.id === id
+                ? { ...prevVideo, is_liked: !like, likes_count: like ? likeCounts - 1 : likeCounts + 1 }
+                : prevVideo,
+        );
     };
     return (
         <div className={cx('wrapper')}>
@@ -123,7 +150,6 @@ const Video = () => {
                         description={dataVideo.description || 'Video hay'}
                         music={dataVideo.music || 'Nhac demo'}
                         totalFavorite={dataVideo.likes_count}
-                        totalComment={dataVideo.comments_count}
                         totalBookMark={dataVideo.shares_count}
                         username={`${dataVideo?.user?.first_name} ${dataVideo?.user?.last_name}`}
                         tick={dataVideo?.user?.tick}
@@ -132,7 +158,11 @@ const Video = () => {
                         handleClickFollow={() => handleClickFollow(dataVideo.user_id, dataVideo?.user?.is_followed)}
                         isFollow={dataVideo?.user?.is_followed}
                         isLike={dataVideo?.is_liked}
-                        handleClickFavorite={() => handleClickFavorite(dataVideo.id, dataVideo.is_liked)}
+                        handleClickFavorite={() =>
+                            handleClickFavorite(dataVideo.id, dataVideo.is_liked, dataVideo.likes_count)
+                        }
+                        isClick={isClick}
+                        setIsClick={setIsClick}
                     />
                 </>
             )}

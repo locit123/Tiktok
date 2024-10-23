@@ -69,8 +69,8 @@
 .box-bottom {
     border-top: 1px solid #ddd;
     padding: 0 30px;
-
     height: 100%;
+    
 }
 
 .item-top-footer {
@@ -208,4 +208,73 @@
 
 .box-comment{
     padding: 16px 32px;
+}
+
+.box-loading {
+    position: fixed;
+    right: 18%;
+    
+    bottom: 10%;
+    transform: translateY(10%);
+
+
+    z-index: 1000;
+}
+
+.loading {
+    animation: spinner .9s linear infinite;
+    font-size: 5rem;
+    color: var(--primary);
+
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+//modal
+.modal-delete {
+    width: 360px !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    color: var(--text-color);
+}
+
+.text-modal {
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+}
+
+.bt-modal {
+    display: flex;
+    margin-top: 15px;
+
+}
+
+.de-bt {
+    height: 40px;
+    width: 144px;
+    min-width: 108px;
+}
+
+.ca-bt {
+    height: 40px;
+    width: 144px;
+    min-width: 108px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.12);
+        ;
+    }
 }

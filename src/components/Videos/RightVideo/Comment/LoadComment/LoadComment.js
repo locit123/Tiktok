@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 const LoadComment = ({ view, handleClickFavoriteComment, data, setShowModal, setIdComment }) => {
     const [visible, setVisible] = useState(false);
     const [hoverComment, setHoverComment] = useState(null);
+
     const handleClickOutSide = () => {
         setVisible(false);
     };
@@ -32,6 +33,7 @@ const LoadComment = ({ view, handleClickFavoriteComment, data, setShowModal, set
         setIdComment(data.id);
         setShowModal(true);
     };
+
     return (
         <div className={cx('box-footer')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
             <Image src={data.user.avatar} alt="a" className={cx('avatar')} />

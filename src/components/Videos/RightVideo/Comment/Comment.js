@@ -30,7 +30,6 @@ const Comment = ({
     const [loadingPage, setLoadingPage] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [idComment, setIdComment] = useState(null);
-    console.log(dataComment, 'dataComment');
 
     useEffect(() => {
         if (scrollTopHome > 0) {

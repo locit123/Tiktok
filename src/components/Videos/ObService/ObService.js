@@ -21,15 +21,11 @@ const VideoObService = ({
     setTypeAction,
     totalComment,
 }) => {
-    console.log(totalComment, 'totalComment');
-
     const [visibleVideo, setVisibleVideo] = useState(false);
     let divRef = useRef(null);
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
-                console.log('chạy dô dây IntersectionObserver');
-
                 let isVisible = entry.isIntersecting;
                 setVisibleVideo(isVisible);
                 setIdVideo(data.id);
@@ -109,6 +105,8 @@ const VideoObService = ({
     };
 
     const classes = cx('wrapper', { [className]: className });
+    console.log(data, 'data');
+
     return (
         <div className={classes}>
             {data && (
