@@ -1,11 +1,6 @@
-.box-hover {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 
 .box-content-tippy {
+    border: 1px solid red;
     display: flex;
     align-items: center;
     padding: 8px 16px;
@@ -26,12 +21,9 @@
     align-items: center;
     gap: 5px;
 }
-.icon {
-    color: var(--text-color);
-    position: absolute;
-    top: 0;
+
+.icon{
     cursor: pointer;
-    right: 0;
 }
 
 

@@ -46,7 +46,6 @@ const Login = () => {
             </Helmet>
             {DATA_ITEMS.map((item, index) => (
                 <Button
-                    key={index}
                     modalIcon
                     className={cx('bt-modal')}
                     modal

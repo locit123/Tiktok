@@ -8,7 +8,15 @@ import { TimeDay } from '~/utils/TimeMoment';
 
 const cx = classNames.bind(styles);
 
-const LoadComment = ({ view, handleClickFavoriteComment, data, setShowModal, setIdComment }) => {
+const LoadComment = ({
+    iconFavoriteRight = false,
+    visibleFavorite = false,
+    view,
+    handleClickFavoriteComment,
+    data,
+    setShowModal,
+    setIdComment,
+}) => {
     const [visible, setVisible] = useState(false);
     const [hoverComment, setHoverComment] = useState(null);
 
@@ -37,43 +45,64 @@ const LoadComment = ({ view, handleClickFavoriteComment, data, setShowModal, set
     return (
         <div className={cx('box-footer')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
             <Image src={data.user.avatar} alt="a" className={cx('avatar')} />
-            <div className={cx('box-footer-right')}>
-                <div className={cx('name')}>
-                    {data.user.first_name}
-                    {data.user.last_name}
-                </div>
-                {hoverComment === data.id && (
-                    <DeleteComment
-                        handleClickOutSide={handleClickOutSide}
-                        handleClickToggle={handleClickToggle}
-                        idUser={data.user.id}
-                        visible={visible}
-                        handleClickDelete={handleClickDelete}
-                        setVisible={setVisible}
-                    />
-                )}
-                <span className={cx('comment')}>{data.comment}</span>
-                <div className={cx('box-footer-in')}>
-                    <span className={cx('time')}>{TimeDay(data.created_at)}</span>
-                    <div className={cx('box-footer-favorite')}>
-                        {data.is_liked ? (
-                            <div onClick={handleClickFavoriteComment}>
-                                <FavoriteSoilIcon className={cx({ isLiked: data.is_liked })} />
-                            </div>
-                        ) : (
-                            <div onClick={handleClickFavoriteComment}>
-                                <FavoriteNoneSoilIcon />
-                            </div>
-                        )}
-                        <span className={cx('total-favorite')}>{data.likes_count}</span>
+            <div className={cx('box-footer-right', { iconFavoriteRight })}>
+                <div>
+                    <div className={cx('name')}>
+                        {data.user.first_name}
+                        {data.user.last_name}
                     </div>
-                    <span className={cx('text-reply')}>Reply</span>
+
+                    <span className={cx('comment')}>{data.comment}</span>
+                    <div className={cx('box-footer-in')}>
+                        <span className={cx('time')}>{TimeDay(data.created_at)}</span>
+                        <div className={cx('box-footer-favorite', { visibleFavorite })}>
+                            {data.is_liked ? (
+                                <div onClick={handleClickFavoriteComment}>
+                                    <FavoriteSoilIcon className={cx({ isLiked: data.is_liked })} />
+                                </div>
+                            ) : (
+                                <div onClick={handleClickFavoriteComment}>
+                                    <FavoriteNoneSoilIcon />
+                                </div>
+                            )}
+                            <span className={cx('total-favorite')}>{data.likes_count}</span>
+                        </div>
+                        <span className={cx('text-reply')}>Reply</span>
+                    </div>
+                    <div className={cx('box-footer-bottom')}>
+                        <span className={cx('line')}></span>
+                        <div className={cx('view')}>Views {view} replies</div>
+                        <ArrowIcon width="1.2rem" height="1.2rem" />
+                    </div>
                 </div>
-                <div className={cx('box-footer-bottom')}>
-                    <span className={cx('line')}></span>
-                    <div className={cx('view')}>Views {view} replies</div>
-                    <ArrowIcon width="1.2rem" height="1.2rem" />
-                </div>
+                {iconFavoriteRight && (
+                    <div className={cx('footer-icon')}>
+                        {hoverComment === data.id ? (
+                            <DeleteComment
+                                handleClickOutSide={handleClickOutSide}
+                                handleClickToggle={handleClickToggle}
+                                idUser={data.user.id}
+                                visible={visible}
+                                handleClickDelete={handleClickDelete}
+                                setVisible={setVisible}
+                            />
+                        ) : (
+                            <div style={{ padding: '3.1px', visibility: 'hidden' }}>cc</div>
+                        )}
+                        <div className={cx('box-footer-favorite', { boxRightIconFavorite: iconFavoriteRight })}>
+                            {data.is_liked ? (
+                                <div onClick={handleClickFavoriteComment}>
+                                    <FavoriteSoilIcon className={cx({ isLiked: data.is_liked })} />
+                                </div>
+                            ) : (
+                                <div onClick={handleClickFavoriteComment}>
+                                    <FavoriteNoneSoilIcon />
+                                </div>
+                            )}
+                            <span className={cx('total-favorite')}>{data.likes_count}</span>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

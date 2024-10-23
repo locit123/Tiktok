@@ -16,8 +16,8 @@ const DeleteComment = ({ visible, handleClickOutSide, idUser, handleClickToggle,
                 visible={visible}
                 placement="bottom"
                 interactive
-                offset={[1000, 0]}
                 animation="fade"
+                offset={[0, -5]}
                 onClickOutside={handleClickOutSide}
                 onHide={() => {
                     setVisible(false);

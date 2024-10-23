@@ -260,6 +260,8 @@ const BoxRight = ({
                                             setIdComment={setIdComment}
                                             setShowModal={setShowModal}
                                             view={10}
+                                            visibleFavorite
+                                            iconFavoriteRight
                                         />
                                     );
                                 })

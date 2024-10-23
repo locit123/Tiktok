@@ -126,6 +126,10 @@ const Header = () => {
         handleChange();
     };
 
+    const handleClickUpload = () => {
+        setIsShow(true);
+    };
+
     const handleClickClose = () => {
         setIsShow(false);
         handleChange();
@@ -169,7 +173,12 @@ const Header = () => {
                 <div className={cx('actions')}>
                     {token ? (
                         <>
-                            <Button small to={'/upload'} outlineHeader leftIcon={<FontAwesomeIcon icon={faAdd} />}>
+                            <Button
+                                small
+                                onClick={handleClickUpload}
+                                outlineHeader
+                                leftIcon={<FontAwesomeIcon icon={faAdd} />}
+                            >
                                 Upload
                             </Button>
                             <Tippy content="Inbox" placement="bottom" delay={[0, 200]}>
@@ -180,7 +189,9 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <Button text>Upload</Button>
+                            <Button onClick={handleClickUpload} text>
+                                Upload
+                            </Button>
                             <Button onClick={handleClickLogin} primary>
                                 Log in
                             </Button>
