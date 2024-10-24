@@ -32,7 +32,11 @@ const Profile = () => {
     return (
         <div className={cx('wrapper')}>
             <header className={cx('header')}>
-                <Header getApiAnUser={getApiAnUser} listDataAnUser={listDataAnUser} />
+                <Header
+                    getApiAnUser={getApiAnUser}
+                    listDataAnUser={listDataAnUser}
+                    setListDataAnUser={setListDataAnUser}
+                />
             </header>
             <footer className={cx('scroll-footer')}>
                 <div className={cx('footer')}>

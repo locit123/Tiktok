@@ -15,7 +15,7 @@ import { FollowingTickIcon, TridentHorizontal } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
-const Header = ({ listDataAnUser, getApiAnUser }) => {
+const Header = ({ listDataAnUser, getApiAnUser, setListDataAnUser }) => {
     const { dataCurrentUser } = useContext(ContextProvider);
     const [show, setShow] = useState(false);
     const [firstName, setFirstName] = useState('');
@@ -82,6 +82,7 @@ const Header = ({ listDataAnUser, getApiAnUser }) => {
                 name={name}
                 firstName={firstName}
                 lastName={lastName}
+                setListDataAnUser={setListDataAnUser}
             />
 
             <div className={cx('wrapper-header')}>

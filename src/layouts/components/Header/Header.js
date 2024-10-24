@@ -57,9 +57,17 @@ const MENU_ITEM = [
 ];
 
 const Header = () => {
-    const { typeModal, setTypeModal, isLoading, setIsLoading, isShow, setIsShow, setDataCurrentUser, dataCurrentUser } =
-        useContext(ContextProvider);
-    const token = localStorage.getItem('tokenLogin');
+    const {
+        token,
+        typeModal,
+        setTypeModal,
+        isLoading,
+        setIsLoading,
+        isShow,
+        setIsShow,
+        setDataCurrentUser,
+        dataCurrentUser,
+    } = useContext(ContextProvider);
 
     const getCurrentUser = useCallback(async () => {
         if (token) {

@@ -1,11 +1,12 @@
 import classNames from 'classnames/bind';
 import styles from './Observice.module.scss';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import RightVideo from '../RightVideo';
 import Video from '../Video';
 import * as likeService from '~/services/LikeService';
 import * as followService from '~/services/FollowService';
 import { FOLLOW_HOME, LIKE_HOME } from '~/utils/contantValue';
+import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
 const VideoObService = ({
@@ -21,8 +22,10 @@ const VideoObService = ({
     setTypeAction,
     totalComment,
 }) => {
-    const [visibleVideo, setVisibleVideo] = useState(false);
     let divRef = useRef(null);
+    const [visibleVideo, setVisibleVideo] = useState(false);
+    const { setIsShow, token, setTypeModal } = useContext(ContextProvider);
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -39,73 +42,82 @@ const VideoObService = ({
     }, [data, setVisibleVideo, setIdVideo]);
     //LIKE POST
     const handleClickFavorite = async () => {
-        setTypeAction(LIKE_HOME);
-        try {
-            if (!data.is_liked) {
-                await likeService.likeAPost(data.id);
-                setListVideos((prevVideos) =>
-                    prevVideos.map((video) =>
-                        video.id === data.id
-                            ? { ...video, is_liked: !data.is_liked, likes_count: data.likes_count + 1 }
-                            : video,
-                    ),
-                );
-            } else {
-                await likeService.unLikeAPost(data.id);
-                setListVideos((prevVideos) =>
-                    prevVideos.map((video) =>
-                        video.id === data.id
-                            ? { ...video, is_liked: !data.is_liked, likes_count: data.likes_count - 1 }
-                            : video,
-                    ),
-                );
+        if (token) {
+            setTypeAction(LIKE_HOME);
+            try {
+                if (!data.is_liked) {
+                    await likeService.likeAPost(data.id);
+                    setListVideos((prevVideos) =>
+                        prevVideos.map((video) =>
+                            video.id === data.id
+                                ? { ...video, is_liked: !data.is_liked, likes_count: data.likes_count + 1 }
+                                : video,
+                        ),
+                    );
+                } else {
+                    await likeService.unLikeAPost(data.id);
+                    setListVideos((prevVideos) =>
+                        prevVideos.map((video) =>
+                            video.id === data.id
+                                ? { ...video, is_liked: !data.is_liked, likes_count: data.likes_count - 1 }
+                                : video,
+                        ),
+                    );
+                }
+            } catch (error) {
+                console.log('faille like a post', error);
             }
-        } catch (error) {
-            console.log('faille like a post', error);
+        } else {
+            setTypeModal('');
+            setIsShow(true);
         }
     };
     //FOLLOW
     const handleClickFollow = async () => {
-        setTypeAction(FOLLOW_HOME);
-        try {
-            if (!data.user.is_followed) {
-                await followService.FollowAUser(data.user.id);
-                setListVideos((prevVideos) =>
-                    prevVideos.map((video) =>
-                        video.user.id === data.user.id
-                            ? {
-                                  ...video,
-                                  user: {
-                                      ...video.user,
-                                      is_followed: !data.user.is_followed,
-                                  },
-                              }
-                            : video,
-                    ),
-                );
-            } else {
-                await followService.UnFollow(data.user.id);
-                setListVideos((prevVideos) =>
-                    prevVideos.map((video) =>
-                        video.user.id === data.user.id
-                            ? {
-                                  ...video,
-                                  user: {
-                                      ...video.user,
-                                      is_followed: !data.user.is_followed,
-                                  },
-                              }
-                            : video,
-                    ),
-                );
+        if (token) {
+            setTypeAction(FOLLOW_HOME);
+            try {
+                if (!data.user.is_followed) {
+                    await followService.FollowAUser(data.user.id);
+                    setListVideos((prevVideos) =>
+                        prevVideos.map((video) =>
+                            video.user.id === data.user.id
+                                ? {
+                                      ...video,
+                                      user: {
+                                          ...video.user,
+                                          is_followed: !data.user.is_followed,
+                                      },
+                                  }
+                                : video,
+                        ),
+                    );
+                } else {
+                    await followService.UnFollow(data.user.id);
+                    setListVideos((prevVideos) =>
+                        prevVideos.map((video) =>
+                            video.user.id === data.user.id
+                                ? {
+                                      ...video,
+                                      user: {
+                                          ...video.user,
+                                          is_followed: !data.user.is_followed,
+                                      },
+                                  }
+                                : video,
+                        ),
+                    );
+                }
+            } catch (error) {
+                console.log('faille follow a User', error);
             }
-        } catch (error) {
-            console.log('faille follow a User', error);
+        } else {
+            setTypeModal('');
+            setIsShow(true);
         }
     };
 
     const classes = cx('wrapper', { [className]: className });
-    console.log(data, 'data');
 
     return (
         <div className={classes}>

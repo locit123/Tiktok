@@ -7,6 +7,7 @@ export const SING_UP_FOR_TIK_TOK = 'SignupForTikTok';
 export const LOG_IN = 'login';
 export const LOGIN = 'log in';
 export const LOG_IN_TO_TIK_TOK = 'Log in to TikTok';
+
 //profile
 export const VID = 'videos';
 export const FAV = 'favorites';
@@ -42,3 +43,15 @@ export const STITCH = 'stitch';
 export const COMMENT_HOME = 'comment_home';
 export const FOLLOW_HOME = 'follow_home';
 export const LIKE_HOME = 'like_home';
+//TYPE STATUS
+export const LOGIN_SUCCESS = 'Login successful';
+export const LOGIN_FAILED = 'Login failed';
+export const LOGOUT = 'Logout success';
+export const SIGN_SUCCESS = 'sign up successful';
+export const SIGN_FAILED = 'sign up failed';
+export const EDIT_PROFILE_SUCCESS = 'edit profile successful';
+export const EDIT_PROFILE_FAILED = 'edit profile failed';
+export const COMMENT_POST_SUCCESS = 'comment posted successful';
+export const COMMENT_POST_FAILED = 'comment posted failed';
+export const DELETE_SUCCESS = 'deleted successful';
+export const DELETE_FAILED = 'delete failed';

@@ -6,7 +6,6 @@ import { useState } from 'react';
 const cx = classNames.bind(styles);
 const Signup = ({ valueEmail, valuePassword, onChangeEmail, onChangePassword }) => {
     const [checkEye, setCheckEye] = useState(false);
-    console.log(checkEye, 'check');
 
     const handleClickIcon = () => {
         setCheckEye(!checkEye);
@@ -23,7 +22,7 @@ const Signup = ({ valueEmail, valuePassword, onChangeEmail, onChangePassword }) 
             <Input
                 handleClickIcon={handleClickIcon}
                 checkEye={checkEye}
-                type={'password'}
+                type={checkEye ? 'text' : 'password'}
                 icon
                 placeholder={'Password'}
                 value={valuePassword}

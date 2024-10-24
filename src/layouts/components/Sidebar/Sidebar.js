@@ -24,15 +24,16 @@ import { ContextProvider } from '~/Context';
 const cx = classNames.bind(styles);
 
 const Sidebar = () => {
-    const token = localStorage.getItem('tokenLogin');
-    const { dataCurrentUser, setIsShow } = useContext(ContextProvider);
+    const { dataCurrentUser, setIsShow, setTypeModal, token } = useContext(ContextProvider);
 
     const handleClickProfile = () => {
         setIsShow(true);
+        setTypeModal('');
     };
 
     const handleLogin = () => {
         setIsShow(true);
+        setTypeModal('');
     };
     return (
         <aside className={cx('wrapper')}>
@@ -56,14 +57,24 @@ const Sidebar = () => {
                     icon={<FollowingActiveIcon className={cx('mr-icon')} />}
                     activeIcon={<FollowingIcon className={cx('mr-icon')} />}
                 />
-                <MenuItem
-                    title="Friends"
-                    to={config.routers.friend}
-                    icon={<UserGroupIcon />}
-                    activeIcon={<ActiveUserGroupIcon />}
-                />
+                {token && (
+                    <>
+                        <MenuItem
+                            title="Friends"
+                            to={config.routers.friend}
+                            icon={<UserGroupIcon />}
+                            activeIcon={<ActiveUserGroupIcon />}
+                        />
 
-                <MenuItem title="LIVE" to={config.routers.live} icon={<LiveIcon />} activeIcon={<ActiveLiveIcon />} />
+                        <MenuItem
+                            title="LIVE"
+                            to={config.routers.live}
+                            icon={<LiveIcon />}
+                            activeIcon={<ActiveLiveIcon />}
+                        />
+                    </>
+                )}
+
                 <MenuItem
                     title="Messages"
                     to={config.routers.message}

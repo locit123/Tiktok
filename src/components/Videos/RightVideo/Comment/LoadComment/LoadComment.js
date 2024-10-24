@@ -16,6 +16,7 @@ const LoadComment = ({
     data,
     setShowModal,
     setIdComment,
+    commentHome = false,
 }) => {
     const [visible, setVisible] = useState(false);
     const [hoverComment, setHoverComment] = useState(null);
@@ -75,6 +76,18 @@ const LoadComment = ({
                         <ArrowIcon width="1.2rem" height="1.2rem" />
                     </div>
                 </div>
+                {commentHome && hoverComment === data.id ? (
+                    <DeleteComment
+                        handleClickOutSide={handleClickOutSide}
+                        handleClickToggle={handleClickToggle}
+                        idUser={data.user.id}
+                        visible={visible}
+                        handleClickDelete={handleClickDelete}
+                        setVisible={setVisible}
+                    />
+                ) : (
+                    <div style={{ padding: '3.1px', visibility: 'hidden' }}>cc</div>
+                )}
                 {iconFavoriteRight && (
                     <div className={cx('footer-icon')}>
                         {hoverComment === data.id ? (

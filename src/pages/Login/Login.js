@@ -17,6 +17,7 @@ import { ContextProvider } from '~/Context';
 import { LOG_IN } from '~/utils/contantValue';
 
 const cx = classNames.bind(styles);
+
 const DATA_ITEMS = [
     { title: 'Use QR code', icon: <QRCodeIcon /> },
     { title: 'Use phone / email / username', icon: <PersonIcon />, isLogin: true },
@@ -46,6 +47,7 @@ const Login = () => {
             </Helmet>
             {DATA_ITEMS.map((item, index) => (
                 <Button
+                    key={index}
                     modalIcon
                     className={cx('bt-modal')}
                     modal

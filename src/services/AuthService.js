@@ -1,7 +1,15 @@
-import { toast } from 'react-toastify';
 import axiosInstance from '~/utils/httpRequest';
+import { toast } from 'react-toastify';
+import {
+    EDIT_PROFILE_FAILED,
+    EDIT_PROFILE_SUCCESS,
+    LOGIN_FAILED,
+    LOGIN_SUCCESS,
+    SIGN_FAILED,
+    SIGN_SUCCESS,
+} from '~/utils/contantValue';
 
-const register = async (email, password, setTokenSignup, setLoading, setIsLoading, setTypeModal) => {
+const register = async (email, password, setTokenSignup, setLoading, setIsLoading, setTypeStatus) => {
     try {
         setLoading(true);
         const body = {
@@ -11,34 +19,31 @@ const register = async (email, password, setTokenSignup, setLoading, setIsLoadin
         };
         const result = await axiosInstance.post(`auth/register`, body);
         if (result && result.data) {
-            toast.success('Đăng kí thành công');
+            setTypeStatus(SIGN_SUCCESS);
             setLoading(false);
             setTokenSignup(result.meta.token);
             setIsLoading(false);
-            setTypeModal('');
         }
     } catch (error) {
+        setTypeStatus(SIGN_FAILED);
         setLoading(false);
         toast.error(error.message);
     }
 };
 
-const login = async (email, password, setDataLogin, setLoading, setIsShow, navigate, handleReload) => {
+const login = async (email, password, setDataLogin, setLoading, setTypeStatus) => {
     try {
         setLoading(true);
         const data = { email, password };
         const res = await axiosInstance.post(`auth/login`, data);
         if (res && res.data && res.meta) {
-            handleReload();
-            navigate('/');
+            setTypeStatus(LOGIN_SUCCESS);
             setLoading(false);
             setDataLogin(res);
-            setIsShow(false);
-            toast.success('Đăng nhập thành công');
         }
     } catch (error) {
+        setTypeStatus(LOGIN_FAILED);
         setLoading(false);
-        toast.error(error.message);
     }
 };
 
@@ -61,26 +66,18 @@ const logoutUser = async () => {
     }
 };
 
-const updateCurrentUser = async (
-    firstName,
-    lastName,
-    name,
-    bio,
-    setIsShowModalProfileSave,
-    setIsLoading,
-    setDataCurrentUser,
-) => {
+const updateCurrentUser = async (firstName, lastName, name, bio, setIsLoading, setDataCurrentUser, setTypeStatus) => {
     try {
         setIsLoading(true);
         const data = { first_name: firstName, last_name: lastName, nickname: name, bio };
         const res = await axiosInstance.post(`auth/me?_method=PATCH`, data);
         if (res) {
+            setTypeStatus(EDIT_PROFILE_SUCCESS);
             setIsLoading(false);
-            setIsShowModalProfileSave(false);
             currentUser(setDataCurrentUser);
         }
-        console.log(res);
     } catch (error) {
+        setTypeStatus(EDIT_PROFILE_FAILED);
         toast.error(error.message);
         setIsLoading(false);
     }

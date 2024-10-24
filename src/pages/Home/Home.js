@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import VideoObService from '~/components/Videos/ObService';
@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Comment from '~/components/Videos/RightVideo/Comment';
 import { COMMENT_HOME } from '~/utils/contantValue';
+import { ContextProvider } from '~/Context';
 const cx = classNames.bind(styles);
 const Home = () => {
     const wrapperRef = useRef(null);
@@ -26,6 +27,7 @@ const Home = () => {
     const [typeAction, setTypeAction] = useState(null);
     const [scrollTopHome, setScrollTopHome] = useState(0);
     const [totalComment, setTotalComment] = useState(null);
+    const { setIsShow, token, setTypeModal } = useContext(ContextProvider);
 
     const getApiVideo = useCallback(async () => {
         try {
@@ -81,9 +83,14 @@ const Home = () => {
 
     //COMMENT
     const handleClickComment = (id) => {
-        setTypeAction(COMMENT_HOME);
-        setIdVideo(id);
-        setIsShowComment((prev) => !prev);
+        if (token) {
+            setTypeAction(COMMENT_HOME);
+            setIdVideo(id);
+            setIsShowComment((prev) => !prev);
+        } else {
+            setIsShow(true);
+            setTypeModal('');
+        }
     };
     return (
         <div className={cx('wrapper-children')}>

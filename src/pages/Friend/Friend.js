@@ -1,12 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from './Friend.module.scss';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as UserService from '~/services/UsersService';
 import * as FollowService from '~/services/FollowService';
 import BoxItem from '~/components/Box/BoxItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router';
+import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +20,8 @@ const Friend = () => {
     const [loading, setLoading] = useState(false);
     const [idUser, setIdUser] = useState(null);
     const [loadingPage, setLoadingPage] = useState(false);
+    const { token, setTypeModal, setIsShow } = useContext(ContextProvider);
+
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -55,17 +58,23 @@ const Friend = () => {
     };
 
     //FOLLOW
-    const handleClickFollow = async (id, follow) => {
-        if (follow) {
-            await FollowService.UnFollow(id);
-            setListUsersSuggested((prevUser) =>
-                prevUser.map((user) => (user.id === id ? { ...user, is_followed: !follow } : user)),
-            );
+    const handleClickFollow = async (e, id, follow) => {
+        e.stopPropagation();
+        if (token) {
+            if (follow) {
+                await FollowService.UnFollow(id);
+                setListUsersSuggested((prevUser) =>
+                    prevUser.map((user) => (user.id === id ? { ...user, is_followed: !follow } : user)),
+                );
+            } else {
+                await FollowService.FollowAUser(id);
+                setListUsersSuggested((prevUser) =>
+                    prevUser.map((user) => (user.id === id ? { ...user, is_followed: !follow } : user)),
+                );
+            }
         } else {
-            await FollowService.FollowAUser(id);
-            setListUsersSuggested((prevUser) =>
-                prevUser.map((user) => (user.id === id ? { ...user, is_followed: !follow } : user)),
-            );
+            setTypeModal('');
+            setIsShow(true);
         }
     };
     //CLICK ITEM
@@ -101,7 +110,7 @@ const Friend = () => {
                             <BoxItem
                                 data={user}
                                 visible={user.id === idUser}
-                                handleClickFollow={() => handleClickFollow(user.id, user.is_followed)}
+                                handleClickFollow={(e) => handleClickFollow(e, user.id, user.is_followed)}
                                 handleClickItem={() => handleClickItem(user.nickname)}
                             />
                         </div>

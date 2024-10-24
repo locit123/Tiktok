@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Comment.module.scss';
 import { ExistIcon } from '~/components/Icons';
@@ -10,7 +10,10 @@ import Button from '~/components/Button';
 import * as LikeCommentService from '~/services/LikeService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { COMMENT_HOME } from '~/utils/contantValue';
+import { COMMENT_HOME, DELETE_FAILED, DELETE_SUCCESS } from '~/utils/contantValue';
+import { ContextProvider } from '~/Context';
+import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
+import ModalNotification from '~/components/Notification';
 const cx = classNames.bind(styles);
 const Comment = ({
     isShowComment,
@@ -30,6 +33,8 @@ const Comment = ({
     const [loadingPage, setLoadingPage] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [idComment, setIdComment] = useState(null);
+    const { isOpenModalNotification, setIsOpenModalNotification } = useContext(ContextProvider);
+    const { typeStatus, setTypeStatus } = useContext(TypeContextProvider);
 
     useEffect(() => {
         if (scrollTopHome > 0) {
@@ -115,15 +120,39 @@ const Comment = ({
     const handleClickSubmit = async () => {
         try {
             await CommentService.deleteComment(idComment);
+            setTypeStatus(DELETE_SUCCESS);
             setDataComment((prevComment) => prevComment.filter((comment) => comment.id !== idComment));
-
             setTotalComment((prevTotal) => (prevTotal > 0 ? prevTotal - 1 : 0));
-
-            setShowModal(false);
         } catch (error) {
-            console.error('Lỗi khi xóa bình luận:', error);
+            setTypeStatus(DELETE_FAILED);
+            console.error('failed delete comment:', error);
         }
     };
+
+    useEffect(() => {
+        let time;
+        if (typeStatus === DELETE_SUCCESS) {
+            setIsOpenModalNotification(true);
+            time = setTimeout(() => {
+                setShowModal(false);
+                setIsOpenModalNotification(false);
+
+                setTypeStatus(null);
+            }, 1000);
+        } else if (typeStatus === DELETE_FAILED) {
+            setIsOpenModalNotification(true);
+            time = setTimeout(() => {
+                setShowModal(false);
+
+                setIsOpenModalNotification(false);
+                setTypeStatus(null);
+            }, 1000);
+        }
+
+        return () => {
+            clearTimeout(time);
+        };
+    }, [setIsOpenModalNotification, setTypeStatus, typeStatus]);
 
     const handleClickCancel = () => {
         setShowModal(false);
@@ -136,6 +165,15 @@ const Comment = ({
     };
     return (
         <div className={cx('wrapper', { isShowComment })}>
+            {typeStatus === DELETE_SUCCESS || typeStatus === DELETE_FAILED ? (
+                <ModalNotification
+                    modalIsOpen={isOpenModalNotification}
+                    setIsOpen={setIsOpenModalNotification}
+                    text={typeStatus === DELETE_SUCCESS ? DELETE_SUCCESS : DELETE_FAILED}
+                />
+            ) : (
+                <></>
+            )}
             <div className={cx('box-header')}>
                 <div className={cx('box-header-left')}>
                     <p className={cx('label')}>Comments</p>
@@ -158,6 +196,7 @@ const Comment = ({
                               }
                               setShowModal={setShowModal}
                               setIdComment={setIdComment}
+                              commentHome
                           />
                       ))
                     : 'No Comment'}

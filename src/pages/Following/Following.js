@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import * as VideoService from '~/services/VideoService';
 import classNames from 'classnames/bind';
@@ -8,9 +8,12 @@ import Comment from '~/components/Videos/RightVideo/Comment';
 import { COMMENT_HOME } from '~/utils/contantValue';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { ContextProvider } from '~/Context';
+import Friend from '../Friend';
 
 const cx = classNames.bind(styles);
 const Following = () => {
+    const { token } = useContext(ContextProvider);
     const wrapperRef = useRef(null);
     const [listVideos, setListVideos] = useState([]);
     const [isMuted, setIsMuted] = useState(true);
@@ -28,31 +31,33 @@ const Following = () => {
 
     useEffect(() => {
         const getApiVideo = async () => {
-            try {
-                setLoading(true);
-                const result = await VideoService.getVideoList('following', page);
-                if (result && result.data) {
+            if (token) {
+                try {
+                    setLoading(true);
+                    const result = await VideoService.getVideoList('following', page);
+                    if (result && result.data) {
+                        setLoading(false);
+
+                        setCurrentPage(result.meta.pagination.current_page);
+                        setTotalPage(result.meta.pagination.total_pages);
+                        if (page > 1) {
+                            setListVideos((prevVideo) => [...prevVideo, ...result.data]);
+                        } else {
+                            setListVideos(result.data);
+                        }
+                    }
+                } catch (error) {
                     setLoading(false);
 
-                    setCurrentPage(result.meta.pagination.current_page);
-                    setTotalPage(result.meta.pagination.total_pages);
-                    if (page > 1) {
-                        setListVideos((prevVideo) => [...prevVideo, ...result.data]);
-                    } else {
-                        setListVideos(result.data);
-                    }
+                    console.log('failed api get following videos', error);
+                } finally {
+                    setLoadingPage(false);
                 }
-            } catch (error) {
-                setLoading(false);
-
-                console.log('failed api get following videos', error);
-            } finally {
-                setLoadingPage(false);
             }
         };
 
         getApiVideo();
-    }, [page]);
+    }, [page, token]);
 
     const processedVideos = useMemo(() => {
         return listVideos.map((video) => ({
@@ -117,7 +122,9 @@ const Following = () => {
                         );
                     })
                 ) : (
-                    <div>No videos</div>
+                    <div className={cx('box-friend')}>
+                        <Friend />
+                    </div>
                 )}
             </div>
             {isShowComment && (

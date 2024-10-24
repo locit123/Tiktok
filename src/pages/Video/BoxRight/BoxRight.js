@@ -15,7 +15,7 @@ import {
     WhatsAppIcon,
 } from '~/components/Icons';
 import { ShareIconSoil } from '~/components/Icons/Icons';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as CommentService from '~/services/CommentService';
 import LoadComment from '~/components/Videos/RightVideo/Comment/LoadComment';
 import * as LikeService from '~/services/LikeService';
@@ -23,6 +23,10 @@ import { MonthDay } from '~/utils/ConvertDay';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ModalLast from '~/components/ModalLast';
+import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
+import { ContextProvider } from '~/Context';
+import { DELETE_FAILED, DELETE_SUCCESS } from '~/utils/contantValue';
+import ModalNotification from '~/components/Notification';
 const cx = classNames.bind(styles);
 const BoxRight = ({
     avatar,
@@ -43,6 +47,8 @@ const BoxRight = ({
     isClick,
     setIsClick,
 }) => {
+    const { setIsOpenModalNotification, isOpenModalNotification } = useContext(ContextProvider);
+    const { typeStatus, setTypeStatus } = useContext(TypeContextProvider);
     const divRef = useRef(null);
     const [dataComment, setDataComment] = useState([]);
     const [isTab, setIsTab] = useState('comments');
@@ -54,7 +60,6 @@ const BoxRight = ({
     const [totalComment, setTotalComment] = useState(null);
     const [idComment, setIdComment] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    console.log(dataComment, 'dataComment');
 
     useEffect(() => {
         if (isClick) {
@@ -149,20 +154,51 @@ const BoxRight = ({
     const handleClickSubmit = async () => {
         try {
             await CommentService.deleteComment(idComment);
-
+            setTypeStatus(DELETE_SUCCESS);
             setDataComment((prevComment) => prevComment.filter((comment) => comment.id !== idComment));
             setTotalComment((prevTotal) => (prevTotal > 0 ? prevTotal - 1 : 0));
-            setShowModal(false);
             setIdComment(null);
         } catch (error) {
+            setTypeStatus(DELETE_FAILED);
             console.log('failed delete comment handleClickSubmit', error);
         }
     };
+
+    useEffect(() => {
+        let time;
+        if (typeStatus === DELETE_SUCCESS) {
+            setIsOpenModalNotification(true);
+            time = setTimeout(() => {
+                setShowModal(false);
+                setIsOpenModalNotification(false);
+                setTypeStatus(null);
+            }, 1000);
+        } else if (typeStatus === DELETE_FAILED) {
+            setIsOpenModalNotification(true);
+            time = setTimeout(() => {
+                setIsOpenModalNotification(false);
+                setTypeStatus(null);
+            }, 1000);
+        }
+
+        return () => {
+            clearTimeout(time);
+        };
+    }, [setIsOpenModalNotification, typeStatus, setTypeStatus]);
     const handleClickCancel = () => {
         setShowModal(false);
     };
     return (
         <div className={cx('wrapper-right')}>
+            {typeStatus === DELETE_SUCCESS || typeStatus === DELETE_FAILED ? (
+                <ModalNotification
+                    modalIsOpen={isOpenModalNotification}
+                    setIsOpen={setIsOpenModalNotification}
+                    text={typeStatus === DELETE_SUCCESS ? DELETE_SUCCESS : DELETE_FAILED}
+                />
+            ) : (
+                <></>
+            )}
             <div className={cx('box-top')} ref={divRef}>
                 <div>
                     <div className={cx('box-1')}>

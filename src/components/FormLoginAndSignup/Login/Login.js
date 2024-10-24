@@ -17,7 +17,7 @@ const Login = ({ labelLink, handleClickLogin, loading, titleHeader, titleLink, c
                 {labelLink}
             </Link>
             <Button
-                leftIcon={<FontAwesomeIcon icon={loading && faSpinner} className={cx('icon-spinner')} />}
+                leftIcon={loading ? <FontAwesomeIcon icon={faSpinner} className={cx('icon-spinner')} spin /> : null}
                 large
                 className={cx('bt-login')}
                 onClick={handleClickLogin}

@@ -5,7 +5,9 @@
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     height: calc(100vh - 60px);
+    flex: 1;
 }
+
 
 .video-item {
     scroll-snap-align: start;
@@ -37,4 +39,10 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+.box-friend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

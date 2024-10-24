@@ -11,14 +11,15 @@ const Context = ({ children }) => {
     const [dataCurrentUser, setDataCurrentUser] = useState({});
     const [listFollow, setListFollow] = useState([]);
     const [isTurnVideo, setIsTurnVideo] = useState(false);
-
-    const handleReload = () => {
-        window.location.reload();
-    };
-
+    const [isOpenModalNotification, setIsOpenModalNotification] = useState(false);
+    const [token, setToken] = useState(() => {
+        const newToken = localStorage.getItem('tokenLogin');
+        return newToken || null;
+    });
     useEffect(() => {
         if (dataLogin && dataLogin.meta && dataLogin.meta.token) {
             localStorage.setItem('tokenLogin', dataLogin.meta.token);
+            setToken(dataLogin.meta.token);
         }
     }, [dataLogin]);
 
@@ -37,11 +38,14 @@ const Context = ({ children }) => {
         setIsShow,
         dataCurrentUser,
         setDataCurrentUser,
-        handleReload,
         listFollow,
         setListFollow,
         isTurnVideo,
         setIsTurnVideo,
+        isOpenModalNotification,
+        setIsOpenModalNotification,
+        token,
+        setToken,
     };
 
     return <ContextProvider.Provider value={values}>{children}</ContextProvider.Provider>;
