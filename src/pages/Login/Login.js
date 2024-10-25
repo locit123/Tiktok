@@ -1,4 +1,3 @@
-import Button from '~/components/Button';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import { Helmet } from 'react-helmet';
@@ -15,6 +14,8 @@ import {
 import { useContext } from 'react';
 import { ContextProvider } from '~/Context';
 import { LOG_IN } from '~/utils/contantValue';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -46,16 +47,16 @@ const Login = () => {
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
             {DATA_ITEMS.map((item, index) => (
-                <Button
-                    key={index}
-                    modalIcon
-                    className={cx('bt-modal')}
-                    modal
-                    leftIcon={item.icon}
-                    onClick={() => handleClickLogin(item.isLogin)}
-                >
-                    {item.title}
-                </Button>
+                <div key={index} className={cx('wrapper-item')} onClick={() => handleClickLogin(item.isLogin)}>
+                    <span className={cx('icon-item')}>{item.icon}</span>
+                    <button className={cx('text-item')}>{item.title}</button>
+                    <div className={cx('icon-item')}></div>
+                    {item.isLogin && (
+                        <div className={cx('box-success')}>
+                            <span className={cx('text-success')}>Đã làm</span>
+                        </div>
+                    )}
+                </div>
             ))}
         </div>
     );

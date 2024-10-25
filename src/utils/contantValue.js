@@ -55,3 +55,5 @@ export const COMMENT_POST_SUCCESS = 'comment posted successful';
 export const COMMENT_POST_FAILED = 'comment posted failed';
 export const DELETE_SUCCESS = 'deleted successful';
 export const DELETE_FAILED = 'delete failed';
+//TYPE SIDEBAR
+export const CLICK_PAGE = 'click page';

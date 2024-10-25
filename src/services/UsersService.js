@@ -1,9 +1,9 @@
 const { toast } = require('react-toastify');
 const { default: axiosInstance } = require('~/utils/httpRequest');
 
-const getSuggestedUsersList = async (page) => {
+const getSuggestedUsersList = async (page, perPage) => {
     try {
-        const res = await axiosInstance.get(`users/suggested?page=${page}&per_page=10`);
+        const res = await axiosInstance.get(`users/suggested?page=${page}&per_page=${perPage}`);
         return res;
     } catch (error) {
         toast.error(error.message);

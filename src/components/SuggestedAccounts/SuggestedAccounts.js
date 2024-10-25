@@ -5,7 +5,7 @@ import AccountItem from './AccountItem';
 
 const cx = classNames.bind(styles);
 
-const SuggestedAccounts = ({ label }) => {
+const SuggestedAccounts = ({ label, data }) => {
     return (
         <div className={cx('wrapper')}>
             <h2 className={cx('label')}>{label}</h2>

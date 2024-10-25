@@ -1,6 +1,8 @@
 .wrapper {
     max-width: 100%;
     padding: 20px 8px 26px 8px;
+    overflow-y: scroll;
+    height: calc(100vh - 60px);
 }
 
 .bt{
@@ -51,7 +53,6 @@
 
 //footer
 .box-label-footer{
-    height: 94px;
     padding: 16px 0;
     display: flex;
     flex-direction: column;

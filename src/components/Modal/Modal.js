@@ -78,7 +78,6 @@ const ModalComponent = ({
                     </div>
                 </div>
                 {/* footer */}
-
                 <div className={cx('footer-modal', { isCheckCss })}>
                     <p className={cx('label-items')}>
                         By continuing with an account located in

@@ -19,22 +19,96 @@ import {
 } from '~/components/Icons';
 import Button from '~/components/Button';
 import images from '~/assets/images';
-import { useContext } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ContextProvider } from '~/Context';
+import * as VideoService from '~/services/VideoService';
+import AccountItem from '~/components/SuggestedAccounts/AccountItem';
+import { useNavigate } from 'react-router';
+import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
+import { CLICK_PAGE } from '~/utils/contantValue';
 const cx = classNames.bind(styles);
 
 const Sidebar = () => {
+    const { typePage, setTypePage } = useContext(TypeContextProvider);
     const { dataCurrentUser, setIsShow, setTypeModal, token } = useContext(ContextProvider);
+    const [dataListUsersFollowing, setDataListUsersFollowing] = useState([]);
+    const [dataListUsers, setDataListUsers] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchApiUsers = async () => {
+            if (token) {
+                try {
+                    const result = await VideoService.getVideoList('following', 1);
+                    if (result && result.data) {
+                        setDataListUsersFollowing(result.data);
+                    }
+                } catch (error) {
+                    console.log('failed api users', error);
+                }
+            } else {
+                setDataListUsersFollowing([]);
+            }
+        };
+        fetchApiUsers();
+    }, [token, typePage]);
+    console.log(dataListUsersFollowing, 'dataListUsersFollowing');
+
+    useEffect(() => {
+        const findUser = () => {
+            if (dataListUsersFollowing && dataListUsersFollowing.length > 0) {
+                let newData = [];
+                for (let i = 0; i < dataListUsersFollowing.length; i++) {
+                    if (dataListUsersFollowing[i].user) {
+                        newData.push(dataListUsersFollowing[i].user);
+                    }
+                }
+                if (newData && newData.length > 0) {
+                    let uniques = newData.filter((user, index, self) => {
+                        return index === self.findIndex((u) => u.id === user.id);
+                    });
+                    setDataListUsers(uniques.slice(0, 5));
+                }
+            }
+        };
+
+        findUser();
+    }, [dataListUsersFollowing]);
+
+    const dataStore = useMemo(() => {
+        return dataListUsers && dataListUsers.length > 0 ? dataListUsers.map((user) => ({ ...user })) : [];
+    }, [dataListUsers]);
 
     const handleClickProfile = () => {
         setIsShow(true);
         setTypeModal('');
+        setTypePage(CLICK_PAGE);
     };
 
     const handleLogin = () => {
         setIsShow(true);
         setTypeModal('');
     };
+
+    const handleClickItem = (nickname) => {
+        navigate(`/@${nickname}`);
+    };
+
+    const handleClickNavLink = () => {
+        setTypePage(CLICK_PAGE);
+    };
+
+    useEffect(() => {
+        let time;
+        if (typePage === CLICK_PAGE) {
+            time = setTimeout(() => {
+                setTypePage(null);
+            }, 100);
+        }
+        return () => {
+            clearTimeout(time);
+        };
+    }, [setTypePage, typePage]);
     return (
         <aside className={cx('wrapper')}>
             <Menu>
@@ -43,12 +117,14 @@ const Sidebar = () => {
                     to={config.routers.home}
                     icon={<HomeIcon />}
                     activeIcon={<ActiveHomeIcon />}
+                    handleClickNavLink={handleClickNavLink}
                 />
                 <MenuItem
                     title="ExploreIcon"
                     to={config.routers.explore}
                     icon={<ExploreIcon />}
                     activeIcon={<ActiveExploreIcon />}
+                    handleClickNavLink={handleClickNavLink}
                 />
 
                 <MenuItem
@@ -56,6 +132,7 @@ const Sidebar = () => {
                     to={config.routers.following}
                     icon={<FollowingActiveIcon className={cx('mr-icon')} />}
                     activeIcon={<FollowingIcon className={cx('mr-icon')} />}
+                    handleClickNavLink={handleClickNavLink}
                 />
                 {token && (
                     <>
@@ -64,6 +141,7 @@ const Sidebar = () => {
                             to={config.routers.friend}
                             icon={<UserGroupIcon />}
                             activeIcon={<ActiveUserGroupIcon />}
+                            handleClickNavLink={handleClickNavLink}
                         />
 
                         <MenuItem
@@ -71,6 +149,7 @@ const Sidebar = () => {
                             to={config.routers.live}
                             icon={<LiveIcon />}
                             activeIcon={<ActiveLiveIcon />}
+                            handleClickNavLink={handleClickNavLink}
                         />
                     </>
                 )}
@@ -80,6 +159,7 @@ const Sidebar = () => {
                     to={config.routers.message}
                     icon={<MessageIcon className={cx('mr-icon-two')} />}
                     activeIcon={<MessageIcon className={cx('mr-icon-two')} />}
+                    handleClickNavLink={handleClickNavLink}
                 />
                 {token ? (
                     <MenuItem
@@ -87,6 +167,7 @@ const Sidebar = () => {
                         to={`/@${dataCurrentUser.nickname}`}
                         icon={<ActiveUserIcon />}
                         activeIcon={<ActiveUserIcon />}
+                        handleClickNavLink={handleClickNavLink}
                     />
                 ) : (
                     <Button
@@ -104,7 +185,15 @@ const Sidebar = () => {
                 {token ? (
                     <div className={cx('box-label-footer')}>
                         <span className={cx('label-top')}>Following accounts</span>
-                        <span className={cx('label-bottom')}>Accounts you follow will appear here</span>
+                        {dataStore && dataStore.length > 0 ? (
+                            dataStore.map((item, index) => (
+                                <div onClick={() => handleClickItem(item.nickname)}>
+                                    <AccountItem data={item} key={index} />
+                                </div>
+                            ))
+                        ) : (
+                            <span className={cx('label-bottom')}>Accounts you follow will appear here</span>
+                        )}
                     </div>
                 ) : (
                     <div className={cx('body-sideBar')}>

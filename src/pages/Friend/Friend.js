@@ -28,7 +28,7 @@ const Friend = () => {
         const fetchApiGetUsers = async () => {
             try {
                 setLoading(true);
-                const result = await UserService.getSuggestedUsersList(page);
+                const result = await UserService.getSuggestedUsersList(page, 10);
                 if (result && result.data) {
                     setLoading(false);
                     setCurrentPage(result.meta.pagination.current_page);

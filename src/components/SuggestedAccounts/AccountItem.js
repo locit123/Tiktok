@@ -7,11 +7,18 @@ import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountPreview from './AccountPreview';
 const cx = classNames.bind(styles);
 
-const AccountItem = () => {
+const AccountItem = ({ data }) => {
     const renderAccount = (attrs) => (
         <div {...attrs} tabIndex={'-1'}>
             <PopperWrapper>
-                <AccountPreview />
+                <AccountPreview
+                    avatar={data.avatar}
+                    isFollow={data.is_followed}
+                    nickname={data.nickname}
+                    totalFollowing={data.followers_count}
+                    totalLikes={data.likes_count}
+                    username={`${data.first_name} ${data.last_name}`}
+                />
             </PopperWrapper>
         </div>
     );
@@ -19,17 +26,15 @@ const AccountItem = () => {
         <div>
             <Tippy interactive placement="bottom" delay={[500, 500]} render={renderAccount} offset={[-20, 0]}>
                 <div className={cx('account-item')}>
-                    <img
-                        src="https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-giso/b9e1fb6031f81c5eb0d63a9dbbb1da27~c5_100x100.jpeg?lk3s=a5d48078&nonce=91837&refresh_token=add5810825d501b3b6792fa2c62886ac&x-expires=1726992000&x-signature=2QOptzQ1lg5LBzvX%2B2Ytcx8Xad0%3D&shp=a5d48078&shcp=81f88b70"
-                        alt=""
-                        className={cx('avatar')}
-                    />
+                    <img src={data.avatar} alt="" className={cx('avatar')} />
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
-                            <strong>locphung</strong>
-                            <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+                            <strong>
+                                {data.first_name} {data.last_name}
+                            </strong>
+                            {data.tick && <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />}
                         </p>
-                        <p className={cx('name')}>Phung loc</p>
+                        <p className={cx('name')}>{data.nickname}</p>
                     </div>
                 </div>
             </Tippy>

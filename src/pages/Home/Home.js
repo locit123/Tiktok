@@ -10,7 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Comment from '~/components/Videos/RightVideo/Comment';
 import { COMMENT_HOME } from '~/utils/contantValue';
-import { ContextProvider } from '~/Context';
+import { ContextProvider, TypeStatusContextProvider } from '~/Context';
+import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
 const cx = classNames.bind(styles);
 const Home = () => {
     const wrapperRef = useRef(null);
@@ -28,32 +29,32 @@ const Home = () => {
     const [scrollTopHome, setScrollTopHome] = useState(0);
     const [totalComment, setTotalComment] = useState(null);
     const { setIsShow, token, setTypeModal } = useContext(ContextProvider);
-
-    const getApiVideo = useCallback(async () => {
-        try {
-            setLoading(true);
-            const result = await getVideoList('for-you', page);
-            if (result && result.data) {
-                setLoading(false);
-                setCurrentPage(result.meta.pagination.current_page);
-                setTotalPage(result.meta.pagination.total_pages);
-                if (page > 1) {
-                    setListVideos((prev) => [...prev, ...result.data]);
-                } else {
-                    setListVideos(result.data);
-                }
-            }
-        } catch (error) {
-            setLoading(false);
-            toast.error(error.message);
-        } finally {
-            setLoadingPage(false);
-        }
-    }, [page]);
+    const { typeStatus } = useContext(TypeContextProvider);
 
     useEffect(() => {
-        getApiVideo();
-    }, [getApiVideo]);
+        const getApiListVideoForYou = async () => {
+            try {
+                setLoading(true);
+                const result = await getVideoList('for-you', page);
+                if (result && result.data) {
+                    setLoading(false);
+                    setCurrentPage(result.meta.pagination.current_page);
+                    setTotalPage(result.meta.pagination.total_pages);
+                    if (page > 1) {
+                        setListVideos((prev) => [...prev, ...result.data]);
+                    } else {
+                        setListVideos(result.data);
+                    }
+                }
+            } catch (error) {
+                setLoading(false);
+                toast.error(error.message);
+            } finally {
+                setLoadingPage(false);
+            }
+        };
+        getApiListVideoForYou();
+    }, [page, typeStatus]);
 
     const processedVideos = useMemo(() => {
         return listVideos.map((video) => ({

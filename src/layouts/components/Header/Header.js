@@ -191,6 +191,7 @@ const Header = () => {
                             </Button>
                             <Tippy content="Inbox" placement="bottom" delay={[0, 200]}>
                                 <button className={cx('action-btn')}>
+                                    <div className={cx('notification')}>8</div>
                                     <InboxIcon />
                                 </button>
                             </Tippy>

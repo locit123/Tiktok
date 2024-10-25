@@ -13,8 +13,8 @@ const VideoObService = ({ listUsersSuggested, setListUsersSuggested }) => {
 
     const divRef = useRef();
     const getApiUsers = useCallback(async () => {
-        await UsersService.getSuggestedUsersList(1, setListUsersSuggested, setLoading);
-    }, [setListUsersSuggested]);
+        await UsersService.getSuggestedUsersList(1, 10);
+    }, []);
 
     useEffect(() => {
         getApiUsers();

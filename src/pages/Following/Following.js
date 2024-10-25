@@ -53,6 +53,8 @@ const Following = () => {
                 } finally {
                     setLoadingPage(false);
                 }
+            } else {
+                setListVideos([]);
             }
         };
 

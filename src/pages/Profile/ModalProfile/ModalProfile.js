@@ -26,6 +26,7 @@ const ModalProfile = ({
 }) => {
     const [checkLength, setCheckLength] = useState(false);
     const [isChangeSave, setIsChangeSave] = useState(false);
+    const [checkText, setCheckText] = useState(false);
 
     useEffect(() => {
         if (
@@ -35,8 +36,10 @@ const ModalProfile = ({
             bio !== initState.bio
         ) {
             setIsChangeSave(false);
+            setCheckText(true);
         } else {
             setIsChangeSave(true);
+            setCheckText(false);
         }
     }, [initState.firstName, initState.lastName, firstName, lastName, name, bio, initState.name, initState.bio]);
 
@@ -58,6 +61,8 @@ const ModalProfile = ({
         setIsOpen(false);
         setIsShowModalProfileSave(true);
     };
+    console.log(isChangeSave, 'isChangeSave');
+
     return (
         <Modal
             className={cx('wrapper')}
@@ -140,7 +145,11 @@ const ModalProfile = ({
                     <Button className={cx('bt', 'bt-hover')} onClick={() => setIsOpen(false)}>
                         Cancel
                     </Button>
-                    <Button className={cx('bt')} disable={isChangeSave} onClick={handleClickSave}>
+                    <Button
+                        className={cx('bt', 'bt-save', { checkText })}
+                        disable={isChangeSave}
+                        onClick={handleClickSave}
+                    >
                         Save
                     </Button>
                 </div>

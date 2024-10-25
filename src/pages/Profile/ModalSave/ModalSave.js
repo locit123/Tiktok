@@ -32,8 +32,6 @@ const ModalSave = ({
         setShow(true);
         setIsShowModalProfileSave(false);
     };
-    console.log(typeStatus, isOpenModalNotification, 'check');
-
     const handleClickConfirm = async () => {
         await updateCurrentService.updateCurrentUser(
             firstName,
