@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import VideoObService from '~/components/Videos/ObService';
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Comment from '~/components/Videos/RightVideo/Comment';
 import { COMMENT_HOME } from '~/utils/contantValue';
-import { ContextProvider, TypeStatusContextProvider } from '~/Context';
+import { ContextProvider } from '~/Context';
 import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
 const cx = classNames.bind(styles);
 const Home = () => {

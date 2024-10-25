@@ -14,8 +14,6 @@ import {
 import { useContext } from 'react';
 import { ContextProvider } from '~/Context';
 import { LOG_IN } from '~/utils/contantValue';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
