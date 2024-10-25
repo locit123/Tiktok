@@ -16,7 +16,7 @@ import { FollowingTickIcon, TridentHorizontal } from '~/components/Icons';
 const cx = classNames.bind(styles);
 
 const Header = ({ listDataAnUser, getApiAnUser, setListDataAnUser }) => {
-    const { dataCurrentUser } = useContext(ContextProvider);
+    const { dataCurrentUser, token, setIsShow, setTypeModal } = useContext(ContextProvider);
     const [show, setShow] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -46,14 +46,19 @@ const Header = ({ listDataAnUser, getApiAnUser, setListDataAnUser }) => {
     };
 
     const handleClickFollow = async () => {
-        let id = dataStorage.id;
-        let isFollow = dataStorage.is_followed;
-        if (isFollow) {
-            await FollowService.UnFollow(id);
+        if (token) {
+            let id = dataStorage.id;
+            let isFollow = dataStorage.is_followed;
+            if (isFollow) {
+                await FollowService.UnFollow(id);
+            } else {
+                await FollowService.FollowAUser(id);
+            }
+            await getApiAnUser();
         } else {
-            await FollowService.FollowAUser(id);
+            setIsShow(true);
+            setTypeModal('');
         }
-        await getApiAnUser();
     };
 
     return (

@@ -26,6 +26,7 @@ import AccountItem from '~/components/SuggestedAccounts/AccountItem';
 import { useNavigate } from 'react-router';
 import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
 import { CLICK_PAGE } from '~/utils/contantValue';
+import SuggestedAccounts from '~/components/SuggestedAccounts';
 const cx = classNames.bind(styles);
 
 const Sidebar = () => {
@@ -186,11 +187,7 @@ const Sidebar = () => {
                     <div className={cx('box-label-footer')}>
                         <span className={cx('label-top')}>Following accounts</span>
                         {dataStore && dataStore.length > 0 ? (
-                            dataStore.map((item, index) => (
-                                <div onClick={() => handleClickItem(item.nickname)}>
-                                    <AccountItem data={item} key={index} />
-                                </div>
-                            ))
+                            <SuggestedAccounts data={dataStore} />
                         ) : (
                             <span className={cx('label-bottom')}>Accounts you follow will appear here</span>
                         )}

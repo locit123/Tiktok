@@ -3,11 +3,13 @@ import styles from './TabVideo.module.scss';
 import { QrIcon } from '~/components/Icons';
 import TabWrapper from '~/components/TabWrapper';
 import ComponentVideo, { VideoProfile } from '~/components/TabVideo';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { ContextProvider } from '~/Context';
 
 const cx = classNames.bind(styles);
 const TabVideo = ({ listDataAnUser }) => {
+    const { token, setIsShow, setTypeModal } = useContext(ContextProvider);
     const [visible, setVisible] = useState();
     const navigate = useNavigate();
     const listVideo = useMemo(() => {
@@ -20,7 +22,12 @@ const TabVideo = ({ listDataAnUser }) => {
     };
 
     const handleClickVideo = (uuid) => {
-        navigate(`video/${uuid}`);
+        if (token) {
+            navigate(`video/${uuid}`);
+        } else {
+            setIsShow(true);
+            setTypeModal('');
+        }
     };
     return (
         <div className={cx('wrapper')}>

@@ -36,16 +36,16 @@ const Signup = () => {
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
             {DATA_ITEMS_SIGN.map((item, index) => (
-                <Button
-                    key={index}
-                    modalIcon
-                    className={cx('bt-modal')}
-                    modal
-                    leftIcon={item.icon}
-                    onClick={() => handleClick(item.isClick)}
-                >
-                    {item.title}
-                </Button>
+                <div key={index} className={cx('wrapper-item')} onClick={() => handleClick(item.isLogin)}>
+                    <span className={cx('icon-item')}>{item.icon}</span>
+                    <button className={cx('text-item')}>{item.title}</button>
+                    <div className={cx('icon-item')}></div>
+                    {item.isClick && (
+                        <div className={cx('box-success')}>
+                            <span className={cx('text-success')}>Đã làm</span>
+                        </div>
+                    )}
+                </div>
             ))}
         </div>
     );

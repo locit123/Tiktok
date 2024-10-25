@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const AccountItem = ({ data }) => {
     return (
-        <Link to={`@${data.nickname}`} className={cx('wrapper')}>
+        <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
             <Image className={cx('avatar')} alt="loc" loading="lazy" src={data.avatar} />
             <div className={cx('info')}>
                 <h4 className={cx('name')}>

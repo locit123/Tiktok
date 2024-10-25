@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router';
 import { ContextProvider } from '~/Context';
+import { Helmet } from 'react-helmet';
 
 const cx = classNames.bind(styles);
 
@@ -103,6 +104,11 @@ const Friend = () => {
     }, [currentPage, totalPage, loadingPage]);
     return (
         <div className={cx('wrapper')} ref={wrapperRef}>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>TikTok - Make Your Day</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <div className={cx('wrapper-box')}>
                 {currentListUsersSuggested && currentListUsersSuggested.length > 0 ? (
                     currentListUsersSuggested.map((user, index) => (
