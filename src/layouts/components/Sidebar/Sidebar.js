@@ -22,8 +22,6 @@ import images from '~/assets/images';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { ContextProvider } from '~/Context';
 import * as VideoService from '~/services/VideoService';
-import AccountItem from '~/components/SuggestedAccounts/AccountItem';
-import { useNavigate } from 'react-router';
 import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
 import { CLICK_PAGE } from '~/utils/contantValue';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
@@ -34,7 +32,6 @@ const Sidebar = () => {
     const { dataCurrentUser, setIsShow, setTypeModal, token } = useContext(ContextProvider);
     const [dataListUsersFollowing, setDataListUsersFollowing] = useState([]);
     const [dataListUsers, setDataListUsers] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchApiUsers = async () => {
@@ -89,10 +86,6 @@ const Sidebar = () => {
     const handleLogin = () => {
         setIsShow(true);
         setTypeModal('');
-    };
-
-    const handleClickItem = (nickname) => {
-        navigate(`/@${nickname}`);
     };
 
     const handleClickNavLink = () => {
