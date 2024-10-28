@@ -69,7 +69,6 @@ const Home = () => {
             setScrollTopHome(currentRef.scrollTop);
             let scrollTop = Math.round(currentRef.scrollTop + currentRef.clientHeight);
             let scrollHeight = currentRef.scrollHeight;
-            console.log(scrollTop, scrollHeight, 'da toi cuoi trang');
             if (scrollTop >= scrollHeight - 1) {
                 if (currentPage < totalPage && !loadingPage) {
                     setLoadingPage(true);
