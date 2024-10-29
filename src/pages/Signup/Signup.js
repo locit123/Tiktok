@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './Signup.module.scss';
-import Button from '~/components/Button';
 import { FacebookIcon, GoogleIcon, KaKaoIcon, LineIcon, PersonIcon } from '~/components/Icons';
 import { Helmet } from 'react-helmet';
 import { useContext } from 'react';

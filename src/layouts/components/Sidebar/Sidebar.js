@@ -22,7 +22,6 @@ import images from '~/assets/images';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { ContextProvider } from '~/Context';
 import * as VideoService from '~/services/VideoService';
-import AccountItem from '~/components/SuggestedAccounts/AccountItem';
 import { useNavigate } from 'react-router';
 import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
 import { CLICK_PAGE } from '~/utils/contantValue';
@@ -89,10 +88,6 @@ const Sidebar = () => {
     const handleLogin = () => {
         setIsShow(true);
         setTypeModal('');
-    };
-
-    const handleClickItem = (nickname) => {
-        navigate(`/@${nickname}`);
     };
 
     const handleClickNavLink = () => {
