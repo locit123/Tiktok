@@ -22,6 +22,10 @@ import images from '~/assets/images';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { ContextProvider } from '~/Context';
 import * as VideoService from '~/services/VideoService';
+<<<<<<< HEAD
+=======
+import { useNavigate } from 'react-router';
+>>>>>>> 88c1b1377ae404c95e8d77b3449d1c9072472ee5
 import { TypeContextProvider } from '~/Context/ContextTypeStatus/ContextTypeStatus';
 import { CLICK_PAGE } from '~/utils/contantValue';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
